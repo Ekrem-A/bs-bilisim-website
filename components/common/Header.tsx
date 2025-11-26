@@ -13,8 +13,6 @@ interface ContactInfo {
   contact_phone: string;
   social_facebook?: string;
   social_instagram?: string;
-  social_twitter?: string;
-  social_linkedin?: string;
 }
 
 const Header = () => {
@@ -23,13 +21,24 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState('');
   const [cartItemCount, setCartItemCount] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchOpen, setSearchOpen] = useState(false);
   const [contactInfo, setContactInfo] = useState<ContactInfo>({
     contact_email: 'info@bsbilisim.com',
     contact_phone: '+90 (212) 555 12 34',
-    social_facebook: 'https://facebook.com',
-    social_instagram: 'https://instagram.com',
+    social_facebook: '',
+    social_instagram: '',
   });
   const getTotalItems = useCartStore((state) => state.getTotalItems);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/products/all?search=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchOpen(false);
+      setSearchQuery('');
+    }
+  };
 
   useEffect(() => {
     checkUser();
@@ -59,18 +68,45 @@ const Header = () => {
     };
   }, []);
 
-  const loadContactInfo = () => {
-    const savedSettings = localStorage.getItem('site_settings');
-    if (savedSettings) {
-      const settings = JSON.parse(savedSettings);
-      setContactInfo({
-        contact_email: settings.contact_email || 'info@bsbilisim.com',
-        contact_phone: settings.contact_phone || '+90 (212) 555 12 34',
-        social_facebook: settings.social_facebook || 'https://facebook.com',
-        social_instagram: settings.social_instagram || 'https://instagram.com',
-        social_twitter: settings.social_twitter,
-        social_linkedin: settings.social_linkedin,
-      });
+  const formatPhoneDisplay = (phone: string) => {
+    if (!phone) return '';
+    
+    // Sadece rakamları al
+    const numbers = phone.replace(/\D/g, '');
+    
+    // 0 ile başlıyorsa 0'ı atla, 90 ile başlıyorsa onu da atla
+    let cleanNumbers = numbers;
+    if (numbers.startsWith('90')) {
+      cleanNumbers = numbers.slice(2);
+    } else if (numbers.startsWith('0')) {
+      cleanNumbers = numbers.slice(1);
+    }
+    
+    // En az 10 rakam yoksa olduğu gibi döndür
+    if (cleanNumbers.length < 10) return phone;
+    
+    // Format: +90 (XXX) XXX XX XX
+    const formatted = `+90 (${cleanNumbers.slice(0, 3)}) ${cleanNumbers.slice(3, 6)} ${cleanNumbers.slice(6, 8)} ${cleanNumbers.slice(8, 10)}`;
+    return formatted;
+  };
+
+  const loadContactInfo = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('site_settings')
+        .select('contact_email, contact_phone, social_facebook, social_instagram')
+        .single();
+
+      if (data && !error) {
+        setContactInfo({
+          contact_email: data.contact_email || 'info@bsbilisim.com',
+          contact_phone: formatPhoneDisplay(data.contact_phone) || '+90 (212) 555 12 34',
+          social_facebook: data.social_facebook || '',
+          social_instagram: data.social_instagram || '',
+        });
+      }
+    } catch (error) {
+      console.error('Error loading contact info:', error);
     }
   };
 
@@ -222,9 +258,45 @@ const Header = () => {
 
           {/* Search & Cart & Auth */}
           <div className="hidden md:flex items-center space-x-4">
-            <button className="p-2 text-gray-300 hover:text-cyan-400 transition-all hover:scale-110 hover:bg-cyan-500/10 rounded-lg">
+            {/* Search Button & Form */}
+            {searchOpen ? (
+              <div className="absolute right-4 top-20 z-50">
+                <form onSubmit={handleSearch} className="flex items-center space-x-2 bg-gray-900 p-2 rounded-lg shadow-2xl border border-cyan-500/30">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Ürün ara..."
+                    autoFocus
+                    className="bg-gray-800 text-white px-4 py-2 rounded-lg border border-cyan-500/30 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none w-64"
+                  />
+                  <button 
+                    type="submit"
+                    className="p-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:shadow-lg hover:shadow-cyan-500/50 transition-all rounded-lg"
+                  >
+                    <Search size={22} />
+                  </button>
+                  <button 
+                    type="button"
+                    onClick={() => {
+                      setSearchOpen(false);
+                      setSearchQuery('');
+                    }}
+                    className="p-2 text-gray-300 hover:text-red-400 transition-all"
+                  >
+                    <X size={22} />
+                  </button>
+                </form>
+              </div>
+            ) : null}
+            
+            <button 
+              onClick={() => setSearchOpen(true)}
+              className="p-2 text-gray-300 hover:text-cyan-400 transition-all hover:scale-110 hover:bg-cyan-500/10 rounded-lg"
+            >
               <Search size={22} />
             </button>
+            
             <Link href="/cart" className="p-2 text-gray-300 hover:text-cyan-400 transition-all relative hover:scale-110 hover:bg-cyan-500/10 rounded-lg">
               <ShoppingCart size={22} />
               {cartItemCount > 0 && (

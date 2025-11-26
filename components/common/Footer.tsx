@@ -3,13 +3,12 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Facebook, Instagram, Twitter, Linkedin } from 'lucide-react';
+import { Facebook, Instagram } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 
 interface SocialLinks {
   facebook?: string;
   instagram?: string;
-  twitter?: string;
-  linkedin?: string;
 }
 
 interface ContactInfo {
@@ -23,10 +22,8 @@ interface ContactInfo {
 
 const Footer = () => {
   const [socialLinks, setSocialLinks] = useState<SocialLinks>({
-    facebook: 'https://facebook.com',
-    instagram: 'https://instagram.com',
-    twitter: 'https://twitter.com',
-    linkedin: 'https://linkedin.com',
+    facebook: '',
+    instagram: '',
   });
   
   const [contactInfo, setContactInfo] = useState<ContactInfo>({
@@ -39,26 +36,56 @@ const Footer = () => {
   });
 
   useEffect(() => {
-    // Load settings from localStorage (admin settings)
-    const savedSettings = localStorage.getItem('site_settings');
-    if (savedSettings) {
-      const settings = JSON.parse(savedSettings);
-      setSocialLinks({
-        facebook: settings.social_facebook || 'https://facebook.com',
-        instagram: settings.social_instagram || 'https://instagram.com',
-        twitter: settings.social_twitter || 'https://twitter.com',
-        linkedin: settings.social_linkedin || 'https://linkedin.com',
-      });
-      setContactInfo({
-        site_name: settings.site_name || 'BS Bilişim',
-        site_description: settings.site_description || 'Teknoloji Çözümleri',
-        contact_email: settings.contact_email || 'info@bsbilisim.com',
-        contact_phone: settings.contact_phone || '+90 (XXX) XXX XX XX',
-        contact_address: settings.contact_address || 'İstanbul, Türkiye',
-        contact_city: settings.contact_city || 'İstanbul',
-      });
-    }
+    loadSettings();
   }, []);
+
+  const loadSettings = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('site_settings')
+        .select('*')
+        .single();
+
+      if (data && !error) {
+        setSocialLinks({
+          facebook: data.social_facebook || '',
+          instagram: data.social_instagram || '',
+        });
+        setContactInfo({
+          site_name: data.site_name || 'BS Bilişim',
+          site_description: data.site_description || 'Teknoloji Çözümleri',
+          contact_email: data.contact_email || 'info@bsbilisim.com',
+          contact_phone: formatPhoneDisplay(data.contact_phone) || '+90 (XXX) XXX XX XX',
+          contact_address: data.contact_address || 'İstanbul, Türkiye',
+          contact_city: data.contact_city || 'İstanbul',
+        });
+      }
+    } catch (error) {
+      console.error('Error loading settings:', error);
+    }
+  };
+
+  const formatPhoneDisplay = (phone: string) => {
+    if (!phone) return '';
+    
+    // Sadece rakamları al
+    const numbers = phone.replace(/\D/g, '');
+    
+    // 0 ile başlıyorsa 0'ı atla, 90 ile başlıyorsa onu da atla
+    let cleanNumbers = numbers;
+    if (numbers.startsWith('90')) {
+      cleanNumbers = numbers.slice(2);
+    } else if (numbers.startsWith('0')) {
+      cleanNumbers = numbers.slice(1);
+    }
+    
+    // En az 10 rakam yoksa olduğu gibi döndür
+    if (cleanNumbers.length < 10) return phone;
+    
+    // Format: +90 (XXX) XXX XX XX
+    const formatted = `+90 (${cleanNumbers.slice(0, 3)}) ${cleanNumbers.slice(3, 6)} ${cleanNumbers.slice(6, 8)} ${cleanNumbers.slice(8, 10)}`;
+    return formatted;
+  };
 
   return (
     <footer id="iletisim" className="bg-gradient-to-b from-gray-900 via-black to-gray-900 border-t border-cyan-500/30 py-12">
@@ -146,7 +173,7 @@ const Footer = () => {
             <ul className="space-y-2 text-gray-400 text-sm">
               <li className="font-medium">Email: {contactInfo.contact_email}</li>
               <li className="font-medium">Tel: {contactInfo.contact_phone}</li>
-              <li className="font-medium">Adres: {contactInfo.contact_city}</li>
+              <li className="font-medium">Adres: {contactInfo.contact_address}</li>
             </ul>
             
             {/* Social Media */}
@@ -171,26 +198,6 @@ const Footer = () => {
                     className="w-10 h-10 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 rounded-lg flex items-center justify-center text-cyan-400 hover:bg-cyan-500/30 hover:border-cyan-400 hover:text-cyan-300 transition-all group"
                   >
                     <Instagram size={20} className="group-hover:scale-110 transition-transform" />
-                  </a>
-                )}
-                {socialLinks.twitter && (
-                  <a
-                    href={socialLinks.twitter}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 rounded-lg flex items-center justify-center text-cyan-400 hover:bg-cyan-500/30 hover:border-cyan-400 hover:text-cyan-300 transition-all group"
-                  >
-                    <Twitter size={20} className="group-hover:scale-110 transition-transform" />
-                  </a>
-                )}
-                {socialLinks.linkedin && (
-                  <a
-                    href={socialLinks.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 rounded-lg flex items-center justify-center text-cyan-400 hover:bg-cyan-500/30 hover:border-cyan-400 hover:text-cyan-300 transition-all group"
-                  >
-                    <Linkedin size={20} className="group-hover:scale-110 transition-transform" />
                   </a>
                 )}
               </div>

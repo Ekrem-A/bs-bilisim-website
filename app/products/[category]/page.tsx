@@ -17,6 +17,7 @@ export default function CategoryPage() {
   const searchParams = useSearchParams();
   const categorySlug = params.category as string;
   const brandParam = searchParams.get('brand'); // URL'den marka parametresini al
+  const searchQuery = searchParams.get('search'); // URL'den arama parametresini al
   
   // Supabase data
   const { products, loading: productsLoading, error: productsError } = useProducts();
@@ -63,6 +64,16 @@ export default function CategoryPage() {
   // Filter and sort products
   const filteredProducts = useMemo(() => {
     let filtered = [...allProducts];
+
+    // Filter by search query
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(p => 
+        p.name.toLowerCase().includes(query) ||
+        p.brand.toLowerCase().includes(query) ||
+        (p.tags && p.tags.some(tag => tag.toLowerCase().includes(query)))
+      );
+    }
 
     // Filter by brands
     if (filters.brands.length > 0) {

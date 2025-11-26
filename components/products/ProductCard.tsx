@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Product } from '@/types';
-import { ShoppingCart, Star, Package, Check, Zap } from 'lucide-react';
+import { ShoppingCart, Package, Check, Zap, Minus, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { useCartStore } from '@/store/cartStore';
 
@@ -10,13 +10,14 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [justAdded, setJustAdded] = useState(false);
+  const [quantity, setQuantity] = useState(1);
   const addItem = useCartStore((state) => state.addItem);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     if (!product.inStock) return;
     
-    addItem(product, 1);
+    addItem(product, quantity);
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 2000);
   };
@@ -58,9 +59,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           ) : (
             <Package size={100} className="text-gray-700 group-hover:text-red-500/50 transition-colors duration-300" />
           )}
-          
-          {/* Corner Accent */}
-          <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-red-600/30 to-transparent"></div>
         </div>
       </Link>
 
@@ -78,19 +76,41 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </h3>
         </Link>
 
-        {/* Rating */}
-        {product.rating && (
-          <div className="flex items-center space-x-2">
-            <div className="flex items-center">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  size={14}
-                  className={i < Math.floor(product.rating!) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-600'}
-                />
-              ))}
+        {/* Quantity Selector */}
+        {product.inStock && (
+          <div className="flex items-center space-x-2 pt-2">
+            <span className="text-gray-400 text-sm font-semibold">Adet:</span>
+            <div className="flex items-center space-x-1">
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  setQuantity(Math.max(1, quantity - 1));
+                }}
+                className="w-7 h-7 rounded bg-gray-800 border border-gray-700 text-white font-bold flex items-center justify-center hover:bg-gray-700 hover:border-red-500 transition-all"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                value={quantity}
+                onChange={(e) => {
+                  e.preventDefault();
+                  setQuantity(Math.max(1, parseInt(e.target.value) || 1));
+                }}
+                onClick={(e) => e.preventDefault()}
+                className="w-12 h-7 text-center bg-gray-800 border border-gray-700 text-white font-bold rounded focus:ring-1 focus:ring-red-500 focus:border-red-500"
+                min="1"
+              />
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  setQuantity(quantity + 1);
+                }}
+                className="w-7 h-7 rounded bg-gray-800 border border-gray-700 text-white font-bold flex items-center justify-center hover:bg-gray-700 hover:border-red-500 transition-all"
+              >
+                +
+              </button>
             </div>
-            <span className="text-gray-400 text-xs">({product.reviewCount})</span>
           </div>
         )}
 

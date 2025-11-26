@@ -100,7 +100,7 @@ const ProductFiltersComponent: React.FC<ProductFiltersProps> = ({
                     value={option.value}
                     checked={filters.sortBy === option.value}
                     onChange={() => handleSortChange(option.value as ProductFilters['sortBy'])}
-                    className="w-4 h-4 text-red-500 focus:ring-red-500 focus:ring-offset-gray-900"
+                    className="w-4 h-4 accent-red-500 focus:ring-red-500 focus:ring-offset-gray-900"
                   />
                   <span className="text-gray-400 group-hover:text-white transition-colors font-medium">
                     {option.label}
@@ -118,7 +118,7 @@ const ProductFiltersComponent: React.FC<ProductFiltersProps> = ({
                 type="checkbox"
                 checked={filters.inStock}
                 onChange={handleStockToggle}
-                className="w-4 h-4 text-red-500 focus:ring-red-500 focus:ring-offset-gray-900 rounded"
+                className="w-4 h-4 accent-red-500 focus:ring-red-500 focus:ring-offset-gray-900 rounded"
               />
               <span className="text-gray-400 group-hover:text-white transition-colors font-medium">
                 Sadece Stokta Olanlar
@@ -129,7 +129,7 @@ const ProductFiltersComponent: React.FC<ProductFiltersProps> = ({
           {/* Brands Filter */}
           <div className="space-y-3">
             <h4 className="text-white font-bold uppercase tracking-wide text-sm">Markalar</h4>
-            <div className="space-y-2 max-h-64 overflow-y-auto">
+            <div className="space-y-2 max-h-64 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-800 [&::-webkit-scrollbar-thumb]:bg-red-500 [&::-webkit-scrollbar-thumb]:rounded-full">
               {brands.map((brand) => (
                 <label
                   key={brand}
@@ -139,9 +139,9 @@ const ProductFiltersComponent: React.FC<ProductFiltersProps> = ({
                     type="checkbox"
                     checked={filters.brands.includes(brand)}
                     onChange={() => handleBrandToggle(brand)}
-                    className="w-4 h-4 text-red-500 focus:ring-red-500 focus:ring-offset-gray-900 rounded"
+                    className="w-4 h-4 accent-red-500 focus:ring-red-500 focus:ring-offset-gray-900 rounded"
                   />
-                  <span className="text-gray-400 group-hover:text-white transition-colors font-medium">
+                  <span className="text-gray-400 accent-red-500 group-hover:text-white transition-colors font-medium">
                     {brand}
                   </span>
                 </label>

@@ -3,7 +3,6 @@
 import React from 'react';
 import Header from '@/components/common/Header';
 import Footer from '@/components/common/Footer';
-import ProductCard from '@/components/products/ProductCard';
 import { useProducts } from '@/hooks/useProducts';
 import { Fan, Zap, Shield, Award, TrendingUp, Package, Loader2 } from 'lucide-react';
 import Link from 'next/link';
@@ -49,16 +48,31 @@ export default function GorgonXPage() {
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center space-y-3">
-            <div className="inline-block mb-8">
-              <div className="flex items-center justify-center space-x-3 bg-gradient-to-br from-red-950/40 to-black/60 p-12 rounded-3xl border-2 border-red-500/30 backdrop-blur-sm shadow-2xl shadow-red-500/20">
-                <Image 
-                  src="/gorgonx.png" 
-                  alt="GorgonX Logo" 
-                  width={700} 
-                  height={700}
-                  className="drop-shadow-[0_0_50px_rgba(239,68,68,0.6)] brightness-110 contrast-125"
-                  priority
-                />
+            <div className="inline-block mb-8 relative group">
+              {/* Animated glow rings */}
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-red-500 via-red-600 to-red-500 blur-2xl opacity-0 group-hover:opacity-50 transition-opacity duration-700 animate-pulse"></div>
+              <div className="absolute -inset-4 rounded-3xl bg-gradient-to-r from-red-500/30 via-transparent to-red-500/30 animate-[spin_8s_linear_infinite]"></div>
+              
+              <div className="relative flex items-center justify-center space-x-3 bg-gradient-to-br from-red-950/60 to-black/80 p-12 rounded-3xl border-2 border-red-500/50 backdrop-blur-md shadow-2xl shadow-red-500/30 transition-all duration-500 hover:border-red-400/70 hover:shadow-red-500/50 hover:scale-105 overflow-hidden">
+                {/* Animated background particles */}
+                <div className="absolute inset-0 overflow-hidden">
+                  <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-red-400 rounded-full animate-ping opacity-40"></div>
+                  <div className="absolute top-3/4 right-1/4 w-2 h-2 bg-red-500 rounded-full animate-ping opacity-30 animation-delay-1000"></div>
+                  <div className="absolute bottom-1/3 left-1/2 w-2 h-2 bg-red-300 rounded-full animate-ping opacity-50 animation-delay-2000"></div>
+                </div>
+                
+                {/* Logo with enhanced effects */}
+                <div className="relative group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-red-500/20 to-transparent rounded-full blur-3xl group-hover:blur-2xl transition-all duration-500"></div>
+                  <Image 
+                    src="/gorgonx.png" 
+                    alt="GorgonX Logo" 
+                    width={700} 
+                    height={700}
+                    className="relative drop-shadow-[0_0_60px_rgba(239,68,68,0.8)] brightness-110 contrast-125 transition-all duration-500 group-hover:drop-shadow-[0_0_80px_rgba(239,68,68,1)] group-hover:brightness-125 group-hover:scale-105"
+                    priority
+                  />
+                </div>
               </div>
             </div>
             <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">

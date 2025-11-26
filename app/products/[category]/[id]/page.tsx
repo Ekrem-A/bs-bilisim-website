@@ -6,7 +6,7 @@ import Header from '@/components/common/Header';
 import Footer from '@/components/common/Footer';
 import { useProducts } from '@/hooks/useProducts';
 import { useCartStore } from '@/store/cartStore';
-import { ShoppingCart, Star, ChevronRight, Check, ZoomIn, Package } from 'lucide-react';
+import { ShoppingCart, ChevronRight, Check, ZoomIn, Package } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -144,26 +144,6 @@ export default function ProductDetailPage() {
                 {product.name}
               </h1>
             </div>
-
-            {/* Rating */}
-            {product.rating && (
-              <div className="flex items-center space-x-3">
-                <div className="flex items-center">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      size={20}
-                      className={
-                        i < Math.floor(product.rating!)
-                          ? 'text-yellow-400 fill-yellow-400'
-                          : 'text-gray-600'
-                      }
-                    />
-                  ))}
-                </div>
-                <span className="text-gray-300">({product.reviewCount} değerlendirme)</span>
-              </div>
-            )}
 
             {/* Price */}
             <div className="bg-gradient-to-r from-red-600/20 to-orange-600/20 border-2 border-red-500/30 rounded-2xl p-6">

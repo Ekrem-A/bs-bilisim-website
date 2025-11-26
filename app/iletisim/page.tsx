@@ -1,15 +1,14 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { MapPin, Phone, Mail, Clock, Building2, Globe, Facebook, Instagram, Twitter, Linkedin } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Building2, Globe, Facebook, Instagram } from 'lucide-react';
 import Header from '@/components/common/Header';
 import Footer from '@/components/common/Footer';
+import { supabase } from '@/lib/supabase';
 
 interface SocialLinks {
   facebook?: string;
   instagram?: string;
-  twitter?: string;
-  linkedin?: string;
 }
 
 interface ContactInfo {
@@ -26,10 +25,8 @@ interface ContactInfo {
 
 const ContactPage = () => {
   const [socialLinks, setSocialLinks] = useState<SocialLinks>({
-    facebook: 'https://facebook.com',
-    instagram: 'https://instagram.com',
-    twitter: 'https://twitter.com',
-    linkedin: 'https://linkedin.com',
+    facebook: '',
+    instagram: '',
   });
   
   const [contactInfo, setContactInfo] = useState<ContactInfo>({
@@ -45,29 +42,59 @@ const ContactPage = () => {
   });
 
   useEffect(() => {
-    // Load settings from localStorage (admin settings)
-    const savedSettings = localStorage.getItem('site_settings');
-    if (savedSettings) {
-      const settings = JSON.parse(savedSettings);
-      setSocialLinks({
-        facebook: settings.social_facebook || 'https://facebook.com',
-        instagram: settings.social_instagram || 'https://instagram.com',
-        twitter: settings.social_twitter || 'https://twitter.com',
-        linkedin: settings.social_linkedin || 'https://linkedin.com',
-      });
-      setContactInfo({
-        site_name: settings.site_name || 'BS Bilişim Teknoloji ve Yazılım A.Ş.',
-        contact_email: settings.contact_email || 'info@bsbilisim.com',
-        contact_phone: settings.contact_phone || '+90 (212) 555 12 34',
-        contact_address: settings.contact_address || 'Maltepe Mahallesi Litros Yolu Sokak No: 10/A',
-        contact_city: settings.contact_city || 'Zeytinburnu, İstanbul',
-        business_hours: settings.business_hours || 'Pazartesi - Cuma: 09:00 - 18:00',
-        tax_office: settings.tax_office || 'Zeytinburnu Vergi Dairesi',
-        tax_number: settings.tax_number || '1234567890',
-        mersis_number: settings.mersis_number || '0123456789012345',
-      });
-    }
+    loadSettings();
   }, []);
+
+  const formatPhoneDisplay = (phone: string) => {
+    if (!phone) return '';
+    
+    // Sadece rakamları al
+    const numbers = phone.replace(/\D/g, '');
+    
+    // 0 ile başlıyorsa 0'ı atla, 90 ile başlıyorsa onu da atla
+    let cleanNumbers = numbers;
+    if (numbers.startsWith('90')) {
+      cleanNumbers = numbers.slice(2);
+    } else if (numbers.startsWith('0')) {
+      cleanNumbers = numbers.slice(1);
+    }
+    
+    // En az 10 rakam yoksa olduğu gibi döndür
+    if (cleanNumbers.length < 10) return phone;
+    
+    // Format: +90 (XXX) XXX XX XX
+    const formatted = `+90 (${cleanNumbers.slice(0, 3)}) ${cleanNumbers.slice(3, 6)} ${cleanNumbers.slice(6, 8)} ${cleanNumbers.slice(8, 10)}`;
+    return formatted;
+  };
+
+  const loadSettings = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('site_settings')
+        .select('*')
+        .single();
+
+      if (data && !error) {
+        setSocialLinks({
+          facebook: data.social_facebook || '',
+          instagram: data.social_instagram || '',
+        });
+        setContactInfo({
+          site_name: data.site_name || 'BS Bilişim Teknoloji ve Yazılım A.Ş.',
+          contact_email: data.contact_email || 'info@bsbilisim.com',
+          contact_phone: formatPhoneDisplay(data.contact_phone) || '+90 (212) 555 12 34',
+          contact_address: data.contact_address || 'Maltepe Mahallesi Litros Yolu Sokak No: 10/A',
+          contact_city: data.contact_city || 'Zeytinburnu, İstanbul',
+          business_hours: data.business_hours || 'Pazartesi - Cuma: 09:00 - 18:00',
+          tax_office: data.tax_office || 'Zeytinburnu Vergi Dairesi',
+          tax_number: data.tax_number || '1234567890',
+          mersis_number: data.mersis_number || '0123456789012345',
+        });
+      }
+    } catch (error) {
+      console.error('Error loading settings:', error);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
@@ -151,9 +178,9 @@ const ContactPage = () => {
           <div className="grid lg:grid-cols-2 gap-8">
             {/* Map */}
             <div className="bg-gradient-to-br from-gray-900 to-black border-2 border-cyan-500/30 rounded-2xl overflow-hidden shadow-2xl shadow-cyan-500/20 h-[500px]">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3011.1614147777644!2d28.904445776134955!3d41.01833902159998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14caba69682c5627%3A0x2c0d8174b6a0c1a!2sZeytinburnu%2C%20Istanbul!5e0!3m2!1sen!2str!4v1732611234567!5m2!1sen!2str"
-                width="100%"
+              <iframe                
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2900.6978044066286!2d29.1358386!3d40.926102199999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cac7d0f7b6e025%3A0xf2fd936737e8e86c!2sBS%20Bili%C5%9Fim!5e1!3m2!1str!2str!4v1764181994113!5m2!1str!2str"
+                width="100%"           
                 height="100%"
                 style={{ border: 0 }}
                 allowFullScreen={true}
@@ -292,34 +319,6 @@ const ContactPage = () => {
                   <Instagram size={32} className="text-white" />
                 </div>
                 <span className="text-white font-bold uppercase tracking-wide text-sm">Instagram</span>
-              </a>
-            )}
-
-            {socialLinks.twitter && (
-              <a
-                href={socialLinks.twitter}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group bg-gradient-to-br from-gray-900 to-black border-2 border-cyan-500/30 rounded-xl p-8 hover:border-cyan-400 hover:shadow-2xl hover:shadow-cyan-500/30 transition-all flex flex-col items-center space-y-3 min-w-[150px]"
-              >
-                <div className="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-cyan-500/50">
-                  <Twitter size={32} className="text-white" />
-                </div>
-                <span className="text-white font-bold uppercase tracking-wide text-sm">Twitter</span>
-              </a>
-            )}
-
-            {socialLinks.linkedin && (
-              <a
-                href={socialLinks.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group bg-gradient-to-br from-gray-900 to-black border-2 border-cyan-500/30 rounded-xl p-8 hover:border-cyan-400 hover:shadow-2xl hover:shadow-cyan-500/30 transition-all flex flex-col items-center space-y-3 min-w-[150px]"
-              >
-                <div className="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-cyan-500/50">
-                  <Linkedin size={32} className="text-white" />
-                </div>
-                <span className="text-white font-bold uppercase tracking-wide text-sm">LinkedIn</span>
               </a>
             )}
           </div>

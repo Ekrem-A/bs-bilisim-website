@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 
 interface SiteSettings {
+  id?: string;
   site_name: string;
   site_description: string;
   contact_email: string;
@@ -28,8 +29,8 @@ interface SiteSettings {
   mersis_number: string;
   social_facebook?: string;
   social_instagram?: string;
-  social_twitter?: string;
-  social_linkedin?: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export default function AdminSettingsPage() {
@@ -39,7 +40,7 @@ export default function AdminSettingsPage() {
     site_name: 'BS Bilişim',
     site_description: 'Teknoloji Çözümleri',
     contact_email: 'info@bsbilisim.com',
-    contact_phone: '0555 555 55 55',
+    contact_phone: '+90 (555) 555 55 55',
     contact_address: 'Zeytinburnu, İstanbul',
     contact_city: 'İstanbul',
     business_hours: 'Pazartesi - Cumartesi: 09:00 - 18:00',
@@ -54,11 +55,17 @@ export default function AdminSettingsPage() {
 
   const loadSettings = async () => {
     try {
-      // Bu örnekte localStorage kullanıyoruz
-      // Gerçek uygulamada Supabase'de settings tablosu oluşturabilirsiniz
-      const savedSettings = localStorage.getItem('site_settings');
-      if (savedSettings) {
-        setSettings(JSON.parse(savedSettings));
+      // Supabase'den ayarları yükle
+      const { data, error } = await supabase
+        .from('site_settings')
+        .select('*')
+        .single();
+
+      if (error) {
+        console.error('Error loading settings:', error);
+        // Hata durumunda varsayılan değerleri kullan
+      } else if (data) {
+        setSettings(data);
       }
     } catch (error) {
       console.error('Error loading settings:', error);
@@ -72,15 +79,35 @@ export default function AdminSettingsPage() {
     setSaving(true);
 
     try {
-      // localStorage'a kaydet
-      localStorage.setItem('site_settings', JSON.stringify(settings));
-      
-      // Gerçek uygulamada Supabase'e kaydedilecek:
-      // const { error } = await supabase
-      //   .from('site_settings')
-      //   .upsert({ id: 1, ...settings });
-      
-      alert('Ayarlar kaydedildi!');
+      // Supabase'e kaydet
+      const { error } = await supabase
+        .from('site_settings')
+        .upsert({
+          id: settings.id,
+          site_name: settings.site_name,
+          site_description: settings.site_description,
+          contact_email: settings.contact_email,
+          contact_phone: settings.contact_phone,
+          contact_address: settings.contact_address,
+          contact_city: settings.contact_city,
+          business_hours: settings.business_hours,
+          tax_office: settings.tax_office,
+          tax_number: settings.tax_number,
+          mersis_number: settings.mersis_number,
+          social_facebook: settings.social_facebook,
+          social_instagram: settings.social_instagram,
+        })
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Error saving settings:', error);
+        alert('Hata: ' + error.message);
+      } else {
+        alert('Ayarlar başarıyla kaydedildi!');
+        // Ayarları yeniden yükle
+        await loadSettings();
+      }
     } catch (error: any) {
       console.error('Error saving settings:', error);
       alert('Hata: ' + error.message);
@@ -162,12 +189,14 @@ export default function AdminSettingsPage() {
               <div className="relative">
                 <Phone size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
-                  type="tel"
+                  type="text"
                   value={settings.contact_phone}
                   onChange={(e) => setSettings({ ...settings, contact_phone: e.target.value })}
+                  placeholder="+90 (XXX) XXX XX XX"
                   className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-cyan-500"
                 />
               </div>
+              <p className="text-xs text-gray-500 mt-1">Format: +90 (XXX) XXX XX XX</p>
             </div>
 
             <div>
@@ -274,28 +303,6 @@ export default function AdminSettingsPage() {
                 value={settings.social_instagram || ''}
                 onChange={(e) => setSettings({ ...settings, social_instagram: e.target.value })}
                 placeholder="https://instagram.com/..."
-                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-cyan-500"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Twitter</label>
-              <input
-                type="url"
-                value={settings.social_twitter || ''}
-                onChange={(e) => setSettings({ ...settings, social_twitter: e.target.value })}
-                placeholder="https://twitter.com/..."
-                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-cyan-500"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">LinkedIn</label>
-              <input
-                type="url"
-                value={settings.social_linkedin || ''}
-                onChange={(e) => setSettings({ ...settings, social_linkedin: e.target.value })}
-                placeholder="https://linkedin.com/..."
                 className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-cyan-500"
               />
             </div>
