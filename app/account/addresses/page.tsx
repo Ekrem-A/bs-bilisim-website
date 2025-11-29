@@ -121,7 +121,16 @@ export default function AddressesPage() {
 
   const openEditModal = (address: Address) => {
     setEditingAddress(address);
-    setFormData(address);
+    setFormData({
+      title: address.title,
+      full_name: address.full_name,
+      phone: address.phone,
+      address_line: address.address_line,
+      city: address.city,
+      district: address.district || '',
+      postal_code: address.postal_code || '',
+      is_default: address.is_default,
+    });
     setShowModal(true);
   };
 
