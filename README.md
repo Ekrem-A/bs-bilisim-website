@@ -1,15 +1,30 @@
-# BS Bilişim - Web Sitesi v2.0
+# BS Bilişim E-Commerce Website
 
-BS Bilişim bilgisayar donanımları satış firması için modern, modüler ve ölçeklenebilir web sitesi.
+Modern ve responsive e-ticaret platformu. Next.js 14, TypeScript, Tailwind CSS ve Supabase ile geliştirilmiştir.
 
-## 🚀 Yeni Özellikler (v2.0)
+## 🚀 Teknolojiler
 
-- ✨ **Modüler Yapı**: Component bazlı, yeniden kullanılabilir mimari
-- 🔐 **Login Sayfası**: Modern, güvenli giriş ekranı
-- 📁 **Organize Klasör Yapısı**: Kolay geliştirme ve bakım
-- 🎯 **TypeScript Tiplemesi**: Type-safe kod
-- 📱 **Tam Responsive**: Tüm cihazlarda mükemmel görünüm
-- 🎨 **BS Bilişim & GorgonX Temaları**: Marka kimliğine uygun renkler
+- **Framework:** Next.js 14 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Database:** Supabase (PostgreSQL)
+- **Authentication:** Supabase Auth
+- **State Management:** Zustand
+- **Icons:** Lucide React
+- **Deployment:** Vercel
+
+## 📋 Özellikler
+
+- ✅ Modern ve agresif dark cyan temalı tasarım
+- ✅ Kullanıcı kayıt/giriş sistemi
+- ✅ Admin paneli (ürün, sipariş, kullanıcı yönetimi)
+- ✅ Alışveriş sepeti
+- ✅ Sipariş takibi
+- ✅ Responsive tasarım
+- ✅ Kategori bazlı ürün filtreleme
+- ✅ Öne çıkan ürünler
+- ✅ Sosyal medya entegrasyonu
+- ✅ İletişim sayfası
 
 ## 📂 Proje Yapısı
 
@@ -63,24 +78,99 @@ bs-bilisim-website/
 - **İkonlar:** Lucide React
 - **Font:** Inter (Google Fonts)
 
-## 📦 Kurulum
+## 🛠️ Kurulum
 
-1. **Projeyi klonlayın veya indirin**
+### 1. Repository'yi klonlayın
 
-2. **Bağımlılıkları yükleyin:**
 ```bash
+git clone https://github.com/Ekrem-A/bs-bilisim-website.git
 cd bs-bilisim-website
+```
+
+### 2. Bağımlılıkları yükleyin
+
+```bash
 npm install
 ```
 
-3. **Geliştirme sunucusunu başlatın:**
+### 3. Environment variables ayarlayın
+
+`.env.example` dosyasını `.env.local` olarak kopyalayın:
+
+```bash
+cp .env.example .env.local
+```
+
+`.env.local` dosyasını düzenleyin ve Supabase bilgilerinizi girin:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+### 4. Supabase veritabanını kurun
+
+`supabase/` klasöründeki SQL dosyalarını Supabase SQL Editor'de sırayla çalıştırın:
+
+1. `schema.sql` - Temel tablolar ve RLS policies
+2. `add-admin-column.sql` - Admin yetkileri kolonu
+3. `fix-user-profiles-policy.sql` - RLS policy güncellemeleri
+4. `favorites-addresses-schema.sql` - Favoriler ve adresler
+
+### 5. Development server'ı başlatın
+
 ```bash
 npm run dev
 ```
 
-4. **Tarayıcıda açın:**
-   - Ana Sayfa: [http://localhost:3000](http://localhost:3000)
-   - Login Sayfası: [http://localhost:3000/login](http://localhost:3000/login)
+Tarayıcınızda [http://localhost:3000](http://localhost:3000) adresini açın.
+
+## 🚢 Vercel'e Deploy
+
+### Yöntem 1: Vercel Dashboard (Önerilen)
+
+1. **Vercel hesabı oluşturun**: [vercel.com](https://vercel.com)
+
+2. **GitHub repository'yi bağlayın**:
+   - Vercel Dashboard → "New Project"
+   - GitHub repository'nizi seçin
+   - Framework: **Next.js** (otomatik algılanır)
+
+3. **Environment Variables ekleyin**:
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
+
+4. **Deploy**: "Deploy" butonuna tıklayın
+
+### Yöntem 2: Vercel CLI
+
+```bash
+# Vercel CLI'yi yükleyin
+npm i -g vercel
+
+# Login olun
+vercel login
+
+# Deploy edin
+vercel
+
+# Production'a deploy
+vercel --prod
+```
+
+## 🔐 Admin Paneli
+
+Admin paneline erişmek için Supabase'de kendinizi admin yapın:
+
+```sql
+UPDATE user_profiles 
+SET is_admin = true 
+WHERE email = 'your-email@example.com';
+```
+
+Admin panel: `/admin/dashboard`
 
 ## 🎯 Sayfalar
 
