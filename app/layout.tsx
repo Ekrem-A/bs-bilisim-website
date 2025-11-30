@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   title: 'BS Bilişim - Bilgisayar Donanımları ve Gaming Ekipmanları',
   description: 'BS Bilişim - Profesyonel bilgisayar donanımları, gaming ekipmanları ve özel markaımız GorgonX ürünleri. İşlemci, ekran kartı, soğutma sistemleri ve daha fazlası.',
   keywords: 'bilgisayar, donanım, gaming, GorgonX, işlemci, ekran kartı, soğutma, BS Bilişim',
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
