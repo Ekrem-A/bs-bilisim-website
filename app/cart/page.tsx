@@ -130,70 +130,68 @@ export default function CartPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h1 className="text-3xl font-bold text-slate-800 mb-8">Sepetim ({getTotalItems()} Ürün)</h1>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8">
           {/* Cart Items */}
-          <div className="lg:col-span-2 space-y-4">
+          <div className="lg:col-span-2 md:col-span-2 sm:col-span-1 space-y-4">
             {items.map((item) => (
               <div
                 key={item.product.id}
-                className="bg-white rounded-xl border border-slate-200 p-6 hover:shadow-lg transition-shadow"
+                className="bg-white rounded-xl border border-slate-200 p-6 hover:shadow-lg transition-shadow flex flex-col sm:flex-row gap-6"
               >
-                <div className="flex gap-6">
-                  {/* Product Image */}
-                  <div className="w-24 h-24 bg-slate-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <ShoppingCart size={40} className="text-slate-300" />
+                {/* Product Image */}
+                <div className="w-full sm:w-24 h-24 bg-slate-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <ShoppingCart size={40} className="text-slate-300" />
+                </div>
+
+                {/* Product Info */}
+                <div className="flex-1">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <p className="text-sm text-cyan-600 font-semibold">{item.product.brand}</p>
+                      <h3 className="text-lg font-semibold text-slate-800 line-clamp-2">
+                        {item.product.name}
+                      </h3>
+                    </div>
+                    <button
+                      onClick={() => removeItem(String(item.product.id))}
+                      className="text-red-500 hover:text-red-700 transition-colors"
+                    >
+                      <Trash2 size={20} />
+                    </button>
                   </div>
 
-                  {/* Product Info */}
-                  <div className="flex-1">
-                    <div className="flex justify-between items-start mb-2">
-                      <div>
-                        <p className="text-sm text-cyan-600 font-semibold">{item.product.brand}</p>
-                        <h3 className="text-lg font-semibold text-slate-800 line-clamp-2">
-                          {item.product.name}
-                        </h3>
-                      </div>
+                  <div className="flex justify-between items-end mt-4">
+                    {/* Quantity Controls */}
+                    <div className="flex items-center space-x-3">
                       <button
-                        onClick={() => removeItem(String(item.product.id))}
-                        className="text-red-500 hover:text-red-700 transition-colors"
+                        onClick={() => updateQuantity(Number(item.product.id), item.quantity - 1)}
+                        className="w-8 h-8 rounded-lg border border-slate-300 flex items-center justify-center hover:bg-slate-100 transition-colors"
                       >
-                        <Trash2 size={20} />
+                        <Minus size={16} />
+                      </button>
+                      <span className="text-lg font-semibold text-slate-800 w-8 text-center">
+                        {item.quantity}
+                      </span>
+                      <button
+                        onClick={() => updateQuantity(Number(item.product.id), item.quantity + 1)}
+                        className="w-8 h-8 rounded-lg border border-slate-300 flex items-center justify-center hover:bg-slate-100 transition-colors"
+                      >
+                        <Plus size={16} />
                       </button>
                     </div>
 
-                    <div className="flex justify-between items-end mt-4">
-                      {/* Quantity Controls */}
-                      <div className="flex items-center space-x-3">
-                        <button
-                          onClick={() => updateQuantity(Number(item.product.id), item.quantity - 1)}
-                          className="w-8 h-8 rounded-lg border border-slate-300 flex items-center justify-center hover:bg-slate-100 transition-colors"
-                        >
-                          <Minus size={16} />
-                        </button>
-                        <span className="text-lg font-semibold text-slate-800 w-8 text-center">
-                          {item.quantity}
-                        </span>
-                        <button
-                          onClick={() => updateQuantity(Number(item.product.id), item.quantity + 1)}
-                          className="w-8 h-8 rounded-lg border border-slate-300 flex items-center justify-center hover:bg-slate-100 transition-colors"
-                        >
-                          <Plus size={16} />
-                        </button>
-                      </div>
-
-                      {/* Price */}
-                      <div className="text-right">
-                        <p className="text-2xl font-bold text-cyan-600">
-                          {(formatPrice(item.product.price) * item.quantity).toLocaleString('tr-TR', {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                          })}{' '}
-                          ₺
-                        </p>
-                        <p className="text-sm text-slate-500">
-                          {item.product.price} ₺ / adet
-                        </p>
-                      </div>
+                    {/* Price */}
+                    <div className="text-right">
+                      <p className="text-2xl font-bold text-cyan-600">
+                        {(formatPrice(item.product.price) * item.quantity).toLocaleString('tr-TR', {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}{' '}
+                        ₺
+                      </p>
+                      <p className="text-sm text-slate-500">
+                        {item.product.price} ₺ / adet
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -202,7 +200,7 @@ export default function CartPage() {
           </div>
 
           {/* Order Summary */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 md:col-span-2 sm:col-span-1">
             <div className="bg-white rounded-xl border border-slate-200 p-6 sticky top-24">
               <h2 className="text-xl font-bold text-slate-800 mb-6">Sipariş Özeti</h2>
 
