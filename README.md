@@ -44,75 +44,8 @@ store/              # State management files
 supabase/           # Database setup scripts
 ```
 
-## Getting Started
+## PROJECT REWİEW
+https://bs-bilisim-website.vercel.app/
 
-Follow these steps to run the project locally:
-
-### Prerequisites
-
-- Node.js (v16 or higher)
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Ekrem-A/bs-bilisim-website.git
-   ```
-
-2. Navigate to the project directory:
-   ```bash
-   cd bs-bilisim-website
-   ```
-
-3. Install dependencies:
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
-
-4. Create a `.env.local` file and configure the required environment variables (e.g., Supabase credentials).
-
-### Running the Development Server
-
-Start the development server:
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
-
-### Building for Production
-
-To build the project for production:
-```bash
-npm run build
-# or
-yarn build
-```
-
-Serve the production build:
-```bash
-npm run start
-# or
-yarn start
-```
-
-## Deployment
-
-The project is configured for deployment on **Vercel**. Simply connect the repository to your Vercel account, and it will handle the deployment process automatically.
-
-## Contributing
-
-Contributions are welcome! If you'd like to contribute, please fork the repository and submit a pull request.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
 
 Thank you for visiting the BS Bilişim Website repository! If you have any questions or feedback, feel free to reach out.
