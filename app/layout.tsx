@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="tr">
       <head>
-        <link rel="icon" href="/app/public/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="./public/favicon.ico" type="image/x-icon" />
       </head>
       <body className={inter.className}>{children}</body>
     </html>
