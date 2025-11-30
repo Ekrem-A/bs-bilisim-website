@@ -44,7 +44,7 @@ store/              # State management files
 supabase/           # Database setup scripts
 ```
 
-## PROJECT REWİEW
+## PROJECT REWIEW
 https://bs-bilisim-website.vercel.app/
 
 
