@@ -69,6 +69,8 @@ export default function CartPage() {
       message += `${userAddress.district}, ${userAddress.city}\n`;
       message += `${userAddress.postal_code || ''}\n\n`;
     }
+
+    
     
     message += '*Ürünler:*\n';
     
