@@ -26,12 +26,8 @@ export default function ProductDetailPage() {
 
   const product = products?.find(p => String(p.id) === String(productId));
 
-  // Ürün görselleri - image_urls varsa kullan, yoksa image_url'den al
-  const productImages = product?.image_urls && product.image_urls.length > 0
-    ? product.image_urls
-    : product?.image_url 
-      ? [product.image_url]
-      : [];
+  // Ürün görselleri - image_urls array'i kullanılıyor
+  const productImages = product?.image_urls || [];
 
   const handleAddToCart = () => {
     if (!product || !product.inStock) return;

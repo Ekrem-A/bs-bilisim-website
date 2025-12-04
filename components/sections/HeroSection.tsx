@@ -11,7 +11,7 @@ interface Product {
   brand: string;
   price: number;
   description: string;
-  image_url: string;
+  image_urls: string[];
   category_id: string;
 }
 
@@ -81,9 +81,9 @@ const HeroSection = () => {
             <div className="relative bg-gradient-to-br from-gray-900 to-black border-2 border-cyan-500/50 rounded-2xl p-8 shadow-2xl shadow-cyan-500/20">
               <div className="bg-gradient-to-br from-black to-gray-900 rounded-xl p-6 border border-cyan-500/30">
                 <div className="w-full h-64 bg-gradient-to-br from-gray-900 to-black rounded-lg flex items-center justify-center mb-4 border border-cyan-500/20">
-                  {featuredProduct?.image_url ? (
+                  {featuredProduct?.image_urls && featuredProduct.image_urls.length > 0 ? (
                     <img 
-                      src={featuredProduct.image_url} 
+                      src={featuredProduct.image_urls[0]} 
                       alt={featuredProduct.name}
                       className="w-full h-full object-contain rounded-lg"
                     />

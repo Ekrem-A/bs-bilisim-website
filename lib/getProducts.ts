@@ -35,7 +35,7 @@ export async function fetchProducts(): Promise<Product[]> {
   const { data, error } = await supabase
     .from('products')
     .select(
-      `id, name, brand, price, original_price, description, image_url, in_stock, rating, review_count, specs, tags, featured, category_id`
+      `id, name, brand, price, original_price, description, image_urls, in_stock, rating, review_count, specs, tags, featured, category_id`
     )
     .order('created_at', { ascending: false });
 
@@ -56,8 +56,7 @@ export async function fetchProducts(): Promise<Product[]> {
       const direct = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
       if (direct) return direct;
       const url = process.env.CLOUDINARY_URL;
-      if (url) {
-        // cloudinary://api_key:api_secret@cloud_name
+      if (url) {       
         const match = url.match(/@([a-zA-Z0-9_-]+)$/);
         if (match) return match[1];
       }
@@ -68,23 +67,24 @@ export async function fetchProducts(): Promise<Product[]> {
     const defaultWidth = Number(process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_WIDTH) || 600;
     const defaultHeight = Number(process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_HEIGHT) || 400;
 
-    let imageUrl = '';
-    const rawImage = p.image_url || p.image || '';
-    if (rawImage) {
-      if (typeof rawImage === 'string' && (rawImage.startsWith('http://') || rawImage.startsWith('https://'))) {
-        imageUrl = rawImage;
-      } else if (cld) {
-        try {
-          const img = cld.image(String(rawImage));
-          img.resize(fill().width(defaultWidth).height(defaultHeight));
-          imageUrl = img.toURL();
-        } catch (e) {
-          // fallback to raw value
-          imageUrl = String(rawImage);
+    let imageUrls: string[] = [];
+    
+    // image_urls array'ini işle
+    if (p.image_urls && Array.isArray(p.image_urls) && p.image_urls.length > 0) {
+      imageUrls = p.image_urls.map((url: string) => {
+        if (url.startsWith('http://') || url.startsWith('https://')) {
+          return url;
+        } else if (cld) {
+          try {
+            const img = cld.image(url);
+            img.resize(fill().width(defaultWidth).height(defaultHeight));
+            return img.toURL();
+          } catch (e) {
+            return url;
+          }
         }
-      } else {
-        imageUrl = String(rawImage);
-      }
+        return url;
+      });
     }
 
     return {
@@ -93,8 +93,8 @@ export async function fetchProducts(): Promise<Product[]> {
       brand: p.brand,
       price: formatPriceTurkish(priceNumber),
       originalPrice: originalPriceNumber !== null ? formatPriceTurkish(originalPriceNumber) : undefined,
-      image: imageUrl || '',
-      image_url: imageUrl || '', // Cloudinary URL'ini buraya da ekle
+      image: imageUrls.length > 0 ? imageUrls[0] : '',
+      image_urls: imageUrls.length > 0 ? imageUrls : undefined,
       category: categoryInfo ? categoryInfo.slug || categoryInfo.name : '',
       featured: !!p.featured,
       description: p.description || undefined,
