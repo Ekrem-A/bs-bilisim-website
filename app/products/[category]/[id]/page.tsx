@@ -9,6 +9,12 @@ import { useCartStore } from '@/store/cartStore';
 import { ShoppingCart, ChevronRight, Check, ZoomIn, Package } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { supabase } from '@/lib/supabase';
+
+interface SpecTemplate {
+  key: string;
+  label: string;
+}
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -23,11 +29,43 @@ export default function ProductDetailPage() {
   const [justAdded, setJustAdded] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [isZoomed, setIsZoomed] = useState(false);
+  const [specTemplates, setSpecTemplates] = useState<Record<string, string>>({});
 
   const product = products?.find(p => String(p.id) === String(productId));
 
   // Ürün görselleri - image_urls array'i kullanılıyor
   const productImages = product?.image_urls || [];
+
+  // Template'leri çek
+  useEffect(() => {
+    const fetchTemplates = async () => {
+      if (!product?.category) return;
+      
+      // Önce category slug'dan category_id'yi bul
+      const { data: categoryData } = await supabase
+        .from('categories')
+        .select('id')
+        .eq('slug', product.category)
+        .single();
+      
+      if (!categoryData) return;
+      
+      const { data } = await supabase
+        .from('product_spec_templates')
+        .select('key, label')
+        .eq('category_id', categoryData.id);
+      
+      if (data) {
+        const templateMap: Record<string, string> = {};
+        data.forEach((t: SpecTemplate) => {
+          templateMap[t.key] = t.label;
+        });
+        setSpecTemplates(templateMap);
+      }
+    };
+    
+    fetchTemplates();
+  }, [product?.category]);
 
   const handleAddToCart = () => {
     if (!product || !product.inStock) return;
@@ -152,14 +190,12 @@ export default function ProductDetailPage() {
                 <span className="text-5xl font-black text-red-400">{product.price} ₺</span>
                 {product.originalPrice && (
                   <span className="text-green-400 font-bold text-lg bg-green-500/20 px-3 py-1 rounded-full">
-                    %
-                    {Math.round(
+                    %{Math.round(
                       ((parseFloat(product.originalPrice.replace(/\./g, '').replace(',', '.')) -
                         parseFloat(product.price.replace(/\./g, '').replace(',', '.'))) /
                         parseFloat(product.originalPrice.replace(/\./g, '').replace(',', '.'))) *
                         100
-                    )}{' '}
-                    İNDİRİM
+                    )} İNDİRİM
                   </span>
                 )}
               </div>
@@ -244,8 +280,8 @@ export default function ProductDetailPage() {
                 <div className="space-y-3">
                   {Object.entries(product.specs).map(([key, value]) => (
                     <div key={key} className="flex justify-between border-b border-gray-800 pb-3">
-                      <span className="text-gray-400 font-semibold">{key}</span>
-                      <span className="text-white font-bold">{value}</span>
+                      <span className="text-gray-400 font-semibold">{specTemplates[key] || key}</span>
+                      <span className="text-white font-bold">{String(value)}</span>
                     </div>
                   ))}
                 </div>

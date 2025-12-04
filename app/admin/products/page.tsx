@@ -160,7 +160,7 @@ export default function AdminProductsPage() {
     }
   };
 
-  const handleSpecChange = (key: string, value: any) => {
+  const handleSpecChange = (key: string, value: any, label: string) => {
     const currentSpecs = formData.specs || {};
     setFormData({ ...formData, specs: { ...currentSpecs, [key]: value } });
   };
@@ -580,7 +580,7 @@ export default function AdminProductsPage() {
                           <input
                             type="text"
                             value={formData.specs?.[template.key] || ''}
-                            onChange={(e) => handleSpecChange(template.key, e.target.value)}
+                            onChange={(e) => handleSpecChange(template.key, e.target.value, template.label)}
                             className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-cyan-500 bg-white"
                           />
                         )}
@@ -589,7 +589,7 @@ export default function AdminProductsPage() {
                           <input
                             type="number"
                             value={formData.specs?.[template.key] || ''}
-                            onChange={(e) => handleSpecChange(template.key, e.target.value)}
+                            onChange={(e) => handleSpecChange(template.key, e.target.value, template.label)}
                             className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-cyan-500 bg-white"
                           />
                         )}
@@ -597,7 +597,7 @@ export default function AdminProductsPage() {
                         {template.input_type === 'select' && (
                           <select
                             value={formData.specs?.[template.key] || ''}
-                            onChange={(e) => handleSpecChange(template.key, e.target.value)}
+                            onChange={(e) => handleSpecChange(template.key, e.target.value, template.label)}
                             className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-cyan-500 bg-white"
                           >
                             <option value="">Seçiniz</option>
@@ -612,7 +612,7 @@ export default function AdminProductsPage() {
                             <input
                               type="checkbox"
                               checked={formData.specs?.[template.key] === true || formData.specs?.[template.key] === 'true'}
-                              onChange={(e) => handleSpecChange(template.key, e.target.checked)}
+                              onChange={(e) => handleSpecChange(template.key, e.target.checked, template.label)}
                               className="w-4 h-4 text-cyan-500 rounded"
                             />
                             <span className="text-sm text-slate-700">Var</span>
