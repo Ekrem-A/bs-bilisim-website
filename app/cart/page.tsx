@@ -14,6 +14,22 @@ export default function CartPage() {
   const router = useRouter();
   const { items, updateQuantity, removeItem, getTotalPrice, getTotalItems } = useCartStore();
   const [userAddress, setUserAddress] = useState<any>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState<boolean>(true);
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  const checkAuth = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    setIsLoggedIn(!!user);
+    setIsCheckingAuth(false);
+    
+    if (user) {
+      loadUserAddress();
+    }
+  };
 
   useEffect(() => {
     loadUserAddress();
@@ -41,6 +57,12 @@ export default function CartPage() {
   };
 
   const handleCheckout = async () => {
+    // Giriş kontrolü
+    if (!isLoggedIn) {
+      router.push('/login?redirect=/cart');
+      return;
+    }
+
     // WhatsApp mesajını hazırla
     let message = '🛒 *Yeni Sipariş Talebi*\n\n';
     
@@ -91,7 +113,7 @@ export default function CartPage() {
     })} ₺*\n\n`;
     message += 'Sipariş vermek istiyorum. 🙏';    
    
-    const phoneNumber = '905416356485'; 
+    const phoneNumber = '+905312480048'; 
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     
     // WhatsApp'a yönlendir
@@ -139,8 +161,16 @@ export default function CartPage() {
                 className="bg-white rounded-xl border border-slate-200 p-6 hover:shadow-lg transition-shadow flex flex-col sm:flex-row gap-6"
               >
                 {/* Product Image */}
-                <div className="w-full sm:w-24 h-24 bg-slate-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <ShoppingCart size={40} className="text-slate-300" />
+                <div className="w-full sm:w-24 h-24 bg-slate-100 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
+                  {item.product.image_urls && item.product.image_urls.length > 0 ? (
+                    <img
+                      src={item.product.image_urls[0]}
+                      alt={item.product.name}
+                      className="w-full h-full object-contain p-2"
+                    />
+                  ) : (
+                    <ShoppingCart size={40} className="text-slate-300" />
+                  )}
                 </div>
 
                 {/* Product Info */}
@@ -235,11 +265,22 @@ export default function CartPage() {
 
               <button
                 onClick={handleCheckout}
-                className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-4 rounded-lg font-semibold hover:shadow-lg hover:shadow-green-500/50 transition-all flex items-center justify-center space-x-2"
+                disabled={isCheckingAuth}
+                className={`w-full py-4 rounded-lg font-semibold transition-all flex items-center justify-center space-x-2 ${
+                  isLoggedIn
+                    ? 'bg-gradient-to-r from-green-500 to-green-600 text-white hover:shadow-lg hover:shadow-green-500/50'
+                    : 'bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-lg hover:shadow-blue-500/50'
+                }`}
               >
-                <span>WhatsApp ile Sipariş Ver</span>
+                <span>{isLoggedIn ? 'WhatsApp ile Sipariş Ver' : 'Sipariş için Giriş Yapın'}</span>
                 <ArrowRight size={20} />
               </button>
+
+              {!isLoggedIn && (
+                <p className="text-center text-sm text-slate-600 mt-3">
+                  Sipariş verebilmek için giriş yapmanız gerekmektedir.
+                </p>
+              )}
 
               <Link
                 href="/"
