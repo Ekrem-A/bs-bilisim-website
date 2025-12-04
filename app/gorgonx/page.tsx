@@ -1,15 +1,51 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '@/components/common/Header';
 import Footer from '@/components/common/Footer';
 import { useProducts } from '@/hooks/useProducts';
 import { Fan, Zap, Shield, Award, TrendingUp, Package, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { supabase } from '@/lib/supabase';
+
+interface SpecTemplate {
+  key: string;
+  label: string;
+}
 
 export default function GorgonXPage() {
   const { products, loading } = useProducts();
+  const [specTemplates, setSpecTemplates] = useState<Record<string, string>>({});
+  
+  // Template'leri çek
+  useEffect(() => {
+    const fetchTemplates = async () => {
+      // GorgonX kategorisinin ID'sini bul
+      const { data: categoryData } = await supabase
+        .from('categories')
+        .select('id')
+        .eq('slug', 'gorgonx')
+        .single();
+      
+      if (!categoryData) return;
+      
+      const { data } = await supabase
+        .from('product_spec_templates')
+        .select('key, label')
+        .eq('category_id', categoryData.id);
+      
+      if (data) {
+        const templateMap: Record<string, string> = {};
+        data.forEach((t: SpecTemplate) => {
+          templateMap[t.key] = t.label;
+        });
+        setSpecTemplates(templateMap);
+      }
+    };
+    
+    fetchTemplates();
+  }, []);
   
   // Debug: GorgonX ürünlerini göster
   React.useEffect(() => {
@@ -270,6 +306,32 @@ export default function GorgonXPage() {
                         <p className="text-gray-400 mb-4 text-sm line-clamp-2 leading-relaxed">
                           {product.description}
                         </p>
+                      )}
+
+                      {/* Teknik Özellikler */}
+                      {product.specs && Object.keys(product.specs).length > 0 && (
+                        <div className="mb-4 space-y-1">
+                          {Object.entries(product.specs).slice(0, 3).map(([key, value]) => (
+                            <div key={key} className="flex items-center justify-between text-xs">
+                              <span className="text-gray-500 font-medium">{specTemplates[key] || key}:</span>
+                              <span className="text-gray-300 font-semibold">{String(value)}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Etiketler */}
+                      {product.tags && product.tags.length > 0 && (
+                        <div className="mb-4 flex flex-wrap gap-1">
+                          {product.tags.slice(0, 3).map((tag, idx) => (
+                            <span 
+                              key={idx}
+                              className="px-2 py-0.5 bg-red-600/10 border border-red-500/30 rounded text-[10px] font-bold text-red-400"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
                       )}
 
                       <div className="flex items-center justify-between pt-4 border-t border-gray-800">

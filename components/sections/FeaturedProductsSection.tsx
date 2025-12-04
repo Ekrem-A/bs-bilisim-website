@@ -36,9 +36,9 @@ const FeaturedProductsSection = () => {
             <h2 className="text-4xl font-black text-white mb-4 uppercase tracking-tight">ÖNE ÇIKAN ÜRÜNLER</h2>
             <p className="text-gray-400 font-medium">En popüler ve yeni ürünlerimiz</p>
           </div>
-          <button className="hidden md:flex items-center text-cyan-400 hover:text-cyan-300 transition-colors font-black uppercase tracking-wide">
+          <Link href="/products/all" className="hidden md:flex items-center text-cyan-400 hover:text-cyan-300 transition-colors font-black uppercase tracking-wide">
             TÜMÜNÜ GÖR <ChevronRight size={20} />
-          </button>
+          </Link>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -53,7 +53,15 @@ const FeaturedProductsSection = () => {
                     ÖNE ÇIKAN
                   </div>
                 )}
-                <Fan size={80} className="text-cyan-400 drop-shadow-[0_0_20px_rgba(6,182,212,0.6)]" />
+                {product.image_urls && product.image_urls.length > 0 ? (
+                  <img 
+                    src={product.image_urls[0]} 
+                    alt={product.name}
+                    className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-500"
+                  />
+                ) : (
+                  <Fan size={80} className="text-cyan-400 drop-shadow-[0_0_20px_rgba(6,182,212,0.6)]" />
+                )}
               </div>
               <div className="p-6 space-y-3">
                 <span className="text-cyan-400 text-sm font-black uppercase tracking-wide">{product.brand}</span>
