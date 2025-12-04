@@ -13,8 +13,7 @@ export interface Product {
   price: string;
   originalPrice?: string;
   image: string;
-  image_url?: string;
-  image_urls?: string[]; // Birden fazla görsel için
+  image_urls?: string[]; // Ürün görselleri (JSON array)
   cloudinary_public_id?: string;
   category: string;
   featured?: boolean;

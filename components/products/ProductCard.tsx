@@ -50,9 +50,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           )}
           
           {/* Product Image or Placeholder */}
-          {product.image_url ? (
+          {product.image_urls && product.image_urls.length > 0 ? (
             <img
-              src={product.image_url}
+              src={product.image_urls[0]}
               alt={product.name}
               className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
             />

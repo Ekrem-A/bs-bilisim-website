@@ -15,7 +15,7 @@ interface Product {
   price: number;
   original_price?: number;
   description?: string;
-  image_url?: string;
+  image_urls?: string[];
   in_stock: boolean;
   stock_quantity: number;
   rating?: number;
@@ -29,6 +29,24 @@ interface Category {
   id: string;
   name: string;
   slug: string;
+}
+
+interface SpecTemplate {
+  id: string;
+  category_id: string;
+  key: string;
+  label: string;
+  input_type: 'text' | 'number' | 'select' | 'boolean';
+  unit?: string;
+  options?: string[];
+  sort_order: number;
+}
+
+interface TagTemplate {
+  id: string;
+  category_id: string;
+  tag: string;
+  sort_order: number;
 }
 
 // Slug oluşturucu
@@ -61,7 +79,14 @@ export default function AdminProductsPage() {
     stock_quantity: 0,
     in_stock: true,
     featured: false,
+    image_urls: [],
+    specs: {},
+    tags: [],
   });
+  const [newImageUrl, setNewImageUrl] = useState('');
+  const [specTemplates, setSpecTemplates] = useState<SpecTemplate[]>([]);
+  const [tagTemplates, setTagTemplates] = useState<TagTemplate[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   useEffect(() => {
     loadProducts();
@@ -95,6 +120,59 @@ export default function AdminProductsPage() {
       setCategories(data || []);
     } catch (error) {
       console.error('Error loading categories:', error);
+    }
+  };
+
+  const loadTemplates = async (categoryId: string) => {
+    try {
+      // Load spec templates
+      const { data: specs, error: specsError } = await supabase
+        .from('product_spec_templates')
+        .select('*')
+        .eq('category_id', categoryId)
+        .order('sort_order');
+
+      if (specsError) throw specsError;
+      setSpecTemplates(specs || []);
+
+      // Load tag templates
+      const { data: tags, error: tagsError } = await supabase
+        .from('product_tag_templates')
+        .select('*')
+        .eq('category_id', categoryId)
+        .order('sort_order');
+
+      if (tagsError) throw tagsError;
+      setTagTemplates(tags || []);
+    } catch (error) {
+      console.error('Error loading templates:', error);
+    }
+  };
+
+  const handleCategoryChange = (categoryId: string) => {
+    setFormData({ ...formData, category_id: categoryId, specs: {}, tags: [] });
+    setSelectedTags([]);
+    if (categoryId) {
+      loadTemplates(categoryId);
+    } else {
+      setSpecTemplates([]);
+      setTagTemplates([]);
+    }
+  };
+
+  const handleSpecChange = (key: string, value: any) => {
+    const currentSpecs = formData.specs || {};
+    setFormData({ ...formData, specs: { ...currentSpecs, [key]: value } });
+  };
+
+  const toggleTag = (tag: string) => {
+    const currentTags = selectedTags || [];
+    if (currentTags.includes(tag)) {
+      setSelectedTags(currentTags.filter(t => t !== tag));
+      setFormData({ ...formData, tags: currentTags.filter(t => t !== tag) });
+    } else {
+      setSelectedTags([...currentTags, tag]);
+      setFormData({ ...formData, tags: [...currentTags, tag] });
     }
   };
 
@@ -156,6 +234,10 @@ export default function AdminProductsPage() {
   const openEditModal = (product: Product) => {
     setEditingProduct(product);
     setFormData(product);
+    setSelectedTags(product.tags || []);
+    if (product.category_id) {
+      loadTemplates(product.category_id);
+    }
     setShowModal(true);
   };
 
@@ -174,7 +256,27 @@ export default function AdminProductsPage() {
       stock_quantity: 0,
       in_stock: true,
       featured: false,
+      image_urls: [],
+      specs: {},
+      tags: [],
     });
+    setNewImageUrl('');
+    setSpecTemplates([]);
+    setTagTemplates([]);
+    setSelectedTags([]);
+  };
+
+  const addImageUrl = () => {
+    if (newImageUrl.trim()) {
+      const currentUrls = formData.image_urls || [];
+      setFormData({ ...formData, image_urls: [...currentUrls, newImageUrl.trim()] });
+      setNewImageUrl('');
+    }
+  };
+
+  const removeImageUrl = (index: number) => {
+    const currentUrls = formData.image_urls || [];
+    setFormData({ ...formData, image_urls: currentUrls.filter((_, i) => i !== index) });
   };
 
   const filteredProducts = products.filter(p =>
@@ -240,8 +342,12 @@ export default function AdminProductsPage() {
                 <tr key={product.id} className="hover:bg-slate-50">
                   <td className="px-6 py-4">
                     <div className="flex items-center space-x-3">
-                      {product.image_url ? (
-                        <img src={product.image_url} alt={product.name} className="w-12 h-12 object-cover rounded" />
+                      {product.image_urls && product.image_urls.length > 0 ? (
+                        <img 
+                          src={product.image_urls[0]} 
+                          alt={product.name} 
+                          className="w-12 h-12 object-cover rounded" 
+                        />
                       ) : (
                         <div className="w-12 h-12 bg-slate-200 rounded flex items-center justify-center">
                           <Package size={20} className="text-slate-400" />
@@ -345,7 +451,7 @@ export default function AdminProductsPage() {
                 <select
                   required
                   value={formData.category_id}
-                  onChange={(e) => setFormData({ ...formData, category_id: e.target.value })}
+                  onChange={(e) => handleCategoryChange(e.target.value)}
                   className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-cyan-500"
                 >
                   <option value="">Kategori Seç</option>
@@ -403,17 +509,150 @@ export default function AdminProductsPage() {
                 />
               </div>
 
-              {/* Image URL */}
+              {/* Image URLs */}
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Resim URL</label>
-                <input
-                  type="url"
-                  value={formData.image_url || ''}
-                  onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-cyan-500"
-                  placeholder="https://..."
-                />
+                <label className="block text-sm font-medium text-slate-700 mb-2">Ürün Görselleri</label>
+                <div className="space-y-3">
+                  {/* Mevcut görseller */}
+                  {formData.image_urls && formData.image_urls.length > 0 && (
+                    <div className="grid grid-cols-2 gap-3">
+                      {formData.image_urls.map((url, index) => (
+                        <div key={index} className="relative group border-2 border-slate-200 rounded-lg p-2">
+                          <img 
+                            src={url} 
+                            alt={`Görsel ${index + 1}`} 
+                            className="w-full h-32 object-cover rounded"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeImageUrl(index)}
+                            className="absolute top-1 right-1 bg-red-500 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <X size={16} />
+                          </button>
+                          <div className="text-xs text-slate-500 mt-1 truncate">
+                            Görsel {index + 1}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  
+                  {/* Yeni görsel ekleme */}
+                  <div className="flex space-x-2">
+                    <input
+                      type="url"
+                      value={newImageUrl}
+                      onChange={(e) => setNewImageUrl(e.target.value)}
+                      onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addImageUrl())}
+                      className="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-cyan-500"
+                      placeholder="Görsel URL'si ekleyin (https://...)"
+                    />
+                    <button
+                      type="button"
+                      onClick={addImageUrl}
+                      className="px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors flex items-center space-x-2"
+                    >
+                      <Plus size={18} />
+                      <span>Ekle</span>
+                    </button>
+                  </div>
+                  
+                  <p className="text-xs text-slate-500">
+                    💡 İpucu: Birden fazla görsel ekleyebilirsiniz. İlk görsel ön kapak olarak kullanılır.
+                  </p>
+                </div>
               </div>
+
+              {/* Teknik Özellikler (Specs) - Dinamik */}
+              {specTemplates.length > 0 && (
+                <div className="border-2 border-blue-200 bg-blue-50 rounded-xl p-4">
+                  <h3 className="text-lg font-bold text-slate-800 mb-4">📋 Teknik Özellikler</h3>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {specTemplates.map((template) => (
+                      <div key={template.id}>
+                        <label className="block text-sm font-medium text-slate-700 mb-2">
+                          {template.label}
+                          {template.unit && <span className="text-slate-500 ml-1">({template.unit})</span>}
+                        </label>
+                        
+                        {template.input_type === 'text' && (
+                          <input
+                            type="text"
+                            value={formData.specs?.[template.key] || ''}
+                            onChange={(e) => handleSpecChange(template.key, e.target.value)}
+                            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-cyan-500 bg-white"
+                          />
+                        )}
+                        
+                        {template.input_type === 'number' && (
+                          <input
+                            type="number"
+                            value={formData.specs?.[template.key] || ''}
+                            onChange={(e) => handleSpecChange(template.key, e.target.value)}
+                            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-cyan-500 bg-white"
+                          />
+                        )}
+                        
+                        {template.input_type === 'select' && (
+                          <select
+                            value={formData.specs?.[template.key] || ''}
+                            onChange={(e) => handleSpecChange(template.key, e.target.value)}
+                            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-cyan-500 bg-white"
+                          >
+                            <option value="">Seçiniz</option>
+                            {template.options?.map((option) => (
+                              <option key={option} value={option}>{option}</option>
+                            ))}
+                          </select>
+                        )}
+                        
+                        {template.input_type === 'boolean' && (
+                          <label className="flex items-center space-x-2 mt-2">
+                            <input
+                              type="checkbox"
+                              checked={formData.specs?.[template.key] === true || formData.specs?.[template.key] === 'true'}
+                              onChange={(e) => handleSpecChange(template.key, e.target.checked)}
+                              className="w-4 h-4 text-cyan-500 rounded"
+                            />
+                            <span className="text-sm text-slate-700">Var</span>
+                          </label>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Etiketler (Tags) - Dinamik */}
+              {tagTemplates.length > 0 && (
+                <div className="border-2 border-green-200 bg-green-50 rounded-xl p-4">
+                  <h3 className="text-lg font-bold text-slate-800 mb-4">🏷️ Etiketler</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {tagTemplates.map((template) => (
+                      <button
+                        key={template.id}
+                        type="button"
+                        onClick={() => toggleTag(template.tag)}
+                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                          selectedTags.includes(template.tag)
+                            ? 'bg-green-600 text-white shadow-lg'
+                            : 'bg-white text-slate-700 border-2 border-slate-300 hover:border-green-500'
+                        }`}
+                      >
+                        {template.tag}
+                      </button>
+                    ))}
+                  </div>
+                  {selectedTags.length > 0 && (
+                    <div className="mt-3 pt-3 border-t border-green-200">
+                      <p className="text-sm text-slate-600">
+                        Seçili: <span className="font-bold">{selectedTags.join(', ')}</span>
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Checkboxes */}
               <div className="space-y-4">

@@ -11,8 +11,26 @@ import Image from 'next/image';
 export default function GorgonXPage() {
   const { products, loading } = useProducts();
   
-  // GorgonX kategorisindeki ürünleri filtrele
-  const gorgonxProducts = products?.filter(p => p.category === 'gorgonx') || [];
+  // Debug: GorgonX ürünlerini göster
+  React.useEffect(() => {
+    if (products && products.length > 0) {
+      const gorgonxItems = products.filter(p => 
+        p.category === 'gorgonx' || p.brand?.toLowerCase() === 'gorgonx'
+      );
+      console.log('GorgonX Ürünler:', gorgonxItems.map(p => ({
+        name: p.name,
+        description: p.description,
+        price: p.price,
+        image_urls: p.image_urls,
+        inStock: p.inStock
+      })));
+    }
+  }, [products]);
+  
+  // GorgonX kategorisindeki ürünleri filtrele (hem category hem brand kontrolü)
+  const gorgonxProducts = products?.filter(p => 
+    p.category === 'gorgonx' || p.brand?.toLowerCase() === 'gorgonx'
+  ) || [];
 
   const features = [
     {
@@ -113,7 +131,7 @@ export default function GorgonXPage() {
                   kasalar ve daha fazlasıyla performansınızı zirveye taşıyoruz.
                 </p>
                 <p>
-                  Türkiye'de üretilen ve tasarlanan ürünlerimiz, uluslararası standartlarda
+                  Ürünlerimiz Uluslararası standartlarda
                   kalite kontrolünden geçer. Her bir ürün, kullanıcı deneyimini ön planda tutarak
                   geliştirilmiştir.
                 </p>
@@ -212,12 +230,11 @@ export default function GorgonXPage() {
                     {/* Image Container */}
                     <div className="relative h-64 bg-gradient-to-br from-gray-800 to-gray-900 overflow-hidden">
                       <div className="absolute inset-0 bg-red-500/5 group-hover:bg-red-500/10 transition-colors duration-500"></div>
-                      {product.image_url ? (
-                        <Image
-                          src={product.image_url}
+                      {product.image_urls && product.image_urls.length > 0 ? (
+                        <img
+                          src={product.image_urls[0]}
                           alt={product.name}
-                          fill
-                          className="object-contain p-4 group-hover:scale-110 transition-transform duration-700"
+                          className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700"
                         />
                       ) : (
                         <div className="flex items-center justify-center h-full">
@@ -236,13 +253,18 @@ export default function GorgonXPage() {
                         {product.name}
                       </h3>
                       
-                      {product.brand && (
-                        <div className="mb-3">
+                      <div className="mb-3 flex items-center gap-2 flex-wrap">
+                        {product.brand && (
                           <span className="inline-block px-3 py-1 bg-red-600/20 border border-red-500/50 rounded-full text-xs font-bold text-red-400 uppercase tracking-wider">
                             {product.brand}
                           </span>
-                        </div>
-                      )}
+                        )}
+                        {product.inStock && (
+                          <span className="inline-block px-3 py-1 bg-green-600/20 border border-green-500/50 rounded-full text-xs font-bold text-green-400 uppercase tracking-wider">
+                            STOKTA
+                          </span>
+                        )}
+                      </div>
 
                       {product.description && (
                         <p className="text-gray-400 mb-4 text-sm line-clamp-2 leading-relaxed">
@@ -253,7 +275,7 @@ export default function GorgonXPage() {
                       <div className="flex items-center justify-between pt-4 border-t border-gray-800">
                         <div>
                           <div className="text-3xl font-black text-red-500">
-                            {product.price ? `${Number(product.price).toLocaleString('tr-TR')} ₺` : 'Fiyat Yok'}
+                            {product.price ? `${parseFloat(product.price).toLocaleString('tr-TR')} ₺` : 'Fiyat Yok'}
                           </div>
                         </div>
                         <div className="flex items-center gap-2 text-red-400 font-bold group-hover:gap-4 transition-all">
