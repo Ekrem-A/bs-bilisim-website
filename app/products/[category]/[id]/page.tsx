@@ -10,6 +10,7 @@ import { ShoppingCart, ChevronRight, Check, ZoomIn, Package } from 'lucide-react
 import Link from 'next/link';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
+import StructuredData from '@/components/common/StructuredData';
 
 interface SpecTemplate {
   key: string;
@@ -102,8 +103,43 @@ export default function ProductDetailPage() {
     );
   }
 
+  // Product Structured Data
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bs-bilisim-website.vercel.app';
+  
+  const productSchema: any = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    image: product.image_urls || [],
+    description: product.description || '',
+    brand: {
+      '@type': 'Brand',
+      name: product.brand
+    },
+    offers: {
+      '@type': 'Offer',
+      url: `${siteUrl}/products/${categorySlug}/${productId}`,
+      priceCurrency: 'TRY',
+      price: product.price.replace(/\./g, '').replace(',', '.'),
+      availability: product.inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+      seller: {
+        '@type': 'Organization',
+        name: 'BS Bilişim'
+      }
+    }
+  };
+
+  if (product.rating) {
+    productSchema['aggregateRating'] = {
+      '@type': 'AggregateRating',
+      ratingValue: product.rating,
+      reviewCount: product.reviewCount || 1
+    };
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-slate-900">
+      <StructuredData data={productSchema} />
       <Header />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

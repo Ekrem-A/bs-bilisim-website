@@ -1,0 +1,16 @@
+{
+  "name": "BS Bilişim",
+  "short_name": "BS Bilişim",
+  "description": "Bilgisayar Donanımları ve Gaming Ekipmanları",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#06b6d4",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}
