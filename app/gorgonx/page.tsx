@@ -337,7 +337,7 @@ export default function GorgonXPage() {
                       <div className="flex items-center justify-between pt-4 border-t border-gray-800">
                         <div>
                           <div className="text-3xl font-black text-red-500">
-                            {product.price ? `${parseFloat(product.price).toLocaleString('tr-TR')} ₺` : 'Fiyat Yok'}
+                            {product.price ? `${product.price} ₺` : 'Fiyat Yok'}
                           </div>
                         </div>
                         <div className="flex items-center gap-2 text-red-400 font-bold group-hover:gap-4 transition-all">

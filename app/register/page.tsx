@@ -6,6 +6,14 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Mail, Lock, Eye, EyeOff, User, Phone, Loader2 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import { 
+  validateEmail, 
+  validatePassword, 
+  validatePhone, 
+  validateFullName,
+  sanitizeInput,
+  checkRateLimit 
+} from '@/lib/validation';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -32,14 +40,45 @@ export default function RegisterPage() {
     e.preventDefault();
     setError('');
 
+    // Rate limiting check
+    if (!checkRateLimit('register', 3, 300000)) { // 3 attempts per 5 minutes
+      setError('Çok fazla kayıt denemesi. Lütfen 5 dakika sonra tekrar deneyin.');
+      return;
+    }
+
+    // Sanitize inputs
+    const sanitizedData = {
+      fullName: sanitizeInput(formData.fullName),
+      email: formData.email.trim().toLowerCase(),
+      phone: formData.phone.replace(/\s/g, ''),
+      password: formData.password,
+      confirmPassword: formData.confirmPassword,
+    };
+
     // Validation
-    if (formData.password !== formData.confirmPassword) {
+    if (!validateFullName(sanitizedData.fullName)) {
+      setError('Geçersiz ad soyad. En az 3 karakter ve sadece harf içermelidir.');
+      return;
+    }
+
+    if (!validateEmail(sanitizedData.email)) {
+      setError('Geçersiz e-posta adresi');
+      return;
+    }
+
+    if (!validatePhone(sanitizedData.phone)) {
+      setError('Geçersiz telefon numarası. Format: 05XX XXX XX XX');
+      return;
+    }
+
+    if (sanitizedData.password !== sanitizedData.confirmPassword) {
       setError('Şifreler eşleşmiyor');
       return;
     }
 
-    if (formData.password.length < 6) {
-      setError('Şifre en az 6 karakter olmalıdır');
+    const passwordValidation = validatePassword(sanitizedData.password);
+    if (!passwordValidation.valid) {
+      setError(passwordValidation.message || 'Geçersiz şifre');
       return;
     }
 
@@ -48,12 +87,12 @@ export default function RegisterPage() {
     try {
       // Sign up with Supabase
       const { data, error: signUpError } = await supabase.auth.signUp({
-        email: formData.email,
-        password: formData.password,
+        email: sanitizedData.email,
+        password: sanitizedData.password,
         options: {
           data: {
-            full_name: formData.fullName,
-            phone: formData.phone,
+            full_name: sanitizedData.fullName,
+            phone: sanitizedData.phone,
           },
           emailRedirectTo: `${window.location.origin}/auth/callback`,
         }
@@ -67,9 +106,9 @@ export default function RegisterPage() {
           .from('user_profiles')
           .insert({
             id: data.user.id,
-            email: formData.email,
-            full_name: formData.fullName,
-            phone: formData.phone,
+            email: sanitizedData.email,
+            full_name: sanitizedData.fullName,
+            phone: sanitizedData.phone,
           });
 
         if (profileError) console.error('Profile creation error:', profileError);
@@ -80,7 +119,16 @@ export default function RegisterPage() {
       }
     } catch (error: any) {
       console.error('Registration error:', error);
-      setError(error.message || 'Kayıt sırasında bir hata oluştu');
+      
+      // User-friendly error messages
+      let errorMessage = 'Kayıt sırasında bir hata oluştu';
+      if (error.message?.includes('already registered')) {
+        errorMessage = 'Bu e-posta adresi zaten kayıtlı';
+      } else if (error.message?.includes('Invalid email')) {
+        errorMessage = 'Geçersiz e-posta adresi';
+      }
+      
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

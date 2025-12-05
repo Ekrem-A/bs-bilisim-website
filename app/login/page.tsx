@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Mail, Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import { validateEmail, sanitizeInput, checkRateLimit } from '@/lib/validation';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -23,17 +24,37 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    
+    // Rate limiting check
+    if (!checkRateLimit('login', 5, 300000)) { // 5 attempts per 5 minutes
+      setError('Çok fazla giriş denemesi. Lütfen 5 dakika sonra tekrar deneyin.');
+      return;
+    }
+
+    // Validate email
+    const sanitizedEmail = formData.email.trim().toLowerCase();
+    if (!validateEmail(sanitizedEmail)) {
+      setError('Geçersiz e-posta adresi');
+      return;
+    }
+
     setLoading(true);
 
     try {
-      console.log('1. Login attempt with:', formData.email);
+      console.log('1. Login attempt with:', sanitizedEmail);
       
       const { data, error: signInError } = await supabase.auth.signInWithPassword({
-        email: formData.email,
+        email: sanitizedEmail,
         password: formData.password,
       });
 
-      if (signInError) throw signInError;
+      if (signInError) {
+        // User-friendly error messages
+        if (signInError.message.includes('Invalid login')) {
+          throw new Error('E-posta veya şifre hatalı');
+        }
+        throw signInError;
+      }
 
       console.log('2. Login successful, user:', data.user?.id);
 

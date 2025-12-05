@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { User, Mail, Phone, Save } from 'lucide-react';
+import { validatePhone, validateFullName, sanitizeInput } from '@/lib/validation';
 
 export default function AccountDetailsPage() {
   const [loading, setLoading] = useState(false);
@@ -44,14 +45,30 @@ export default function AccountDetailsPage() {
     setLoading(true);
 
     try {
+      // Validate inputs
+      const sanitizedFullName = sanitizeInput(formData.full_name);
+      const sanitizedPhone = formData.phone.replace(/\s/g, '');
+
+      if (!validateFullName(sanitizedFullName)) {
+        alert('Geçersiz ad soyad. En az 3 karakter ve sadece harf içermelidir.');
+        setLoading(false);
+        return;
+      }
+
+      if (sanitizedPhone && !validatePhone(sanitizedPhone)) {
+        alert('Geçersiz telefon numarası. Format: 05XX XXX XX XX');
+        setLoading(false);
+        return;
+      }
+
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
       const { error } = await supabase
         .from('user_profiles')
         .update({
-          full_name: formData.full_name,
-          phone: formData.phone,
+          full_name: sanitizedFullName,
+          phone: sanitizedPhone,
         })
         .eq('id', user.id);
 
