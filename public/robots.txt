@@ -1,0 +1,11 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Disallow admin pages
+Disallow: /admin/
+Disallow: /account/
+
+# Sitemap
+Sitemap: https://bs-bilisim-website.vercel.app/sitemap.xml
+# Domain bağlandıktan sonra kendi domain'inizle değiştirin
