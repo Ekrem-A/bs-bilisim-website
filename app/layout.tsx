@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: 'google-site-verification-code', // Google Search Console'dan alacağınız kod
+    google: 'phcFj-XKtl2aKkgd3T60rQ7JLMSkiyHQQop9NYJ_xes',
     // yandex: 'yandex-verification-code', // Yandex Webmaster'dan alacağınız kod
   },
 };

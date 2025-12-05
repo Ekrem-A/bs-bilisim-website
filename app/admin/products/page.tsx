@@ -23,6 +23,9 @@ interface Product {
   specs?: any;
   tags?: string[];
   featured: boolean;
+  is_campaign?: boolean;
+  discount_percentage?: number;
+  campaign_end_date?: string;
 }
 
 interface Category {
@@ -82,6 +85,9 @@ export default function AdminProductsPage() {
     image_urls: [],
     specs: {},
     tags: [],
+    is_campaign: false,
+    discount_percentage: 0,
+    campaign_end_date: '',
   });
   const [newImageUrl, setNewImageUrl] = useState('');
   const [specTemplates, setSpecTemplates] = useState<SpecTemplate[]>([]);
@@ -355,9 +361,14 @@ export default function AdminProductsPage() {
                       )}
                       <div>
                         <div className="font-medium text-slate-800">{product.name}</div>
-                        {product.featured && (
-                          <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded">Öne Çıkan</span>
-                        )}
+                        <div className="flex items-center space-x-2 mt-1">
+                          {product.featured && (
+                            <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded">Öne Çıkan</span>
+                          )}
+                          {product.is_campaign && (
+                            <span className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded">🔥 Kampanya</span>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </td>
@@ -679,6 +690,51 @@ export default function AdminProductsPage() {
                       <span className="text-xs text-slate-600">Bu ürün ana sayfadaki "Öne Çıkan Ürünler" bölümünde görünecektir</span>
                     </div>
                   </label>
+                </div>
+
+                <div className="border-2 border-red-300 bg-red-50 rounded-lg p-4">
+                  <label className="flex items-start space-x-3 mb-4">
+                    <input
+                      type="checkbox"
+                      checked={formData.is_campaign}
+                      onChange={(e) => setFormData({ ...formData, is_campaign: e.target.checked })}
+                      className="w-5 h-5 text-red-500 rounded mt-0.5"
+                    />
+                    <div>
+                      <span className="text-sm font-bold text-slate-800 block mb-1">🔥 Kampanyalı Ürün</span>
+                      <span className="text-xs text-slate-600">Bu ürün "Kampanyalı Ürünler" sayfasında görünecektir</span>
+                    </div>
+                  </label>
+                  
+                  {formData.is_campaign && (
+                    <div className="space-y-3 pl-8 border-l-2 border-red-300">
+                      <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-2">İndirim Yüzdesi (%)</label>
+                        <input
+                          type="number"
+                          min="0"
+                          max="100"
+                          value={formData.discount_percentage || 0}
+                          onChange={(e) => setFormData({ ...formData, discount_percentage: parseInt(e.target.value) || 0 })}
+                          className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500"
+                          placeholder="Örn: 25"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-2">Kampanya Bitiş Tarihi (Opsiyonel)</label>
+                        <input
+                          type="datetime-local"
+                          value={formData.campaign_end_date || ''}
+                          onChange={(e) => setFormData({ ...formData, campaign_end_date: e.target.value })}
+                          className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500"
+                        />
+                        <p className="text-xs text-slate-500 mt-1">
+                          Boş bırakırsanız kampanya süresiz olarak devam eder
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 

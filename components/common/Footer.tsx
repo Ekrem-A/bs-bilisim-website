@@ -145,24 +145,29 @@ const Footer = () => {
             <h4 className="text-white font-bold mb-4 uppercase tracking-wide text-sm">Kurumsal</h4>
             <ul className="space-y-2 text-gray-400 text-sm">
               <li>
-                <a href="#" className="hover:text-cyan-400 transition-colors font-medium">
+                <Link href="/hakkimizda" className="hover:text-cyan-400 transition-colors font-medium">
                   Hakkımızda
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-cyan-400 transition-colors font-medium">
+                <Link href="/gorgonx" className="hover:text-cyan-400 transition-colors font-medium">
                   GorgonX Markası
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-cyan-400 transition-colors font-medium">
+                <Link href="/kampanya" className="hover:text-cyan-400 transition-colors font-medium">
+                  Kampanyalı Ürünler
+                </Link>
+              </li>
+              <li>
+                <Link href="/yazilim" className="hover:text-cyan-400 transition-colors font-medium">
+                  Yazılım Hizmetleri
+                </Link>
+              </li>
+              <li>
+                <Link href="/iletisim" className="hover:text-cyan-400 transition-colors font-medium">
                   İletişim
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-cyan-400 transition-colors font-medium">
-                  Gizlilik Politikası
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

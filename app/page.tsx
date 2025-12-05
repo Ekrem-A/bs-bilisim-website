@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import Header from '@/components/common/Header';
 import Footer from '@/components/common/Footer';
 import HeroSection from '@/components/sections/HeroSection';
@@ -6,6 +7,15 @@ import FeaturedProductsSection from '@/components/sections/FeaturedProductsSecti
 import GorgonXSection from '@/components/sections/GorgonXSection';
 import BrandsSection from '@/components/sections/BrandsSection';
 import StructuredData from '@/components/common/StructuredData';
+
+export const metadata: Metadata = {
+  title: 'BS Bilişim - Bilgisayar Donanımları, Gaming Ekipmanları ve GorgonX',
+  description: 'Türkiye\'nin güvenilir bilgisayar donanımları mağazası. İşlemci, ekran kartı, anakart, RAM, SSD, soğutma sistemleri, mouse, klavye ve özel markaımız GorgonX ürünleri. Hızlı kargo, güvenli alışveriş.',
+  openGraph: {
+    title: 'BS Bilişim - Bilgisayar Donanımları ve Gaming Ekipmanları',
+    description: 'Türkiye\'nin güvenilir bilgisayar donanımları mağazası. GorgonX, AMD, Intel, NVIDIA ürünleri.',
+  },
+};
 
 export default function Home() {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bs-bilisim-website.vercel.app';
