@@ -245,11 +245,14 @@ const Header = () => {
             <a href="/#kategoriler" className="text-gray-300 hover:text-cyan-400 transition-all font-black uppercase tracking-wide text-sm hover:scale-105">
               Kategoriler
             </a>
-            <a href="/#urunler" className="text-gray-300 hover:text-cyan-400 transition-all font-black uppercase tracking-wide text-sm hover:scale-105">
-              Ürünler
+            <a href="/kampanya" className="text-gray-300 hover:text-cyan-400 transition-all font-black uppercase tracking-wide text-sm hover:scale-105">
+              Kampanya
             </a>
             <a href="/gorgonx" className="text-gray-300 hover:text-cyan-400 transition-all font-black uppercase tracking-wide text-sm hover:scale-105">
               GorgonX
+            </a>
+            <a href="/hakkimizda" className="text-gray-300 hover:text-cyan-400 transition-all font-black uppercase tracking-wide text-sm hover:scale-105">
+              Hakkımızda
             </a>
             <a href="/iletisim" className="text-gray-300 hover:text-cyan-400 transition-all font-black uppercase tracking-wide text-sm hover:scale-105">
               İletişim
@@ -358,11 +361,17 @@ const Header = () => {
               <a href="/#kategoriler" className="text-gray-300 hover:text-cyan-400 transition-colors font-bold">
                 Kategoriler
               </a>
-              <a href="/#urunler" className="text-gray-300 hover:text-cyan-400 transition-colors font-bold">
-                Ürünler
+              <a href="/kampanya" className="text-gray-300 hover:text-cyan-400 transition-colors font-bold">
+                Kampanyalı Ürünler
               </a>
-              <a href="/#gorgonx" className="text-gray-300 hover:text-cyan-400 transition-colors font-bold">
+              <a href="/gorgonx" className="text-gray-300 hover:text-cyan-400 transition-colors font-bold">
                 GorgonX
+              </a>
+              <a href="/hakkimizda" className="text-gray-300 hover:text-cyan-400 transition-colors font-bold">
+                Hakkımızda
+              </a>
+              <a href="/yazilim" className="text-gray-300 hover:text-cyan-400 transition-colors font-bold">
+                Yazılım Hizmetleri
               </a>
               <a href="/iletisim" className="text-gray-300 hover:text-cyan-400 transition-colors font-bold">
                 İletişim

@@ -23,6 +23,9 @@ export interface Product {
   reviewCount?: number;
   specs?: Record<string, string>;
   tags?: string[];
+  is_campaign?: boolean;
+  discount_percentage?: number;
+  campaign_end_date?: string;
 }
 
 export interface Brand {

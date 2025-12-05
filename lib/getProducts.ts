@@ -35,7 +35,7 @@ export async function fetchProducts(): Promise<Product[]> {
   const { data, error } = await supabase
     .from('products')
     .select(
-      `id, name, brand, price, original_price, description, image_urls, in_stock, rating, review_count, specs, tags, featured, category_id`
+      `id, name, brand, price, original_price, description, image_urls, in_stock, rating, review_count, specs, tags, featured, category_id, is_campaign, discount_percentage, campaign_end_date`
     )
     .order('created_at', { ascending: false });
 
@@ -103,6 +103,9 @@ export async function fetchProducts(): Promise<Product[]> {
       reviewCount: p.review_count ?? undefined,
       specs: p.specs ?? undefined,
       tags: p.tags ?? undefined,
+      is_campaign: p.is_campaign ?? false,
+      discount_percentage: p.discount_percentage ?? undefined,
+      campaign_end_date: p.campaign_end_date ?? undefined,
     } as Product;
   });
 
