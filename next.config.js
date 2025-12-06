@@ -20,6 +20,16 @@ const nextConfig = {
   swcMinify: true,
   compress: true,
   poweredByHeader: false,
+  // Webmail redirect
+  async redirects() {
+    return [
+      {
+        source: '/webmail/:path*',
+        destination: 'https://webmail.roundcube.101.hostinglogin.net/:path*',
+        permanent: false,
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig
