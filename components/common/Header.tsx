@@ -32,9 +32,10 @@ const Header = () => {
   const [cartItemCount, setCartItemCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchOpen, setSearchOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [contactInfo, setContactInfo] = useState<ContactInfo>({
-    contact_email: 'info@bsbilisim.com',
-    contact_phone: '+90 (212) 555 12 34',
+    contact_email: '',
+    contact_phone: '',
     social_facebook: '',
     social_instagram: '',
   });
@@ -113,9 +114,26 @@ const Header = () => {
           social_facebook: data.social_facebook || '',
           social_instagram: data.social_instagram || '',
         });
+      } else {
+        // Fallback values if no data
+        setContactInfo({
+          contact_email: 'info@bsbilisim.com',
+          contact_phone: '+90 (212) 555 12 34',
+          social_facebook: '',
+          social_instagram: '',
+        });
       }
     } catch (error) {
       console.error('Error loading contact info:', error);
+      // Set fallback on error
+      setContactInfo({
+        contact_email: 'info@bsbilisim.com',
+        contact_phone: '+90 (212) 555 12 34',
+        social_facebook: '',
+        social_instagram: '',
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -157,17 +175,24 @@ const Header = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             {/* Left - Contact Info */}
-            <div className="flex items-center space-x-4 text-xs">
-              <a href={`tel:${contactInfo.contact_phone.replace(/\s/g, '')}`} className="hidden md:flex items-center space-x-2 text-gray-400 hover:text-cyan-400 transition-colors group">
-                <Phone size={14} className="group-hover:scale-110 transition-transform" />
-                <span className="font-semibold">{contactInfo.contact_phone}</span>
-              </a>
-              <span className="hidden md:inline text-gray-700">|</span>
-              <a href={`mailto:${contactInfo.contact_email}`} className="hidden sm:flex items-center space-x-2 text-gray-400 hover:text-cyan-400 transition-colors group">
-                <Mail size={14} className="group-hover:scale-110 transition-transform" />
-                <span className="font-semibold">{contactInfo.contact_email}</span>
-              </a>
-            </div>
+            {loading ? (
+              <div className="flex items-center space-x-4 text-xs">
+                <div className="h-4 w-40 bg-gray-800 animate-pulse rounded"></div>
+                <div className="h-4 w-32 bg-gray-800 animate-pulse rounded"></div>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-4 text-xs">
+                <a href={`tel:${contactInfo.contact_phone.replace(/\s/g, '')}`} className="hidden md:flex items-center space-x-2 text-gray-400 hover:text-cyan-400 transition-colors group">
+                  <Phone size={14} className="group-hover:scale-110 transition-transform" />
+                  <span className="font-semibold">{contactInfo.contact_phone}</span>
+                </a>
+                <span className="hidden md:inline text-gray-700">|</span>
+                <a href={`mailto:${contactInfo.contact_email}`} className="hidden sm:flex items-center space-x-2 text-gray-400 hover:text-cyan-400 transition-colors group">
+                  <Mail size={14} className="group-hover:scale-110 transition-transform" />
+                  <span className="font-semibold">{contactInfo.contact_email}</span>
+                </a>
+              </div>
+            )}
 
             {/* Right - Social Media Links */}
             <div className="flex items-center space-x-3">
@@ -263,13 +288,14 @@ const Header = () => {
             <a href="/hakkimizda" className="text-gray-300 hover:text-cyan-400 transition-all font-black uppercase tracking-wide text-sm hover:scale-105">
               Hakkımızda
             </a>
+            
             <a href="/iletisim" className="text-gray-300 hover:text-cyan-400 transition-all font-black uppercase tracking-wide text-sm hover:scale-105">
               İletişim
             </a>
           </nav>
 
           {/* Search & Cart & Auth */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-3 flex-nowrap">
             {/* Search Button & Form */}
             {searchOpen ? (
               <div className="absolute right-4 top-20 z-50">
@@ -304,12 +330,12 @@ const Header = () => {
             
             <button 
               onClick={() => setSearchOpen(true)}
-              className="p-2 text-gray-300 hover:text-cyan-400 transition-all hover:scale-110 hover:bg-cyan-500/10 rounded-lg"
+              className="p-2 text-gray-300 hover:text-cyan-400 transition-all hover:scale-110 hover:bg-cyan-500/10 rounded-lg flex-shrink-0"
             >
               <Search size={22} />
             </button>
             
-            <Link href="/cart" className="p-2 text-gray-300 hover:text-cyan-400 transition-all relative hover:scale-110 hover:bg-cyan-500/10 rounded-lg">
+            <Link href="/cart" className="p-2 text-gray-300 hover:text-cyan-400 transition-all relative hover:scale-110 hover:bg-cyan-500/10 rounded-lg flex-shrink-0">
               <ShoppingCart size={22} />
               {cartItemCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-black shadow-xl shadow-cyan-500/50 animate-pulse">
@@ -323,25 +349,25 @@ const Header = () => {
                 {/* Account Link */}
                 <Link
                   href="/account"
-                  className="flex items-center space-x-2 text-gray-300 hover:text-cyan-400 transition-all font-black uppercase text-sm hover:scale-105 hover:bg-cyan-500/10 px-3 py-2 rounded-lg"
+                  className="flex items-center space-x-1.5 text-gray-300 hover:text-cyan-400 transition-all font-bold text-xs hover:scale-105 hover:bg-cyan-500/10 px-2.5 py-2 rounded-lg whitespace-nowrap flex-shrink-0"
                 >
-                  <User size={18} />
+                  <User size={16} />
                   <span>Hesabım</span>
                 </Link>
 
                 {/* Logout Button */}
                 <button
                   onClick={handleLogout}
-                  className="flex items-center space-x-2 bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 px-4 py-2 rounded-lg transition-all font-black uppercase text-sm shadow-xl shadow-red-500/50 hover:shadow-2xl hover:scale-105 border border-red-500/50"
+                  className="flex items-center space-x-1.5 bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 px-3 py-2 rounded-lg transition-all font-bold text-xs shadow-xl shadow-red-500/50 hover:shadow-2xl hover:scale-105 border border-red-500/50 whitespace-nowrap flex-shrink-0"
                 >
-                  <LogOut size={18} />
+                  <LogOut size={16} />
                   <span>Çıkış</span>
                 </button>
               </>
             ) : (
               <Link
                 href="/login"
-                className="relative group"
+                className="relative group flex-shrink-0"
               >
                 <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg blur opacity-50 group-hover:opacity-75 transition duration-300"></div>
                 <div className="relative bg-gradient-to-r from-cyan-600 to-blue-700 text-white px-6 py-2 rounded-lg font-black uppercase tracking-wide hover:shadow-xl hover:shadow-cyan-500/50 transition-all border-2 border-cyan-400/50">
@@ -379,9 +405,9 @@ const Header = () => {
               <a href="/hakkimizda" className="text-gray-300 hover:text-cyan-400 transition-colors font-bold">
                 Hakkımızda
               </a>
-              <a href="/yazilim" className="text-gray-300 hover:text-cyan-400 transition-colors font-bold">
+              {/* <a href="/yazilim" className="text-gray-300 hover:text-cyan-400 transition-colors font-bold">
                 Yazılım Hizmetleri
-              </a>
+              </a> */}
               <a href="/iletisim" className="text-gray-300 hover:text-cyan-400 transition-colors font-bold">
                 İletişim
               </a>

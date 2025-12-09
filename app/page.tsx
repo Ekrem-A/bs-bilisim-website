@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import Header from '@/components/common/Header';
 import Footer from '@/components/common/Footer';
-import HeroSection from '@/components/sections/HeroSection';
 import CategoriesSection from '@/components/sections/CategoriesSection';
 import FeaturedProductsSection from '@/components/sections/FeaturedProductsSection';
 import GorgonXSection from '@/components/sections/GorgonXSection';
@@ -57,9 +56,8 @@ export default function Home() {
       <StructuredData data={organizationSchema} />
       <StructuredData data={websiteSchema} />
       <Header />
+      <CategoriesSection />
       <main>
-        <HeroSection />
-        <CategoriesSection />
         <FeaturedProductsSection />
         <GorgonXSection />
         <BrandsSection />

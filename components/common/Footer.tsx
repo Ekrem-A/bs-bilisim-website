@@ -30,18 +30,19 @@ interface ContactInfo {
 }
 
 const Footer = () => {
+  const [loading, setLoading] = useState(true);
   const [socialLinks, setSocialLinks] = useState<SocialLinks>({
     facebook: '',
     instagram: '',
   });
   
   const [contactInfo, setContactInfo] = useState<ContactInfo>({
-    site_name: 'BS Bilişim',
-    site_description: 'Teknoloji Çözümleri',
-    contact_email: 'info@bsbilisim.com',
-    contact_phone: '+90 (XXX) XXX XX XX',
-    contact_address: 'İstanbul, Türkiye',
-    contact_city: 'İstanbul',
+    site_name: '',
+    site_description: '',
+    contact_email: '',
+    contact_phone: '',
+    contact_address: '',
+    contact_city: '',
   });
 
   useEffect(() => {
@@ -68,9 +69,29 @@ const Footer = () => {
           contact_address: data.contact_address || 'İstanbul, Türkiye',
           contact_city: data.contact_city || 'İstanbul',
         });
+      } else {
+        // Set fallback values
+        setContactInfo({
+          site_name: 'BS Bilişim',
+          site_description: 'Teknoloji Çözümleri',
+          contact_email: 'info@bsbilisim.com',
+          contact_phone: '+90 (XXX) XXX XX XX',
+          contact_address: 'İstanbul, Türkiye',
+          contact_city: 'İstanbul',
+        });
       }
     } catch (error) {
       console.error('Error loading settings:', error);
+      setContactInfo({
+        site_name: 'BS Bilişim',
+        site_description: 'Teknoloji Çözümleri',
+        contact_email: 'info@bsbilisim.com',
+        contact_phone: '+90 (XXX) XXX XX XX',
+        contact_address: 'İstanbul, Türkiye',
+        contact_city: 'İstanbul',
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -98,10 +119,23 @@ const Footer = () => {
 
   return (
     <footer id="iletisim" className="bg-gradient-to-b from-gray-900 via-black to-gray-900 border-t border-cyan-500/30 py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-4 gap-8 mb-8">
-          {/* Company Info */}
-          <div>
+      {loading ? (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-4 gap-8 mb-8">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="space-y-4">
+                <div className="h-6 bg-gray-800 animate-pulse rounded w-3/4"></div>
+                <div className="h-4 bg-gray-800 animate-pulse rounded w-1/2"></div>
+                <div className="h-4 bg-gray-800 animate-pulse rounded w-2/3"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-4 gap-8 mb-8">
+            {/* Company Info */}
+            <div>
             <div className="flex items-center space-x-3 mb-4">
               <div className="w-10 h-10 relative">
                 <Image
@@ -237,6 +271,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
+      )}
     </footer>
   );
 };

@@ -20,6 +20,15 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [loadingMessage, setLoadingMessage] = useState('');
+  const [validationErrors, setValidationErrors] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    password: '',
+    confirmPassword: '',
+  });
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -29,16 +38,81 @@ export default function RegisterPage() {
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
     setError('');
+    setSuccess('');
+    
+    // Real-time validation
+    const newErrors = { ...validationErrors };
+    
+    if (name === 'fullName') {
+      if (value.trim() && value.trim().length < 3) {
+        newErrors.fullName = 'Ad soyad en az 3 karakter olmalıdır';
+      } else if (value.trim() && !/^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$/.test(value)) {
+        newErrors.fullName = 'Sadece harf karakterleri kullanın';
+      } else {
+        newErrors.fullName = '';
+      }
+    }
+    
+    if (name === 'email') {
+      if (value.trim() && !validateEmail(value.trim())) {
+        newErrors.email = 'Geçerli bir e-posta adresi girin';
+      } else {
+        newErrors.email = '';
+      }
+    }
+    
+    if (name === 'phone') {
+      const cleanPhone = value.replace(/\s/g, '');
+      if (cleanPhone && !validatePhone(cleanPhone)) {
+        newErrors.phone = 'Geçerli bir telefon numarası girin (05XX XXX XX XX)';
+      } else {
+        newErrors.phone = '';
+      }
+    }
+    
+    if (name === 'password') {
+      if (value && value.length < 8) {
+        newErrors.password = 'Şifre en az 8 karakter olmalıdır';
+      } else if (value && !/[A-Z]/.test(value)) {
+        newErrors.password = 'Şifre en az bir büyük harf içermelidir';
+      } else if (value && !/[a-z]/.test(value)) {
+        newErrors.password = 'Şifre en az bir küçük harf içermelidir';
+      } else if (value && !/[0-9]/.test(value)) {
+        newErrors.password = 'Şifre en az bir rakam içermelidir';
+      } else {
+        newErrors.password = '';
+      }
+      
+      // Check confirm password match
+      if (formData.confirmPassword && value !== formData.confirmPassword) {
+        newErrors.confirmPassword = 'Şifreler eşleşmiyor';
+      } else if (formData.confirmPassword) {
+        newErrors.confirmPassword = '';
+      }
+    }
+    
+    if (name === 'confirmPassword') {
+      if (value && value !== formData.password) {
+        newErrors.confirmPassword = 'Şifreler eşleşmiyor';
+      } else {
+        newErrors.confirmPassword = '';
+      }
+    }
+    
+    setValidationErrors(newErrors);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
 
     // Rate limiting check
     if (!checkRateLimit('register', 3, 300000)) { // 3 attempts per 5 minutes
@@ -62,7 +136,7 @@ export default function RegisterPage() {
     }
 
     if (!validateEmail(sanitizedData.email)) {
-      setError('Geçersiz e-posta adresi');
+      setError('Geçerli bir e-posta adresi girin');
       return;
     }
 
@@ -83,6 +157,7 @@ export default function RegisterPage() {
     }
 
     setLoading(true);
+    setLoadingMessage('Kayıt işlemi yapılıyor...');
 
     try {
       // Sign up with Supabase
@@ -101,6 +176,8 @@ export default function RegisterPage() {
       if (signUpError) throw signUpError;
 
       if (data.user) {
+        setLoadingMessage('Profil oluşturuluyor...');
+        
         // Create user profile
         const { error: profileError } = await supabase
           .from('user_profiles')
@@ -111,11 +188,18 @@ export default function RegisterPage() {
             phone: sanitizedData.phone,
           });
 
-        if (profileError) console.error('Profile creation error:', profileError);
+        if (profileError) {
+          console.error('Profile creation error:', profileError);
+        }
 
         // Show success message
-        alert('Kayıt başarılı! Lütfen email adresinizi kontrol edin ve hesabınızı onaylayın.');
-        router.push('/login');
+        setSuccess('Kayıt başarılı! Lütfen email adresinizi kontrol edin ve hesabınızı onaylayın.');
+        setLoadingMessage('');
+        
+        // Redirect after delay
+        setTimeout(() => {
+          router.push('/login');
+        }, 3000);
       }
     } catch (error: any) {
       console.error('Registration error:', error);
@@ -129,6 +213,7 @@ export default function RegisterPage() {
       }
       
       setError(errorMessage);
+      setLoadingMessage('');
     } finally {
       setLoading(false);
     }
@@ -182,8 +267,21 @@ export default function RegisterPage() {
             </div>
 
             {error && (
-              <div className="mb-6 p-4 bg-red-500/10 border-2 border-red-500/50 rounded-xl text-red-400 text-sm backdrop-blur-sm">
+              <div className="mb-6 p-4 bg-red-500/10 border-2 border-red-500/50 rounded-xl text-red-400 text-sm backdrop-blur-sm font-medium">
                 {error}
+              </div>
+            )}
+
+            {success && (
+              <div className="mb-6 p-4 bg-green-500/10 border-2 border-green-500/50 rounded-xl text-green-400 text-sm backdrop-blur-sm font-medium">
+                {success}
+              </div>
+            )}
+
+            {loadingMessage && (
+              <div className="mb-6 p-4 bg-cyan-500/10 border-2 border-cyan-500/50 rounded-xl text-cyan-400 text-sm backdrop-blur-sm font-medium flex items-center">
+                <Loader2 size={16} className="animate-spin mr-2" />
+                {loadingMessage}
               </div>
             )}
 
@@ -204,10 +302,15 @@ export default function RegisterPage() {
                     value={formData.fullName}
                     onChange={handleChange}
                     required
-                    className="block w-full pl-12 pr-4 py-4 bg-gray-800/50 border-2 border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all backdrop-blur-sm font-medium"
+                    className={`block w-full pl-12 pr-4 py-4 bg-gray-800/50 border-2 ${validationErrors.fullName ? 'border-yellow-500' : 'border-gray-700'} rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all backdrop-blur-sm font-medium`}
                     placeholder="Adınız Soyadınız"
                   />
                 </div>
+                {validationErrors.fullName && (
+                  <p className="mt-2 text-xs text-yellow-400 font-medium flex items-center">
+                    <span className="mr-1">⚠</span> {validationErrors.fullName}
+                  </p>
+                )}
               </div>
 
               {/* Email */}
@@ -226,10 +329,15 @@ export default function RegisterPage() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="block w-full pl-12 pr-4 py-4 bg-gray-800/50 border-2 border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all backdrop-blur-sm font-medium"
+                    className={`block w-full pl-12 pr-4 py-4 bg-gray-800/50 border-2 ${validationErrors.email ? 'border-yellow-500' : 'border-gray-700'} rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all backdrop-blur-sm font-medium`}
                     placeholder="ornek@email.com"
                   />
                 </div>
+                {validationErrors.email && (
+                  <p className="mt-2 text-xs text-yellow-400 font-medium flex items-center">
+                    <span className="mr-1">⚠</span> {validationErrors.email}
+                  </p>
+                )}
               </div>
 
               {/* Phone */}
@@ -248,10 +356,15 @@ export default function RegisterPage() {
                     value={formData.phone}
                     onChange={handleChange}
                     required
-                    className="block w-full pl-12 pr-4 py-4 bg-gray-800/50 border-2 border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all backdrop-blur-sm font-medium"
+                    className={`block w-full pl-12 pr-4 py-4 bg-gray-800/50 border-2 ${validationErrors.phone ? 'border-yellow-500' : 'border-gray-700'} rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all backdrop-blur-sm font-medium`}
                     placeholder="0555 555 55 55"
                   />
                 </div>
+                {validationErrors.phone && (
+                  <p className="mt-2 text-xs text-yellow-400 font-medium flex items-center">
+                    <span className="mr-1">⚠</span> {validationErrors.phone}
+                  </p>
+                )}
               </div>
 
               {/* Password */}
@@ -270,7 +383,7 @@ export default function RegisterPage() {
                     value={formData.password}
                     onChange={handleChange}
                     required
-                    className="block w-full pl-12 pr-14 py-4 bg-gray-800/50 border-2 border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all backdrop-blur-sm font-medium"
+                    className={`block w-full pl-12 pr-14 py-4 bg-gray-800/50 border-2 ${validationErrors.password ? 'border-yellow-500' : 'border-gray-700'} rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all backdrop-blur-sm font-medium`}
                     placeholder="••••••••"
                   />
                   <button
@@ -281,6 +394,11 @@ export default function RegisterPage() {
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
                 </div>
+                {validationErrors.password && (
+                  <p className="mt-2 text-xs text-yellow-400 font-medium flex items-center">
+                    <span className="mr-1">⚠</span> {validationErrors.password}
+                  </p>
+                )}
               </div>
 
               {/* Confirm Password */}
@@ -299,10 +417,15 @@ export default function RegisterPage() {
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     required
-                    className="block w-full pl-12 pr-4 py-4 bg-gray-800/50 border-2 border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all backdrop-blur-sm font-medium"
+                    className={`block w-full pl-12 pr-4 py-4 bg-gray-800/50 border-2 ${validationErrors.confirmPassword ? 'border-yellow-500' : 'border-gray-700'} rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all backdrop-blur-sm font-medium`}
                     placeholder="••••••••"
                   />
                 </div>
+                {validationErrors.confirmPassword && (
+                  <p className="mt-2 text-xs text-yellow-400 font-medium flex items-center">
+                    <span className="mr-1">⚠</span> {validationErrors.confirmPassword}
+                  </p>
+                )}
               </div>
 
               {/* Submit Button */}

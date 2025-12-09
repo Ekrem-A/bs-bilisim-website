@@ -144,14 +144,14 @@ export default function KampanyaPage() {
         {discountedProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {discountedProducts.map((product) => (
-              <div key={product.id} className="relative">
+              <div key={product.id} className="relative pt-4">
                 {/* Kampanya Badge - indirim yüzdesi varsa göster */}
                 {product.discount_percentage && product.discount_percentage > 0 ? (
-                  <div className="absolute -top-2 -right-2 z-10 bg-gradient-to-r from-red-500 to-orange-500 text-white text-sm font-bold px-4 py-2 rounded-full shadow-lg">
+                  <div className="absolute top-0 right-2 z-10 bg-gradient-to-r from-red-500 to-orange-500 text-white text-sm font-bold px-4 py-2 rounded-full shadow-lg transform -translate-y-1/2">
                     %{product.discount_percentage} İNDİRİM
                   </div>
                 ) : (
-                  <div className="absolute -top-2 -right-2 z-10 bg-gradient-to-r from-red-500 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                  <div className="absolute top-0 right-2 z-10 bg-gradient-to-r from-red-500 to-orange-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg transform -translate-y-1/2">
                     KAMPANYA
                   </div>
                 )}

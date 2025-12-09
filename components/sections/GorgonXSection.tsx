@@ -37,10 +37,10 @@ const GorgonXSection = () => {
               />
               <h2 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
                 <span className="bg-gradient-to-r from-white via-red-200 to-red-500 bg-clip-text text-transparent">
-                  CANAVARCA
+                  ZEHRİNİ PERFORMANSA 
                 </span>
                 <br />
-                <span className="text-red-500">PERFORMANS</span>
+                <span className="text-red-500">DÖNÜŞTÜR</span>
               </h2>
             </div>
 
