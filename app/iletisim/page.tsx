@@ -33,21 +33,22 @@ interface ContactInfo {
 }
 
 const ContactPage = () => {
+  const [loading, setLoading] = useState(true);
   const [socialLinks, setSocialLinks] = useState<SocialLinks>({
     facebook: '',
     instagram: '',
   });
   
   const [contactInfo, setContactInfo] = useState<ContactInfo>({
-    site_name: 'BS Bilişim Teknoloji ve Yazılım A.Ş.',
-    contact_email: 'info@bsbilisim.com',
-    contact_phone: '+90 (212) 555 12 34',
-    contact_address: 'Maltepe Mahallesi Litros Yolu Sokak No: 10/A',
-    contact_city: 'Zeytinburnu, İstanbul',
-    business_hours: 'Pazartesi - Cuma: 09:00 - 18:00',
-    tax_office: 'Zeytinburnu Vergi Dairesi',
-    tax_number: '1234567890',
-    mersis_number: '0123456789012345',
+    site_name: '',
+    contact_email: '',
+    contact_phone: '',
+    contact_address: '',
+    contact_city: '',
+    business_hours: '',
+    tax_office: '',
+    tax_number: '',
+    mersis_number: '',
   });
 
   useEffect(() => {
@@ -99,9 +100,34 @@ const ContactPage = () => {
           tax_number: data.tax_number || '1234567890',
           mersis_number: data.mersis_number || '0123456789012345',
         });
+      } else {
+        setContactInfo({
+          site_name: 'BS Bilişim Teknoloji ve Yazılım A.Ş.',
+          contact_email: 'info@bsbilisim.com',
+          contact_phone: '+90 (212) 555 12 34',
+          contact_address: 'Maltepe Mahallesi Litros Yolu Sokak No: 10/A',
+          contact_city: 'Zeytinburnu, İstanbul',
+          business_hours: 'Pazartesi - Cuma: 09:00 - 18:00',
+          tax_office: 'Zeytinburnu Vergi Dairesi',
+          tax_number: '1234567890',
+          mersis_number: '0123456789012345',
+        });
       }
     } catch (error) {
       console.error('Error loading settings:', error);
+      setContactInfo({
+        site_name: 'BS Bilişim Teknoloji ve Yazılım A.Ş.',
+        contact_email: 'info@bsbilisim.com',
+        contact_phone: '+90 (212) 555 12 34',
+        contact_address: 'Maltepe Mahallesi Litros Yolu Sokak No: 10/A',
+        contact_city: 'Zeytinburnu, İstanbul',
+        business_hours: 'Pazartesi - Cuma: 09:00 - 18:00',
+        tax_office: 'Zeytinburnu Vergi Dairesi',
+        tax_number: '1234567890',
+        mersis_number: '0123456789012345',
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -109,13 +135,19 @@ const ContactPage = () => {
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
       <Header />
       
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-black via-gray-900 to-black border-b border-cyan-500/30 py-20">
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-600/10 blur-[120px]"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-center">
-            <h1 className="text-5xl md:text-6xl font-black text-white mb-6 uppercase tracking-tight">
-              BİZE <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">ULAŞIN</span>
+      {loading ? (
+        <div className="min-h-[60vh] flex items-center justify-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-cyan-500"></div>
+        </div>
+      ) : (
+        <>
+          {/* Hero Section */}
+          <section className="relative overflow-hidden bg-gradient-to-br from-black via-gray-900 to-black border-b border-cyan-500/30 py-20">
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-600/10 blur-[120px]"></div>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+              <div className="text-center">
+                <h1 className="text-5xl md:text-6xl font-black text-white mb-6 uppercase tracking-tight">
+                  BİZE <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">ULAŞIN</span>
             </h1>
             <p className="text-xl text-gray-300 font-medium max-w-3xl mx-auto">
               Sorularınız, önerileriniz veya destek talepleriniz için bize ulaşabilirsiniz. Ekibimiz size yardımcı olmaktan mutluluk duyar.
@@ -333,8 +365,8 @@ const ContactPage = () => {
           </div>
         </div>
       </section>
-
-      <Footer />
+      </>
+      )}
     </div>
   );
 };

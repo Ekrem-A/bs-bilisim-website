@@ -15,6 +15,10 @@ function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [loadingMessage, setLoadingMessage] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -24,6 +28,7 @@ function LoginForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     
     // Rate limiting check
     if (!checkRateLimit('login', 5, 300000)) { // 5 attempts per 5 minutes
@@ -34,15 +39,20 @@ function LoginForm() {
     // Validate email
     const sanitizedEmail = formData.email.trim().toLowerCase();
     if (!validateEmail(sanitizedEmail)) {
-      setError('Geçersiz e-posta adresi');
+      setError('Geçerli bir e-posta adresi girin');
+      return;
+    }
+
+    // Validate password
+    if (formData.password.length < 6) {
+      setError('Şifre en az 6 karakter olmalıdır');
       return;
     }
 
     setLoading(true);
+    setLoadingMessage('Giriş yapılıyor...');
 
     try {
-      console.log('1. Login attempt with:', sanitizedEmail);
-      
       const { data, error: signInError } = await supabase.auth.signInWithPassword({
         email: sanitizedEmail,
         password: formData.password,
@@ -56,10 +66,8 @@ function LoginForm() {
         throw signInError;
       }
 
-      console.log('2. Login successful, user:', data.user?.id);
-
       if (data.user) {
-        console.log('3. Fetching user profile...');
+        setLoadingMessage('Profil bilgileri alınıyor...');
         
         // Get user profile to check role
         const { data: profile, error: profileError } = await supabase
@@ -68,22 +76,27 @@ function LoginForm() {
           .eq('id', data.user.id)
           .single();
 
-        console.log('4. Profile data:', profile);
-        console.log('5. Profile error:', profileError);
-        console.log('6. is_admin value:', profile?.is_admin);
+        if (profileError) {
+          console.error('Profile fetch error:', profileError);
+        }
 
         // Redirect based on role
-        if (profile?.is_admin === true) {
-          console.log('7. Redirecting to ADMIN dashboard');
-          router.push('/admin/dashboard');
-        } else {
-          console.log('7. Redirecting to USER account');
-          router.push(redirectUrl);
-        }
+        setSuccess('Giriş başarılı! Yönlendiriliyorsunuz...');
+        setLoadingMessage('');
+        
+        // Small delay to show success message
+        setTimeout(() => {
+          if (profile?.is_admin === true) {
+            router.push('/admin/dashboard');
+          } else {
+            router.push(redirectUrl);
+          }
+        }, 1000);
       }
     } catch (error: any) {
       console.error('Login error:', error);
       setError(error.message || 'Giriş yapılırken bir hata oluştu');
+      setLoadingMessage('');
     } finally {
       setLoading(false);
     }
@@ -91,11 +104,31 @@ function LoginForm() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
+    const newValue = type === 'checkbox' ? checked : value;
+    
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: newValue
     }));
     setError('');
+    setSuccess('');
+    
+    // Real-time validation
+    if (name === 'email' && typeof newValue === 'string') {
+      if (newValue.trim() && !validateEmail(newValue.trim())) {
+        setEmailError('Geçerli bir e-posta adresi girin');
+      } else {
+        setEmailError('');
+      }
+    }
+    
+    if (name === 'password' && typeof newValue === 'string') {
+      if (newValue && newValue.length < 6) {
+        setPasswordError('Şifre en az 6 karakter olmalıdır');
+      } else {
+        setPasswordError('');
+      }
+    }
   };
 
   return (
@@ -146,8 +179,21 @@ function LoginForm() {
             </div>
 
             {error && (
-              <div className="mb-6 p-4 bg-red-500/10 border-2 border-red-500/50 rounded-xl text-red-400 text-sm backdrop-blur-sm">
+              <div className="mb-6 p-4 bg-red-500/10 border-2 border-red-500/50 rounded-xl text-red-400 text-sm backdrop-blur-sm font-medium">
                 {error}
+              </div>
+            )}
+
+            {success && (
+              <div className="mb-6 p-4 bg-green-500/10 border-2 border-green-500/50 rounded-xl text-green-400 text-sm backdrop-blur-sm font-medium">
+                {success}
+              </div>
+            )}
+
+            {loadingMessage && (
+              <div className="mb-6 p-4 bg-cyan-500/10 border-2 border-cyan-500/50 rounded-xl text-cyan-400 text-sm backdrop-blur-sm font-medium flex items-center">
+                <Loader2 size={16} className="animate-spin mr-2" />
+                {loadingMessage}
               </div>
             )}
 
@@ -167,11 +213,16 @@ function LoginForm() {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="block w-full pl-12 pr-4 py-4 bg-gray-800/50 border-2 border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all backdrop-blur-sm font-medium"
+                    className={`block w-full pl-12 pr-4 py-4 bg-gray-800/50 border-2 ${emailError ? 'border-yellow-500' : 'border-gray-700'} rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all backdrop-blur-sm font-medium`}
                     placeholder="ornek@email.com"
                     required
                   />
                 </div>
+                {emailError && (
+                  <p className="mt-2 text-xs text-yellow-400 font-medium flex items-center">
+                    <span className="mr-1">⚠</span> {emailError}
+                  </p>
+                )}
               </div>
 
               {/* Password Input */}
@@ -189,7 +240,7 @@ function LoginForm() {
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    className="block w-full pl-12 pr-14 py-4 bg-gray-800/50 border-2 border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all backdrop-blur-sm font-medium"
+                    className={`block w-full pl-12 pr-14 py-4 bg-gray-800/50 border-2 ${passwordError ? 'border-yellow-500' : 'border-gray-700'} rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all backdrop-blur-sm font-medium`}
                     placeholder="••••••••"
                     required
                   />
@@ -201,6 +252,11 @@ function LoginForm() {
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
                 </div>
+                {passwordError && (
+                  <p className="mt-2 text-xs text-yellow-400 font-medium flex items-center">
+                    <span className="mr-1">⚠</span> {passwordError}
+                  </p>
+                )}
               </div>
 
               {/* Remember Me & Forgot Password */}
