@@ -714,8 +714,8 @@ export default function AdminProductsPage() {
                           type="number"
                           min="0"
                           max="100"
-                          value={formData.discount_percentage || 0}
-                          onChange={(e) => setFormData({ ...formData, discount_percentage: parseInt(e.target.value) || 0 })}
+                          value={formData.discount_percentage || ''}
+                          onChange={(e) => setFormData({ ...formData, discount_percentage: e.target.value ? parseInt(e.target.value) : undefined })}
                           className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500"
                           placeholder="Örn: 25"
                         />
