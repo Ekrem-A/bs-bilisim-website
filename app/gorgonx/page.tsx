@@ -22,18 +22,38 @@ export default function GorgonXPage() {
   useEffect(() => {
     const fetchTemplates = async () => {
       // GorgonX kategorisinin ID'sini bul
-      const { data: categoryData } = await supabase
+      const { data: categoryData, error: catError } = await supabase
         .from('categories')
-        .select('id')
+        .select('id, slug')
         .eq('slug', 'gorgonx')
         .single();
       
-      if (!categoryData) return;
+      console.log('Category data:', categoryData, 'Error:', catError);
       
-      const { data } = await supabase
+      if (!categoryData) {
+        console.log('GorgonX kategorisi bulunamadı, tüm template\'leri çekiyorum...');
+        // Kategori bulunamadıysa tüm template'leri çek
+        const { data: allTemplates } = await supabase
+          .from('product_spec_templates')
+          .select('key, label');
+        
+        if (allTemplates) {
+          const templateMap: Record<string, string> = {};
+          allTemplates.forEach((t: SpecTemplate) => {
+            templateMap[t.key] = t.label;
+          });
+          setSpecTemplates(templateMap);
+          console.log('Template map:', templateMap);
+        }
+        return;
+      }
+      
+      const { data, error } = await supabase
         .from('product_spec_templates')
         .select('key, label')
         .eq('category_id', categoryData.id);
+      
+      console.log('Templates for category:', data, 'Error:', error);
       
       if (data) {
         const templateMap: Record<string, string> = {};
@@ -41,6 +61,7 @@ export default function GorgonXPage() {
           templateMap[t.key] = t.label;
         });
         setSpecTemplates(templateMap);
+        console.log('Template map:', templateMap);
       }
     };
     

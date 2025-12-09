@@ -17,9 +17,19 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp'],
   },
   // Vercel production optimizations
-  swcMinify: true,
   compress: true,
   poweredByHeader: false,
+  // Webmail redirect
+ async redirects() {
+    return [
+      {
+        source: '/webmail',
+        destination: 'https://webmail.roundcube.101.hostinglogin.net',
+        permanent: false,
+      },
+    ];
+  },
+
 }
 
 module.exports = nextConfig
