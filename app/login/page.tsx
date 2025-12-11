@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, Suspense } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -23,6 +23,31 @@ function LoginForm() {
     password: '',
     rememberMe: false,
   });
+
+  // Check if user is already logged in
+  useEffect(() => {
+    const checkExistingSession = async () => {
+      try {
+        const response = await fetch('/api/auth/session', {
+          credentials: 'include',
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.isAuthenticated && data.user) {
+            // Redirect to appropriate page
+            const destination = data.user.isAdmin ? '/admin/dashboard' : '/account';
+            window.location.href = destination;
+          }
+        }
+      } catch (error) {
+        // Ignore errors - user is not logged in
+        console.log('No existing session');
+      }
+    };
+
+    checkExistingSession();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,11 +99,11 @@ function LoginForm() {
         setSuccess('Giriş başarılı! Yönlendiriliyorsunuz...');
         setLoadingMessage('');
         
-        // Small delay to show success message
-        setTimeout(() => {
-          router.push(data.redirectUrl || redirectUrl);
-          router.refresh(); // Refresh to update server components
-        }, 1000);
+        // Small delay to ensure cookies are set
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Use window.location for hard navigation to ensure cookies are read
+        window.location.href = data.redirectUrl || redirectUrl;
       }
     } catch (error: any) {
       console.error('Login error:', error);

@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create Supabase client with cookie handling
-    let response = NextResponse.json({ success: true });
+    const cookieStore: Array<{ name: string; value: string; options?: any }> = [];
     
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -44,14 +44,8 @@ export async function POST(request: NextRequest) {
             return request.cookies.getAll();
           },
           setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value, options }) => {
-              response.cookies.set(name, value, {
-                ...options,
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: 'lax',
-                maxAge: 60 * 60 * 24 * 7, // 7 days
-              });
+            cookiesToSet.forEach((cookie) => {
+              cookieStore.push(cookie);
             });
           },
         },
@@ -105,8 +99,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Return success with user data
-    return NextResponse.json({
+    // Create response and set cookies
+    const response = NextResponse.json({
       success: true,
       user: {
         id: data.user.id,
@@ -116,6 +110,22 @@ export async function POST(request: NextRequest) {
       },
       redirectUrl: profile?.is_admin ? '/admin/dashboard' : '/account',
     });
+
+    // Set all cookies with proper options
+    console.log('Setting cookies:', cookieStore.length);
+    cookieStore.forEach(({ name, value, options }) => {
+      console.log('Setting cookie:', name);
+      response.cookies.set(name, value, {
+        ...options,
+        httpOnly: false, // Allow JavaScript access for client-side Supabase
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/',
+        maxAge: options?.maxAge || 60 * 60 * 24 * 7, // 7 days
+      });
+    });
+
+    return response;
 
   } catch (error: any) {
     console.error('Login API error:', error);

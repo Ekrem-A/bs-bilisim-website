@@ -29,25 +29,63 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   const checkUser = async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      if (!user || user.email !== 'ekrem.ankara@hotmail.com') {
-        router.push('/login');
+      // Check session via API to ensure server-side validation
+      const response = await fetch('/api/auth/session', {
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        router.push('/login?redirect=/admin/dashboard');
         return;
       }
 
-      setUser(user);
+      const data = await response.json();
+      
+      if (!data.user || !data.user.isAdmin) {
+        router.push('/login?redirect=/admin/dashboard');
+        return;
+      }
+
+      setUser(data.user);
     } catch (error) {
       console.error('Auth check error:', error);
-      router.push('/login');
+      router.push('/login?redirect=/admin/dashboard');
     } finally {
       setLoading(false);
     }
   };
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    router.push('/');
+    try {
+      // Clear all client-side storage first
+      localStorage.clear();
+      sessionStorage.clear();
+      
+      // Clear all cookies client-side
+      document.cookie.split(';').forEach(cookie => {
+        const [name] = cookie.split('=');
+        document.cookie = `${name.trim()}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+      });
+
+      // Clear client-side session
+      await supabase.auth.signOut({ scope: 'local' });
+
+      // Call logout API to clear server-side cookies
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
+
+      // Small delay to ensure cookies are cleared
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      // Hard navigation to login
+      window.location.href = '/login';
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Force navigation even if logout fails
+      window.location.href = '/login';
+    }
   };
 
   const menuItems = [

@@ -71,10 +71,11 @@ export async function POST(request: NextRequest) {
             cookiesToSet.forEach(({ name, value, options }) => {
               response.cookies.set(name, value, {
                 ...options,
-                httpOnly: true,
+                httpOnly: false, // Allow JavaScript access for client-side Supabase
                 secure: process.env.NODE_ENV === 'production',
                 sameSite: 'lax',
-                maxAge: 60 * 60 * 24 * 7, // 7 days
+                path: '/',
+                maxAge: options?.maxAge || 60 * 60 * 24 * 7, // 7 days
               });
             });
           },
