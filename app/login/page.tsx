@@ -5,8 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Mail, Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
-import { validateEmail, sanitizeInput, checkRateLimit } from '@/lib/validation';
+import { validateEmail, checkRateLimit } from '@/lib/validation';
 
 function LoginForm() {
   const router = useRouter();
@@ -53,44 +52,32 @@ function LoginForm() {
     setLoadingMessage('Giriş yapılıyor...');
 
     try {
-      const { data, error: signInError } = await supabase.auth.signInWithPassword({
-        email: sanitizedEmail,
-        password: formData.password,
+      // API route'u kullan
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: sanitizedEmail,
+          password: formData.password,
+        }),
       });
 
-      if (signInError) {
-        // User-friendly error messages
-        if (signInError.message.includes('Invalid login')) {
-          throw new Error('E-posta veya şifre hatalı');
-        }
-        throw signInError;
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Giriş yapılırken bir hata oluştu');
       }
 
-      if (data.user) {
-        setLoadingMessage('Profil bilgileri alınıyor...');
-        
-        // Get user profile to check role
-        const { data: profile, error: profileError } = await supabase
-          .from('user_profiles')
-          .select('is_admin, email')
-          .eq('id', data.user.id)
-          .single();
-
-        if (profileError) {
-          console.error('Profile fetch error:', profileError);
-        }
-
-        // Redirect based on role
+      if (data.success) {
         setSuccess('Giriş başarılı! Yönlendiriliyorsunuz...');
         setLoadingMessage('');
         
         // Small delay to show success message
         setTimeout(() => {
-          if (profile?.is_admin === true) {
-            router.push('/admin/dashboard');
-          } else {
-            router.push(redirectUrl);
-          }
+          router.push(data.redirectUrl || redirectUrl);
+          router.refresh(); // Refresh to update server components
         }, 1000);
       }
     } catch (error: any) {
