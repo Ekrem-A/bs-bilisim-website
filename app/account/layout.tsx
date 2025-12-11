@@ -30,37 +30,73 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
 
   const checkUser = async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      // Check session via API
+      const response = await fetch('/api/auth/session', {
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        router.push('/login?redirect=/account');
+        return;
+      }
+
+      const data = await response.json();
       
-      if (!user) {
-        router.push('/login');
+      if (!data.isAuthenticated || !data.user) {
+        router.push('/login?redirect=/account');
         return;
       }
 
       // Check if admin - redirect to admin panel
-      const { data: profile } = await supabase
-        .from('user_profiles')
-        .select('is_admin, full_name')
-        .eq('id', user.id)
-        .single();
-
-      if (profile?.is_admin) {
+      if (data.user.isAdmin) {
         router.push('/admin/dashboard');
         return;
       }
 
-      setUser({ ...user, full_name: profile?.full_name || user.email });
+      setUser({ 
+        id: data.user.id,
+        email: data.user.email,
+        full_name: data.user.fullName || data.user.email 
+      });
     } catch (error) {
       console.error('Auth check error:', error);
-      router.push('/login');
+      router.push('/login?redirect=/account');
     } finally {
       setLoading(false);
     }
   };
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    router.push('/');
+    try {
+      // Clear all client-side storage first
+      localStorage.clear();
+      sessionStorage.clear();
+      
+      // Clear all cookies client-side
+      document.cookie.split(';').forEach(cookie => {
+        const [name] = cookie.split('=');
+        document.cookie = `${name.trim()}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+      });
+
+      // Clear client-side session
+      await supabase.auth.signOut({ scope: 'local' });
+
+      // Call logout API to clear server-side cookies
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
+
+      // Small delay to ensure cookies are cleared
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      // Hard navigation to login
+      window.location.href = '/login';
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Force navigation even if logout fails
+      window.location.href = '/login';
+    }
   };
 
   const menuItems = [

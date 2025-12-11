@@ -3,7 +3,7 @@ import { createServerClient } from '@supabase/ssr';
 
 export async function POST(request: NextRequest) {
   try {
-    let response = NextResponse.json({ success: true });
+    const cookieStore: Array<{ name: string; value: string; options?: any }> = [];
     
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -14,11 +14,8 @@ export async function POST(request: NextRequest) {
             return request.cookies.getAll();
           },
           setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value, options }) => {
-              response.cookies.set(name, value, {
-                ...options,
-                maxAge: 0,
-              });
+            cookiesToSet.forEach((cookie) => {
+              cookieStore.push(cookie);
             });
           },
         },
@@ -27,10 +24,65 @@ export async function POST(request: NextRequest) {
 
     await supabase.auth.signOut();
 
-    return NextResponse.json({
+    // Create response
+    const response = NextResponse.json({
       success: true,
       message: 'Çıkış yapıldı',
     });
+
+    // Get all cookies from request to delete them
+    const allCookies = request.cookies.getAll();
+    
+    // Delete all cookies
+    allCookies.forEach(({ name }) => {
+      response.cookies.delete({
+        name,
+        path: '/',
+      });
+    });
+
+    // Delete all auth cookies from cookieStore
+    cookieStore.forEach(({ name }) => {
+      response.cookies.delete({
+        name,
+        path: '/',
+      });
+    });
+
+    // Explicitly delete all possible Supabase cookie variations
+    const supabaseCookiePatterns = [
+      'sb-access-token',
+      'sb-refresh-token',
+      'sb-auth-token',
+      'supabase-auth-token',
+      'supabase.auth.token',
+    ];
+
+    // Get the project ref from URL to construct actual cookie names
+    const projectRef = process.env.NEXT_PUBLIC_SUPABASE_URL?.match(/https:\/\/([^.]+)/)?.[1];
+    
+    if (projectRef) {
+      // Add project-specific cookie names
+      supabaseCookiePatterns.push(
+        `sb-${projectRef}-auth-token`,
+        `sb-${projectRef}-auth-token.0`,
+        `sb-${projectRef}-auth-token.1`
+      );
+    }
+
+    supabaseCookiePatterns.forEach((name) => {
+      response.cookies.delete({
+        name,
+        path: '/',
+      });
+      response.cookies.set(name, '', {
+        maxAge: 0,
+        path: '/',
+        expires: new Date(0),
+      });
+    });
+
+    return response;
 
   } catch (error: any) {
     console.error('Logout API error:', error);

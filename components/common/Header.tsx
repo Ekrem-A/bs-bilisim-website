@@ -138,34 +138,86 @@ const Header = () => {
   };
 
   const checkUser = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      loadUserData(user);
+    try {
+      // Check session via API
+      const response = await fetch('/api/auth/session', {
+        credentials: 'include',
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.isAuthenticated && data.user) {
+          setIsLoggedIn(true);
+          setUserName(data.user.fullName || data.user.email?.split('@')[0] || 'Kullanıcı');
+        } else {
+          setIsLoggedIn(false);
+          setUserName('');
+        }
+      } else {
+        setIsLoggedIn(false);
+        setUserName('');
+      }
+    } catch (error) {
+      console.error('Error checking user:', error);
+      setIsLoggedIn(false);
+      setUserName('');
+    } finally {
+      setLoading(false);
     }
   };
 
   const loadUserData = async (user: any) => {
     if (!user) return;
     
-    setIsLoggedIn(true);
-    
-    // Get user profile
-    const { data: profile } = await supabase
-      .from('user_profiles')
-      .select('full_name')
-      .eq('id', user.id)
-      .single();
+    try {
+      // Re-check session to get latest user data
+      const response = await fetch('/api/auth/session', {
+        credentials: 'include',
+      });
 
-    if (profile?.full_name) {
-      setUserName(profile.full_name);
-    } else {
-      setUserName(user.email?.split('@')[0] || 'Kullanıcı');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.isAuthenticated && data.user) {
+          setIsLoggedIn(true);
+          setUserName(data.user.fullName || data.user.email?.split('@')[0] || 'Kullanıcı');
+        }
+      }
+    } catch (error) {
+      console.error('Error loading user data:', error);
     }
   };
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    router.push('/');
+    try {
+      // Clear all client-side storage first
+      localStorage.clear();
+      sessionStorage.clear();
+      
+      // Clear all cookies client-side
+      document.cookie.split(';').forEach(cookie => {
+        const [name] = cookie.split('=');
+        document.cookie = `${name.trim()}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+      });
+
+      // Clear client-side session
+      await supabase.auth.signOut({ scope: 'local' });
+
+      // Call logout API to clear server-side cookies
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
+
+      // Small delay to ensure cookies are cleared
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      // Hard navigation to clear all state
+      window.location.href = '/login';
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Force navigation even if logout fails
+      window.location.href = '/login';
+    }
   };
 
   return (
@@ -276,19 +328,15 @@ const Header = () => {
             <Link href="/" className="text-gray-300 hover:text-cyan-400 transition-all font-black uppercase tracking-wide text-sm hover:scale-105">
               Ana Sayfa
             </Link>
-            <a href="/#kategoriler" className="text-gray-300 hover:text-cyan-400 transition-all font-black uppercase tracking-wide text-sm hover:scale-105">
-              Kategoriler
+            <a href="/gorgonx" className="relative text-red-500 hover:text-red-400 transition-all font-black uppercase tracking-wide text-sm hover:scale-105 animate-heartbeat gorgonx-glow">
+               GorgonX
             </a>
             <a href="/kampanya" className="text-gray-300 hover:text-cyan-400 transition-all font-black uppercase tracking-wide text-sm hover:scale-105">
               Kampanya
-            </a>
-            <a href="/gorgonx" className="text-gray-300 hover:text-cyan-400 transition-all font-black uppercase tracking-wide text-sm hover:scale-105">
-              GorgonX
-            </a>
+            </a>            
             <a href="/hakkimizda" className="text-gray-300 hover:text-cyan-400 transition-all font-black uppercase tracking-wide text-sm hover:scale-105">
               Hakkımızda
-            </a>
-            
+            </a>            
             <a href="/iletisim" className="text-gray-300 hover:text-cyan-400 transition-all font-black uppercase tracking-wide text-sm hover:scale-105">
               İletişim
             </a>
@@ -399,8 +447,8 @@ const Header = () => {
               <a href="/kampanya" className="text-gray-300 hover:text-cyan-400 transition-colors font-bold">
                 Kampanyalı Ürünler
               </a>
-              <a href="/gorgonx" className="text-gray-300 hover:text-cyan-400 transition-colors font-bold">
-                GorgonX
+              <a href="/gorgonx" className="text-red-500 hover:text-red-400 transition-colors font-bold animate-heartbeat gorgonx-glow flex items-center gap-2">
+                ❤️ GorgonX
               </a>
               <a href="/hakkimizda" className="text-gray-300 hover:text-cyan-400 transition-colors font-bold">
                 Hakkımızda
