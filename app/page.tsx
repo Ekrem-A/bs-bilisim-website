@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 import Header from '@/components/common/Header';
 import Footer from '@/components/common/Footer';
 import CategoriesSection from '@/components/sections/CategoriesSection';
@@ -6,6 +7,18 @@ import FeaturedProductsSection from '@/components/sections/FeaturedProductsSecti
 import GorgonXSection from '@/components/sections/GorgonXSection';
 import BrandsSection from '@/components/sections/BrandsSection';
 import StructuredData from '@/components/common/StructuredData';
+
+// Loading component
+function SectionLoader() {
+  return (
+    <div className="py-20 bg-gradient-to-b from-black via-gray-900 to-black border-b border-cyan-500/30">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20">
+        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-400"></div>
+        <p className="mt-4 text-cyan-400 font-bold">Yükleniyor...</p>
+      </div>
+    </div>
+  );
+}
 
 export const metadata: Metadata = {
   title: 'BS Bilişim - Bilgisayar Donanımları, Gaming Ekipmanları ve GorgonX',
@@ -56,12 +69,23 @@ export default function Home() {
       <StructuredData data={organizationSchema} />
       <StructuredData data={websiteSchema} />
       <Header />
-      <CategoriesSection />
+      
+      <Suspense fallback={<SectionLoader />}>
+        <CategoriesSection />
+      </Suspense>
+      
       <main>
-        <FeaturedProductsSection />
+        <Suspense fallback={<SectionLoader />}>
+          <FeaturedProductsSection />
+        </Suspense>
+        
         <GorgonXSection />
-        <BrandsSection />
+        
+        <Suspense fallback={<SectionLoader />}>
+          <BrandsSection />
+        </Suspense>
       </main>
+      
       <Footer />
     </div>
   );

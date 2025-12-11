@@ -46,20 +46,9 @@ const CategoriesSection = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <section id="kategoriler" className="py-20 bg-gradient-to-b from-black via-gray-900 to-black border-b border-cyan-500/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20 text-cyan-400 font-bold">Yükleniyor...</div>
-      </section>
-    );
-  }
-
-  if (error) {
-    return (
-      <section id="kategoriler" className="py-20 bg-gradient-to-b from-black via-gray-900 to-black border-b border-cyan-500/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20 text-red-400 font-bold">Hata: {String(error.message || error)}</div>
-      </section>
-    );
+  // Suspense boundary üzerinden yönetiliyor
+  if (!categories || categories.length === 0) {
+    return null;
   }
 
   return (

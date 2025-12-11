@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Mail, Lock, Eye, EyeOff, User, Phone, Loader2 } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
 import { 
   validateEmail, 
   validatePassword, 
@@ -160,59 +159,39 @@ export default function RegisterPage() {
     setLoadingMessage('Kayıt işlemi yapılıyor...');
 
     try {
-      // Sign up with Supabase
-      const { data, error: signUpError } = await supabase.auth.signUp({
-        email: sanitizedData.email,
-        password: sanitizedData.password,
-        options: {
-          data: {
-            full_name: sanitizedData.fullName,
-            phone: sanitizedData.phone,
-          },
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
-        }
+      // API route'u kullan
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: sanitizedData.email,
+          password: sanitizedData.password,
+          fullName: sanitizedData.fullName,
+          phone: sanitizedData.phone,
+        }),
       });
 
-      if (signUpError) throw signUpError;
+      const data = await response.json();
 
-      if (data.user) {
-        setLoadingMessage('Profil oluşturuluyor...');
-        
-        // Create user profile
-        const { error: profileError } = await supabase
-          .from('user_profiles')
-          .insert({
-            id: data.user.id,
-            email: sanitizedData.email,
-            full_name: sanitizedData.fullName,
-            phone: sanitizedData.phone,
-          });
+      if (!response.ok) {
+        throw new Error(data.error || 'Kayıt sırasında bir hata oluştu');
+      }
 
-        if (profileError) {
-          console.error('Profile creation error:', profileError);
-        }
-
+      if (data.success) {
         // Show success message
-        setSuccess('Kayıt başarılı! Lütfen email adresinizi kontrol edin ve hesabınızı onaylayın.');
+        setSuccess(data.message || 'Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz...');
         setLoadingMessage('');
         
         // Redirect after delay
         setTimeout(() => {
           router.push('/login');
-        }, 3000);
+        }, 2000);
       }
     } catch (error: any) {
       console.error('Registration error:', error);
-      
-      // User-friendly error messages
-      let errorMessage = 'Kayıt sırasında bir hata oluştu';
-      if (error.message?.includes('already registered')) {
-        errorMessage = 'Bu e-posta adresi zaten kayıtlı';
-      } else if (error.message?.includes('Invalid email')) {
-        errorMessage = 'Geçersiz e-posta adresi';
-      }
-      
-      setError(errorMessage);
+      setError(error.message || 'Kayıt sırasında bir hata oluştu');
       setLoadingMessage('');
     } finally {
       setLoading(false);

@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase';
 import { Users as UsersIcon, Search, Mail, Calendar, Shield, ShieldCheck, X, Edit, Trash2 } from 'lucide-react';
 
 interface UserProfile {
@@ -29,16 +28,24 @@ export default function AdminUsersPage() {
   }, []);
 
   const loadUsers = async () => {
+    setLoading(true);
     try {
-      const { data, error } = await supabase
-        .from('user_profiles')
-        .select('*')
-        .order('created_at', { ascending: false });
+      console.debug('[AdminUsers] Fetching users from API...');
+      const response = await fetch('/api/admin/users');
+      const data = await response.json();
 
-      if (error) throw error;
-      setUsers(data || []);
-    } catch (error) {
-      console.error('Error loading users:', error);
+      if (!response.ok) {
+        console.error('[AdminUsers] API error:', data.error);
+        alert('Hata: ' + data.error);
+        setUsers([]);
+        return;
+      }
+
+      setUsers(data.users || []);
+    } catch (err) {
+      console.error('[AdminUsers] Unexpected error loading users:', err);
+      alert('Kullanıcılar yüklenirken bir hata oluştu');
+      setUsers([]);
     } finally {
       setLoading(false);
     }
@@ -48,13 +55,16 @@ export default function AdminUsersPage() {
     if (!confirm(`Bu kullanıcının admin yetkisini ${currentStatus ? 'kaldır' : 'ver'}mak istediğinizden emin misiniz?`)) return;
 
     try {
-      const { error } = await supabase
-        .from('user_profiles')
-        .update({ is_admin: !currentStatus })
-        .eq('id', userId);
+      const response = await fetch('/api/admin/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, action: 'toggleAdmin' }),
+      });
 
-      if (error) throw error;
-      alert('Yetki güncellendi!');
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error);
+      
+      alert(data.message || 'Yetki güncellendi!');
       loadUsers();
     } catch (error: any) {
       console.error('Error updating admin status:', error);
@@ -66,15 +76,14 @@ export default function AdminUsersPage() {
     if (!confirm('Bu kullanıcıyı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!')) return;
 
     try {
-      // First delete from user_profiles
-      const { error: profileError } = await supabase
-        .from('user_profiles')
-        .delete()
-        .eq('id', userId);
+      const response = await fetch(`/api/admin/users?id=${userId}`, {
+        method: 'DELETE',
+      });
 
-      if (profileError) throw profileError;
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error);
 
-      alert('Kullanıcı silindi!');
+      alert(data.message || 'Kullanıcı silindi!');
       loadUsers();
     } catch (error: any) {
       console.error('Error deleting user:', error);
@@ -87,19 +96,26 @@ export default function AdminUsersPage() {
     if (!editingUser) return;
 
     try {
-      const { error } = await supabase
-        .from('user_profiles')
-        .update({
-          full_name: editingUser.full_name,
-          phone: editingUser.phone,
-          address: editingUser.address,
-          city: editingUser.city,
-          postal_code: editingUser.postal_code,
-        })
-        .eq('id', editingUser.id);
+      const response = await fetch('/api/admin/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: editingUser.id,
+          action: 'update',
+          data: {
+            full_name: editingUser.full_name,
+            phone: editingUser.phone,
+            address: editingUser.address,
+            city: editingUser.city,
+            postal_code: editingUser.postal_code,
+          },
+        }),
+      });
 
-      if (error) throw error;
-      alert('Kullanıcı güncellendi!');
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error);
+      
+      alert(data.message || 'Kullanıcı güncellendi!');
       setShowModal(false);
       setEditingUser(null);
       loadUsers();
