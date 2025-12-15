@@ -14,6 +14,7 @@ import {
   LogOut,
   Menu,
   X,
+  Upload,
 } from 'lucide-react';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -91,6 +92,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', href: '/admin/dashboard' },
     { icon: Package, label: 'Ürünler', href: '/admin/products' },
+    { icon: Upload, label: 'Toptancı İthalat', href: '/admin/supplier' },
     { icon: ShoppingBag, label: 'Siparişler', href: '/admin/orders' },
     { icon: Users, label: 'Kullanıcılar', href: '/admin/users' },
     { icon: Settings, label: 'Ayarlar', href: '/admin/settings' },

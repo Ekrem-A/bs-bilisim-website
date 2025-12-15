@@ -1,7 +1,8 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { ShoppingCart, Search, Menu, X, User, LogOut, Phone, Mail, Facebook, MessageCircle } from 'lucide-react';
+import { Cpu,MonitorStop,Mouse,Keyboard,Droplet,Zap,MemoryStick,HardDrive,Fan,CircuitBoard, ShoppingCart, Search, Menu, X, User, LogOut, Phone, Mail, Facebook, MessageCircle,Box } from 'lucide-react';
 
 // Custom Instagram icon (lucide-react removed it)
 const Instagram = ({ size = 16, className = '' }: { size?: number; className?: string }) => (
@@ -16,6 +17,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useCartStore } from '@/store/cartStore';
 import { supabase } from '@/lib/supabase';
+import useCategories from '@/hooks/useCategories';
 
 interface ContactInfo {
   contact_email: string;
@@ -40,6 +42,27 @@ const Header = () => {
     social_instagram: '',
   });
   const getTotalItems = useCartStore((state) => state.getTotalItems);
+
+  // Categories hook (client-side)
+  const { categories: allCategories, loading: categoriesLoading } = useCategories();
+
+  // Kategori ikonları (slug -> element)
+  const iconMap: { [key: string]: JSX.Element } = {
+    'cpu': <Cpu size={24} className="text-cyan-400" />,
+    'monitor': <MonitorStop size={24} className="text-cyan-400" />,
+    'motherboard': <CircuitBoard size={24} className="text-cyan-400" />,
+    'fan': <Fan size={24} className="text-cyan-400" />,
+    'hard-drive': <HardDrive size={24} className="text-cyan-400" />,
+    'memory-stick': <MemoryStick size={24} className="text-cyan-400" />,
+    'zap': <Zap size={24} className="text-cyan-400" />,
+    'droplet': <Droplet size={24} className="text-cyan-400" />,
+    'keyboard': <Keyboard size={24} className="text-cyan-400" />,
+    'mouse': <Mouse size={24} className="text-cyan-400" />,
+  };
+
+  // Mega menu state
+  const [categoriesOpen, setCategoriesOpen] = useState(false);
+  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -328,6 +351,61 @@ const Header = () => {
             <Link href="/" className="text-gray-300 hover:text-cyan-400 transition-all font-black uppercase tracking-wide text-sm hover:scale-105">
               Ana Sayfa
             </Link>
+
+            {/* Tüm Kategoriler - Mega Menu Trigger */}
+            <div className="relative" onMouseEnter={() => setCategoriesOpen(true)} onMouseLeave={() => setCategoriesOpen(false)}>
+              <button className="text-cyan-400 hover:text-cyan-300 transition-all font-black uppercase tracking-wide text-sm hover:scale-105 flex items-center space-x-2">
+                <span>TÜM KATEGORİLER</span>
+                <svg className={`w-4 h-4 transition-transform ${categoriesOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {categoriesOpen && (
+                <div className="absolute left-0 top-full mt-2 w-[900px] bg-gradient-to-br from-gray-900/98 to-black/98 rounded-xl shadow-2xl border border-cyan-500/10 z-50 flex">
+                  {/* Left - main categories (two-column list) */}
+                  <div className="w-72 bg-gray-900/60 p-4 rounded-l-xl">
+                    <div className="grid grid-cols-2 gap-2">
+                      {(allCategories || []).filter(c => c.level === 'main').map((cat: any) => (
+                        <button
+                          key={cat.id}
+                          onMouseEnter={() => setHoveredCategory(String(cat.id))}
+                          className={`flex items-center gap-3 w-full text-left p-2 rounded hover:bg-gray-800/40 ${hoveredCategory === String(cat.id) ? 'bg-gradient-to-r from-cyan-500/10 to-blue-500/10' : ''}`}
+                        >
+                          <div className="w-8 h-8 flex items-center justify-center rounded bg-gradient-to-br from-gray-800 to-gray-700">
+                            {cat.icon && typeof cat.icon === 'string' && iconMap[cat.icon] ? iconMap[cat.icon] : <Box size={18} className="text-cyan-400" />}
+                          </div>
+                          <div className="text-sm font-semibold text-gray-200 truncate">{cat.name}</div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Right - subcategories */}
+                  <div className="flex-1 p-6">
+                    {hoveredCategory ? (
+                      <>
+                        <h3 className="text-cyan-400 font-bold mb-4">{(allCategories||[]).find((c:any)=>c.id===hoveredCategory)?.name}</h3>
+                        <div className="grid grid-cols-3 gap-4">
+                          {((allCategories||[]).filter((c:any)=> String(c.parent_id) === hoveredCategory) || []).length === 0 ? (
+                            <div className="text-gray-500">Alt kategori bulunmuyor</div>
+                          ) : (
+                            (allCategories||[]).filter((c:any)=> String(c.parent_id) === hoveredCategory).map((sub:any) => (
+                              <Link key={sub.id} href={`/products/${sub.slug}`} className="p-3 bg-gray-800/20 rounded hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-blue-500/10">
+                                <div className="text-sm text-gray-200">{sub.name}</div>
+                              </Link>
+                            ))
+                          )}
+                        </div>
+                      </>
+                    ) : (
+                      <div className="h-40 flex items-center justify-center text-gray-500">Bir kategori seçin</div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+
             <a href="/gorgonx" className="relative text-red-500 hover:text-red-400 transition-all font-black uppercase tracking-wide text-sm hover:scale-105 animate-heartbeat gorgonx-glow">
                GorgonX
             </a>
@@ -501,6 +579,33 @@ const Header = () => {
         )}
       </div>
     </header>
+      {/* Kategoriler Grid (Header altı) */}
+      <div className="w-full bg-gray-900 border-b border-cyan-500/20 py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            {categoriesLoading ? (
+              Array.from({ length: 12 }).map((_, i) => (
+                <div key={i} className="h-24 bg-gray-800 rounded-lg animate-pulse" />
+              ))
+            ) : (
+              allCategories?.map((cat) => (
+                <Link
+                  key={cat.id}
+                  href={`/products/${cat.slug}`}
+                  className="flex flex-col items-center justify-center bg-gray-800 hover:bg-cyan-900/30 rounded-lg p-4 transition-all group shadow-md hover:shadow-cyan-500/20"
+                >
+                  <div className="mb-2">
+                    {cat.icon && typeof cat.icon === 'string' && iconMap[cat.icon as string] ? iconMap[cat.icon as string] : <Box size={24} className="text-cyan-400" />}
+                  </div>
+                  <span className="text-sm font-semibold text-gray-200 group-hover:text-cyan-400 text-center truncate w-full">
+                    {cat.name}
+                  </span>
+                </Link>
+              ))
+            )}
+          </div>
+        </div>
+      </div>
     </>
   );
 };

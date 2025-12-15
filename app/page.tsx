@@ -69,10 +69,10 @@ export default function Home() {
       <StructuredData data={organizationSchema} />
       <StructuredData data={websiteSchema} />
       <Header />
-      
+{/*       
       <Suspense fallback={<SectionLoader />}>
         <CategoriesSection />
-      </Suspense>
+      </Suspense> */}
       
       <main>
         <Suspense fallback={<SectionLoader />}>

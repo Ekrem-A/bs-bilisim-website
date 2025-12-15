@@ -36,6 +36,13 @@ export default function CategoryPage() {
     ? { name: 'Tüm Ürünler', slug: 'all', icon: '', color: '', description: 'Tüm ürünlerimizi buradan görüntüleyebilirsiniz.' }
     : categories ? categories.find(c => c.slug === selectedCategoryFilter) : undefined;
 
+  // Alt kategoriler (eğer mevcutsa)
+  const categoryId = category && 'id' in category ? Number((category as any).id) : null;
+  const subcategories = (categories || []).filter((c) => {
+    if (categoryId === null) return false;
+    return c.parent_id !== null && Number(c.parent_id) === categoryId;
+  });
+
   const brands = React.useMemo(() => {
     return [...new Set(allProducts.map(p => p.brand))].sort();
   }, [allProducts]);
@@ -184,6 +191,25 @@ export default function CategoryPage() {
             </span>
           </div>
         </div>
+
+        {/* Alt kategoriler listesi */}
+        {subcategories.length > 0 && (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+            <h3 className="text-2xl font-bold text-white mb-4">Alt Kategoriler</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {subcategories.map((sc) => (
+                <Link
+                  key={sc.id}
+                  href={`/products/${sc.slug}`}
+                  className="block bg-gradient-to-br from-gray-900 to-black rounded-lg p-4 border-2 border-gray-800 hover:border-red-500 transition"
+                >
+                  <div className="text-white font-bold">{sc.name}</div>
+                  {sc.description && <div className="text-sm text-gray-400 mt-1">{sc.description}</div>}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filters Sidebar */}

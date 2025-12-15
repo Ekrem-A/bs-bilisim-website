@@ -1,0 +1,902 @@
+[
+  {
+    "name": "Kişisel Bilgisayarlar",
+    "url": "https://www.oksid.com.tr/k/kisisel-bilgisayarlar/1729/",
+    "level": "main",
+    "parent": null
+  },
+  {
+    "name": "Notebook",
+    "url": "https://www.oksid.com.tr/k/notebook/1798/",
+    "level": "sub",
+    "parent": "Kişisel Bilgisayarlar"
+  },
+  {
+    "name": "Notebook Aksesuar",
+    "url": "https://www.oksid.com.tr/k/notebook-aksesuar/1802/",
+    "level": "sub",
+    "parent": "Kişisel Bilgisayarlar"
+  },
+  {
+    "name": "Tablet",
+    "url": "https://www.oksid.com.tr/k/tablet/1800/",
+    "level": "sub",
+    "parent": "Kişisel Bilgisayarlar"
+  },
+  {
+    "name": "All In One Pc",
+    "url": "https://www.oksid.com.tr/k/masaustu-aio-pc/1806/",
+    "level": "sub",
+    "parent": "Kişisel Bilgisayarlar"
+  },
+  {
+    "name": "Masaüstü PC",
+    "url": "https://www.oksid.com.tr/k/masaustu-pc/1804/",
+    "level": "sub",
+    "parent": "Kişisel Bilgisayarlar"
+  },
+  {
+    "name": "Mini PC",
+    "url": "https://www.oksid.com.tr/k/masaustu-mini-pc/1809/",
+    "level": "sub",
+    "parent": "Kişisel Bilgisayarlar"
+  },
+  {
+    "name": "Tüm Alt Kategoriler",
+    "url": "https://www.oksid.com.tr/k/kisisel-bilgisayarlar/1729/",
+    "level": "sub",
+    "parent": "Kişisel Bilgisayarlar"
+  },
+  {
+    "name": "Tablet Aksesuar",
+    "url": "https://www.oksid.com.tr/k/tablet-aksesuar/1801/",
+    "level": "sub",
+    "parent": "Kişisel Bilgisayarlar"
+  },
+  {
+    "name": "Bilgisayar Bileşenleri",
+    "url": "https://www.oksid.com.tr/k/bilgisayar-bilesenleri/1727/",
+    "level": "main",
+    "parent": null
+  },
+  {
+    "name": "Anakartlar",
+    "url": "https://www.oksid.com.tr/k/anakartlar/1738/",
+    "level": "sub",
+    "parent": "Bilgisayar Bileşenleri"
+  },
+  {
+    "name": "Bellekler",
+    "url": "https://www.oksid.com.tr/k/bellekler/1750/",
+    "level": "sub",
+    "parent": "Bilgisayar Bileşenleri"
+  },
+  {
+    "name": "Ekran Kartları",
+    "url": "https://www.oksid.com.tr/k/ekran-kartlari/1760/",
+    "level": "sub",
+    "parent": "Bilgisayar Bileşenleri"
+  },
+  {
+    "name": "Hard Diskler",
+    "url": "https://www.oksid.com.tr/k/hard-diskler/1767/",
+    "level": "sub",
+    "parent": "Bilgisayar Bileşenleri"
+  },
+  {
+    "name": "İşlemciler",
+    "url": "https://www.oksid.com.tr/k/islemciler/1777/",
+    "level": "sub",
+    "parent": "Bilgisayar Bileşenleri"
+  },
+  {
+    "name": "Bilgisayar Kasası",
+    "url": "https://www.oksid.com.tr/k/bilgisayar-kasasi/1781/",
+    "level": "sub",
+    "parent": "Bilgisayar Bileşenleri"
+  },
+  {
+    "name": "Optik Sürücüler",
+    "url": "https://www.oksid.com.tr/k/optik-suruculer/1785/",
+    "level": "sub",
+    "parent": "Bilgisayar Bileşenleri"
+  },
+  {
+    "name": "Soğutma /Overclock",
+    "url": "https://www.oksid.com.tr/k/sogutma-overclock/1787/",
+    "level": "sub",
+    "parent": "Bilgisayar Bileşenleri"
+  },
+  {
+    "name": "Tüm Alt Kategoriler",
+    "url": "https://www.oksid.com.tr/k/bilgisayar-bilesenleri/1727/",
+    "level": "sub",
+    "parent": "Bilgisayar Bileşenleri"
+  },
+  {
+    "name": "Diğer Kartlar",
+    "url": "https://www.oksid.com.tr/k/diger-kartlar/1791/",
+    "level": "sub",
+    "parent": "Bilgisayar Bileşenleri"
+  },
+  {
+    "name": "Kart Okuyucular",
+    "url": "https://www.oksid.com.tr/k/disket-ve-kart-okuyucu/1795/",
+    "level": "sub",
+    "parent": "Bilgisayar Bileşenleri"
+  },
+  {
+    "name": "Kablolar ve Adaptörler",
+    "url": "https://www.oksid.com.tr/k/kablo-ve-adaptor/1970/",
+    "level": "sub",
+    "parent": "Bilgisayar Bileşenleri"
+  },
+  {
+    "name": "Çevre Birimleri",
+    "url": "https://www.oksid.com.tr/k/cevre-birimleri/1730/",
+    "level": "main",
+    "parent": null
+  },
+  {
+    "name": "Monitörler",
+    "url": "https://www.oksid.com.tr/k/monitorler/1810/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Kesintisiz Enerji",
+    "url": "https://www.oksid.com.tr/k/kesintisiz-guc-kaynaklari/1829/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Klavye",
+    "url": "https://www.oksid.com.tr/k/klavye/1817/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Mouse",
+    "url": "https://www.oksid.com.tr/k/mouselar/1819/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Hoparlör",
+    "url": "https://www.oksid.com.tr/k/hoparlor/1821/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Kulaklık ve Mikrofon",
+    "url": "https://www.oksid.com.tr/k/kulaklik-ve-mikrofon/1827/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Web Kamerası",
+    "url": "https://www.oksid.com.tr/k/web-kamerasi/1825/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Usb Bellekler",
+    "url": "https://www.oksid.com.tr/k/usb-bellekler/2162/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Akıllı Tahta",
+    "url": "https://www.oksid.com.tr/k/akilli-tahta/2311/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Tüm Alt Kategoriler",
+    "url": "https://www.oksid.com.tr/k/cevre-birimleri/1730/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Monitör Aksesuar",
+    "url": "https://www.oksid.com.tr/k/monitor-aksesuar/2239/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Klavye & Mouse Set",
+    "url": "https://www.oksid.com.tr/k/klavye-mouse-set/2030/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Mouse Pad",
+    "url": "https://www.oksid.com.tr/k/mouse-pad/2031/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Baskı Çözümleri",
+    "url": "https://www.oksid.com.tr/k/baski-cozumleri/1731/",
+    "level": "main",
+    "parent": null
+  },
+  {
+    "name": "Lazer Yazıcılar",
+    "url": "https://www.oksid.com.tr/k/yazicilar-lazer-yazicilar/1844/",
+    "level": "sub",
+    "parent": "Baskı Çözümleri"
+  },
+  {
+    "name": "Mürekkep Püskürtmeli Yazıcılar",
+    "url": "https://www.oksid.com.tr/k/yazicilar-inkjet-yazicilar/1835/",
+    "level": "sub",
+    "parent": "Baskı Çözümleri"
+  },
+  {
+    "name": "Nokta Vuruşlu Yazıcı",
+    "url": "https://www.oksid.com.tr/k/yazicilar-nokta-vuruslu/1836/",
+    "level": "sub",
+    "parent": "Baskı Çözümleri"
+  },
+  {
+    "name": "Tarayıcı",
+    "url": "https://www.oksid.com.tr/k/tarayici/1852/",
+    "level": "sub",
+    "parent": "Baskı Çözümleri"
+  },
+  {
+    "name": "Tüm Alt Kategoriler",
+    "url": "https://www.oksid.com.tr/k/baski-cozumleri/1731/",
+    "level": "sub",
+    "parent": "Baskı Çözümleri"
+  },
+  {
+    "name": "Yazıcı Aksesuar",
+    "url": "https://www.oksid.com.tr/k/yazicilar-aksesuar/1851/",
+    "level": "sub",
+    "parent": "Baskı Çözümleri"
+  },
+  {
+    "name": "Kurumsal Ürünler",
+    "url": "https://www.oksid.com.tr/k/hobi-oyun/1734/",
+    "level": "main",
+    "parent": null
+  },
+  {
+    "name": "Sunucular",
+    "url": "https://www.oksid.com.tr/k/sunucular/1907/",
+    "level": "sub",
+    "parent": "Kurumsal Ürünler"
+  },
+  {
+    "name": "İş İstasyonları",
+    "url": "https://www.oksid.com.tr/k/is-istasyonlari/1910/",
+    "level": "sub",
+    "parent": "Kurumsal Ürünler"
+  },
+  {
+    "name": "Sunucu Yazılımları",
+    "url": "https://www.oksid.com.tr/k/sunucu-yazilimlari/1908/",
+    "level": "sub",
+    "parent": "Kurumsal Ürünler"
+  },
+  {
+    "name": "Depolama Üniteleri",
+    "url": "https://www.oksid.com.tr/k/depolama-uniteleri/1913/",
+    "level": "sub",
+    "parent": "Kurumsal Ürünler"
+  },
+  {
+    "name": "Güvenlik Duvarı (Firewall)",
+    "url": "https://www.oksid.com.tr/k/guvenlik-duvari-firewall/2279/",
+    "level": "sub",
+    "parent": "Kurumsal Ürünler"
+  },
+  {
+    "name": "Tüm Alt Kategoriler",
+    "url": "https://www.oksid.com.tr/k/hobi-oyun/1734/",
+    "level": "sub",
+    "parent": "Kurumsal Ürünler"
+  },
+  {
+    "name": "Sunucu Aksesuarları",
+    "url": "https://www.oksid.com.tr/k/sunucu-aksesuarlari/1909/",
+    "level": "sub",
+    "parent": "Kurumsal Ürünler"
+  },
+  {
+    "name": "Ağ Ürünleri",
+    "url": "https://www.oksid.com.tr/k/ag-urunleri/1856/",
+    "level": "main",
+    "parent": null
+  },
+  {
+    "name": "Modem",
+    "url": "https://www.oksid.com.tr/k/ag-urunleri-modem/1861/",
+    "level": "sub",
+    "parent": "Ağ Ürünleri"
+  },
+  {
+    "name": "Access Point",
+    "url": "https://www.oksid.com.tr/k/ag-urunleri-ap-router/1858/",
+    "level": "sub",
+    "parent": "Ağ Ürünleri"
+  },
+  {
+    "name": "Routerler",
+    "url": "https://www.oksid.com.tr/k/routerler/2158/",
+    "level": "sub",
+    "parent": "Ağ Ürünleri"
+  },
+  {
+    "name": "Menzil Arttırıcı",
+    "url": "https://www.oksid.com.tr/k/menzinl-arttirici/2160/",
+    "level": "sub",
+    "parent": "Ağ Ürünleri"
+  },
+  {
+    "name": "Kablosuz Ağ Ürünleri",
+    "url": "https://www.oksid.com.tr/k/ag-urunleri-kablosuz/1876/",
+    "level": "sub",
+    "parent": "Ağ Ürünleri"
+  },
+  {
+    "name": "Switch",
+    "url": "https://www.oksid.com.tr/k/ag-urunleri-switch/1866/",
+    "level": "sub",
+    "parent": "Ağ Ürünleri"
+  },
+  {
+    "name": "Powerline Ürünleri",
+    "url": "https://www.oksid.com.tr/k/powerline-urunleri/2159/",
+    "level": "sub",
+    "parent": "Ağ Ürünleri"
+  },
+  {
+    "name": "Ağ Kartları",
+    "url": "https://www.oksid.com.tr/k/ag-urunleri-kartlar/1865/",
+    "level": "sub",
+    "parent": "Ağ Ürünleri"
+  },
+  {
+    "name": "Controller",
+    "url": "https://www.oksid.com.tr/k/ag-urunleri-controller/1864/",
+    "level": "sub",
+    "parent": "Ağ Ürünleri"
+  },
+  {
+    "name": "Kablolar",
+    "url": "https://www.oksid.com.tr/k/ag-urunleri-kablolar/1870/",
+    "level": "sub",
+    "parent": "Ağ Ürünleri"
+  },
+  {
+    "name": "Tüm Alt Kategoriler",
+    "url": "https://www.oksid.com.tr/k/ag-urunleri/1856/",
+    "level": "sub",
+    "parent": "Ağ Ürünleri"
+  },
+  {
+    "name": "Ağ Aksesuar",
+    "url": "https://www.oksid.com.tr/k/ag-urunleri-diger/1879/",
+    "level": "sub",
+    "parent": "Ağ Ürünleri"
+  },
+  {
+    "name": "Antenler ve Aksesuarları",
+    "url": "https://www.oksid.com.tr/k/ag-urunleri-antenler/1878/",
+    "level": "sub",
+    "parent": "Ağ Ürünleri"
+  },
+  {
+    "name": "KVM Switch",
+    "url": "https://www.oksid.com.tr/k/ag-urunleri-kvm-switch/1871/",
+    "level": "sub",
+    "parent": "Ağ Ürünleri"
+  },
+  {
+    "name": "Bluetooth Ürünleri",
+    "url": "https://www.oksid.com.tr/k/ag-urunleri-bluetooth/1877/",
+    "level": "sub",
+    "parent": "Ağ Ürünleri"
+  },
+  {
+    "name": "Telefonlar",
+    "url": "https://www.oksid.com.tr/k/telefonlar/1732/",
+    "level": "main",
+    "parent": null
+  },
+  {
+    "name": "Cep Telefonu",
+    "url": "https://www.oksid.com.tr/k/cep-telefonu/1893/",
+    "level": "sub",
+    "parent": "Telefonlar"
+  },
+  {
+    "name": "Tüm Alt Kategoriler",
+    "url": "https://www.oksid.com.tr/k/telefonlar/1732/",
+    "level": "sub",
+    "parent": "Telefonlar"
+  },
+  {
+    "name": "Cep Telefonu Aksesuarları",
+    "url": "https://www.oksid.com.tr/k/cep-telefonu-aksesuarlari/1894/",
+    "level": "sub",
+    "parent": "Telefonlar"
+  },
+  {
+    "name": "Barkod Ürünleri",
+    "url": "https://www.oksid.com.tr/k/barkod-urunleri/1728/",
+    "level": "main",
+    "parent": null
+  },
+  {
+    "name": "Kablolu Okuyucu",
+    "url": "https://www.oksid.com.tr/k/barkod-okuyucu-kablolu/1881/",
+    "level": "sub",
+    "parent": "Barkod Ürünleri"
+  },
+  {
+    "name": "Kablosuz Okuyucu",
+    "url": "https://www.oksid.com.tr/k/barkod-okuyucu-kablosuz/1885/",
+    "level": "sub",
+    "parent": "Barkod Ürünleri"
+  },
+  {
+    "name": "Karekod Okuyucu",
+    "url": "https://www.oksid.com.tr/k/barkod-okuyucu-karekod/1888/",
+    "level": "sub",
+    "parent": "Barkod Ürünleri"
+  },
+  {
+    "name": "El Terminali",
+    "url": "https://www.oksid.com.tr/k/barkod-okuyucu-el-terminali/1883/",
+    "level": "sub",
+    "parent": "Barkod Ürünleri"
+  },
+  {
+    "name": "Masaüstü Okuyucu",
+    "url": "https://www.oksid.com.tr/k/barkod-okuyucu-masaustu/1886/",
+    "level": "sub",
+    "parent": "Barkod Ürünleri"
+  },
+  {
+    "name": "Barkod Yazıcıları",
+    "url": "https://www.oksid.com.tr/k/barkod-yazicilari/1887/",
+    "level": "sub",
+    "parent": "Barkod Ürünleri"
+  },
+  {
+    "name": "Pos ve Slip Yazıcılar",
+    "url": "https://www.oksid.com.tr/k/barkod-pos-ve-slip-yazicilar/1889/",
+    "level": "sub",
+    "parent": "Barkod Ürünleri"
+  },
+  {
+    "name": "Tüm Alt Kategoriler",
+    "url": "https://www.oksid.com.tr/k/barkod-urunleri/1728/",
+    "level": "sub",
+    "parent": "Barkod Ürünleri"
+  },
+  {
+    "name": "Teraziler",
+    "url": "https://www.oksid.com.tr/k/barkod-teraziler/1890/",
+    "level": "sub",
+    "parent": "Barkod Ürünleri"
+  },
+  {
+    "name": "Dokunmatik POS PC",
+    "url": "https://www.oksid.com.tr/k/dokunmatik-pos-pc/2277/",
+    "level": "sub",
+    "parent": "Barkod Ürünleri"
+  },
+  {
+    "name": "Güvenlik Ürünleri",
+    "url": "https://www.oksid.com.tr/k/guvenlik-urunleri/1735/",
+    "level": "main",
+    "parent": null
+  },
+  {
+    "name": "IP / AHD Kameralar",
+    "url": "https://www.oksid.com.tr/k/ip-ahd-kamera/2250/",
+    "level": "sub",
+    "parent": "Güvenlik Ürünleri"
+  },
+  {
+    "name": "NVR / AHD Kayıt Cihazları",
+    "url": "https://www.oksid.com.tr/k/nvr-ahd-kayit-cihazlari/2251/",
+    "level": "sub",
+    "parent": "Güvenlik Ürünleri"
+  },
+  {
+    "name": "Hırsız Alarm Sistemleri",
+    "url": "https://www.oksid.com.tr/k/hirsiz-alarm-sistemleri/1928/",
+    "level": "sub",
+    "parent": "Güvenlik Ürünleri"
+  },
+  {
+    "name": "İnterkom Sistemleri",
+    "url": "https://www.oksid.com.tr/k/interkom-sistemleri/2256/",
+    "level": "sub",
+    "parent": "Güvenlik Ürünleri"
+  },
+  {
+    "name": "Geçiş Kontrol Sistemleri",
+    "url": "https://www.oksid.com.tr/k/gecis-kontrol-urunleri/2259/",
+    "level": "sub",
+    "parent": "Güvenlik Ürünleri"
+  },
+  {
+    "name": "CCTV Kablo",
+    "url": "https://www.oksid.com.tr/k/cctv-kablo/2271/",
+    "level": "sub",
+    "parent": "Güvenlik Ürünleri"
+  },
+  {
+    "name": "Switch / Adaptör / AP",
+    "url": "https://www.oksid.com.tr/k/switch-adaptor/2265/",
+    "level": "sub",
+    "parent": "Güvenlik Ürünleri"
+  },
+  {
+    "name": "Sarf Malzeme ve Aksesuarlar",
+    "url": "https://www.oksid.com.tr/k/sarf-malzeme-ve-aksesuarlar/1923/",
+    "level": "sub",
+    "parent": "Güvenlik Ürünleri"
+  },
+  {
+    "name": "Tüm Alt Kategoriler",
+    "url": "https://www.oksid.com.tr/k/guvenlik-urunleri/1735/",
+    "level": "sub",
+    "parent": "Güvenlik Ürünleri"
+  },
+  {
+    "name": "Güvenlik Monitörleri",
+    "url": "https://www.oksid.com.tr/k/guvenlik-monitorleri/2267/",
+    "level": "sub",
+    "parent": "Güvenlik Ürünleri"
+  },
+  {
+    "name": "Mobil CCTV Ürünleri",
+    "url": "https://www.oksid.com.tr/k/mobil-nvr-ahd-kayit-cihazilari/2252/",
+    "level": "sub",
+    "parent": "Güvenlik Ürünleri"
+  },
+  {
+    "name": "CCTV IP Set",
+    "url": "https://www.oksid.com.tr/k/cctv-ip-set/2273/",
+    "level": "sub",
+    "parent": "Güvenlik Ürünleri"
+  },
+  {
+    "name": "CCTV AHD Set",
+    "url": "https://www.oksid.com.tr/k/ahd-set/2272/",
+    "level": "sub",
+    "parent": "Güvenlik Ürünleri"
+  },
+  {
+    "name": "Termal ve Solar Kameralar",
+    "url": "https://www.oksid.com.tr/k/termal-kamera/2253/",
+    "level": "sub",
+    "parent": "Güvenlik Ürünleri"
+  },
+  {
+    "name": "Araç İçi Kamera",
+    "url": "https://www.oksid.com.tr/k/arac-ici-kamera/2276/",
+    "level": "sub",
+    "parent": "Güvenlik Ürünleri"
+  },
+  {
+    "name": "Aksesuar ve Sarf Malzemeler",
+    "url": "https://www.oksid.com.tr/k/sarf-malzemeler/2263/",
+    "level": "sub",
+    "parent": "Güvenlik Ürünleri"
+  },
+  {
+    "name": "Solar Panel",
+    "url": "https://www.oksid.com.tr/k/solar-panel/2319/",
+    "level": "sub",
+    "parent": "Güvenlik Ürünleri"
+  },
+  {
+    "name": "İnterkom Setler",
+    "url": "https://www.oksid.com.tr/k/interkom-setler/2301/",
+    "level": "sub",
+    "parent": "Güvenlik Ürünleri"
+  },
+  {
+    "name": "Kameralı Kapı Zili",
+    "url": "https://www.oksid.com.tr/k/kamerali-kapi-zili/2312/",
+    "level": "sub",
+    "parent": "Güvenlik Ürünleri"
+  },
+  {
+    "name": "Seslendirme ve Acil Anons",
+    "url": "https://www.oksid.com.tr/k/seslendirme-ve-acil-anons-urunleri/2275/",
+    "level": "sub",
+    "parent": "Güvenlik Ürünleri"
+  },
+  {
+    "name": "Yangın Algılama Sistemleri",
+    "url": "https://www.oksid.com.tr/k/yangin-algilama-sistemleri/2278/",
+    "level": "sub",
+    "parent": "Güvenlik Ürünleri"
+  },
+  {
+    "name": "Tüketici Elektroniği",
+    "url": "https://www.oksid.com.tr/k/tuketici-elektronigi/1736/",
+    "level": "main",
+    "parent": null
+  },
+  {
+    "name": "Televizyonlar",
+    "url": "https://www.oksid.com.tr/k/televizyonlar/1947/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Projeksiyon Cihazları",
+    "url": "https://www.oksid.com.tr/k/projeksiyon-cihazlari/1958/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Klimalar",
+    "url": "https://www.oksid.com.tr/k/klimalar/1950/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Süpürge",
+    "url": "https://www.oksid.com.tr/k/supurge/2202/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Akıllı Saat",
+    "url": "https://www.oksid.com.tr/k/akilli-saat/1961/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Aksiyon Kameraları",
+    "url": "https://www.oksid.com.tr/k/aksiyon-kamerasi/2034/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Kart Bellekler",
+    "url": "https://www.oksid.com.tr/k/kart-bellekler/2164/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Robot Süpürge",
+    "url": "https://www.oksid.com.tr/k/robot-supurge/2230/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Tüm Alt Kategoriler",
+    "url": "https://www.oksid.com.tr/k/tuketici-elektronigi/1736/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Televizyon Aksesuar",
+    "url": "https://www.oksid.com.tr/k/televizyonlar-aksesuar/1948/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Projeksiyon Aksesuarları",
+    "url": "https://www.oksid.com.tr/k/projeksiyon-aksesuarlari/1959/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Mikrodalga Fırın",
+    "url": "https://www.oksid.com.tr/k/mikrodalga-firin/1939/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Küçük Mutfak Aletleri",
+    "url": "https://www.oksid.com.tr/k/kucuk-mutfak-aletleri/1942/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Ekmek Kızartma Makinesi",
+    "url": "https://www.oksid.com.tr/k/ekmek_kizartma_makinesi/2305/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Su Isıtıcı (kettle)",
+    "url": "https://www.oksid.com.tr/k/su_sitici-_kettle/2285/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Yoğurt Makinesi",
+    "url": "https://www.oksid.com.tr/k/yogurt_makinesi/2286/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Tost & Izgara",
+    "url": "https://www.oksid.com.tr/k/tost_izgara/2287/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Fritöz",
+    "url": "https://www.oksid.com.tr/k/_fritoz/2288/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Kahve Makinesi",
+    "url": "https://www.oksid.com.tr/k/kahve-_makinesi/2289/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Çay Makinesi",
+    "url": "https://www.oksid.com.tr/k/cay_makinesi/2290/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Mikser",
+    "url": "https://www.oksid.com.tr/k/_mikser/2294/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Katı Meyve Sıkacağı",
+    "url": "https://www.oksid.com.tr/k/kati_meyve_sikacagi/2295/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Vantilatör",
+    "url": "https://www.oksid.com.tr/k/vantilator/1951/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Drone Multikopter",
+    "url": "https://www.oksid.com.tr/k/drone-multikopter/1962/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Dijital Fotoğraf Makineleri",
+    "url": "https://www.oksid.com.tr/k/dijital-fotograf-makineleri/2175/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Kişisel Bakım",
+    "url": "https://www.oksid.com.tr/k/kisisel-bakim/2306/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Araç Kompresörü",
+    "url": "https://www.oksid.com.tr/k/arac-kompresor/2307/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Araç Şarj İstasyonu",
+    "url": "https://www.oksid.com.tr/k/arac-sarj-istasyonu/2308/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Gimbal",
+    "url": "https://www.oksid.com.tr/k/gimbal1/2316/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Akıllı Ev Yaşam Ürünleri",
+    "url": "https://www.oksid.com.tr/k/akilli-e-yasam-urunleri/2228/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Akıllı Kapı Kilidi",
+    "url": "https://www.oksid.com.tr/k/_akilli_kapi_kilidi/2313/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Akıllı Mama Kabı",
+    "url": "https://www.oksid.com.tr/k/akilli-mama-kabi/2314/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Baskül",
+    "url": "https://www.oksid.com.tr/k/_baskul/2296/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Su Pınarı",
+    "url": "https://www.oksid.com.tr/k/su_pinari/2299/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Buharlı Temizleyici",
+    "url": "https://www.oksid.com.tr/k/buharli-temizleyici/2244/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Halı Yıkama",
+    "url": "https://www.oksid.com.tr/k/hali-yikama/2246/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Basınçlı Yıkama",
+    "url": "https://www.oksid.com.tr/k/basincli-yikama/2248/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Saç Kurutma",
+    "url": "https://www.oksid.com.tr/k/sac_kurutma/2291/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Ütü",
+    "url": "https://www.oksid.com.tr/k/_utu/2292/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Saç Düzleştirici",
+    "url": "https://www.oksid.com.tr/k/sac_duzlestirici/2293/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Hava Temizleyici",
+    "url": "https://www.oksid.com.tr/k/hava_temizleyici/2300/",
+    "level": "sub",
+    "parent": "Tüketici Elektroniği"
+  },
+  {
+    "name": "Ofis & Tüketim Ürünleri",
+    "url": "https://www.oksid.com.tr/k/ofis-tuketim-urunleri/1737/",
+    "level": "main",
+    "parent": null
+  },
+  {
+    "name": "Yazıcı Kartuşları",
+    "url": "https://www.oksid.com.tr/k/tuketim-yazici-kartuslari/1972/",
+    "level": "sub",
+    "parent": "Ofis & Tüketim Ürünleri"
+  },
+  {
+    "name": "Tüm Alt Kategoriler",
+    "url": "https://www.oksid.com.tr/k/ofis-tuketim-urunleri/1737/",
+    "level": "sub",
+    "parent": "Ofis & Tüketim Ürünleri"
+  },
+  {
+    "name": "Yazılımlar",
+    "url": "https://www.oksid.com.tr/k/sunucu-yazilimlari/1908/",
+    "level": "main",
+    "parent": null
+  }
+]

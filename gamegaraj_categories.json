@@ -1,0 +1,626 @@
+[
+  {
+    "name": "Tüm Oem Paketler",
+    "url": "https://www.gamegaraj.com/oem-paketler/tum-oem-paketler/",
+    "level": "main",
+    "parent": "OEM Paketler"
+  },
+  {
+    "name": "GEFORCE OEM Paketler",
+    "url": "https://www.gamegaraj.com/oem-paketler/geforce-oem-paketler/",
+    "level": "main",
+    "parent": "OEM Paketler"
+  },
+  {
+    "name": "Powered By Asus",
+    "url": "https://www.gamegaraj.com/oem-paketler/powered-by-asus/",
+    "level": "main",
+    "parent": "OEM Paketler"
+  },
+  {
+    "name": "Powered By MSI",
+    "url": "https://www.gamegaraj.com/oem-paketler/powered-by-msi/",
+    "level": "main",
+    "parent": "OEM Paketler"
+  },
+  {
+    "name": "Gaming Laptop",
+    "url": "https://www.gamegaraj.com/laptop/gaming-laptop/",
+    "level": "main",
+    "parent": "Laptop"
+  },
+  {
+    "name": "Creator Laptop",
+    "url": "https://www.gamegaraj.com/laptop/creator-laptop/",
+    "level": "main",
+    "parent": "Laptop"
+  },
+  {
+    "name": "Monitör",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/monitor/",
+    "level": "main",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Mouse",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/mouse/",
+    "level": "main",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Klavye",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/klavye/",
+    "level": "main",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Kulaklık",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/kulaklik/",
+    "level": "main",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Yazılım",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/yazilim/",
+    "level": "main",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Ağ Ürünleri",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/ag-urunleri/",
+    "level": "main",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Laptop Çantaları",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/laptop-cantalari/",
+    "level": "main",
+    "parent": "Laptop"
+  },
+  {
+    "name": "Mouse Pad",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/mouse-pad/",
+    "level": "main",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Gamepad",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/gamepad-45/",
+    "level": "main",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Laptop Soğutucu",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/laptop-sogutucu/",
+    "level": "main",
+    "parent": "Laptop"
+  },
+  {
+    "name": "Oyuncu Koltukları",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/oyuncu-koltuklari/",
+    "level": "main",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "İşlemci",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/islemci/",
+    "level": "main",
+    "parent": "Bilgisayar Parçaları"
+  },
+  {
+    "name": "Anakart",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/anakart/",
+    "level": "main",
+    "parent": "Bilgisayar Parçaları"
+  },
+  {
+    "name": "Ram Bellek",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/ram-bellek/",
+    "level": "main",
+    "parent": "Bilgisayar Parçaları"
+  },
+  {
+    "name": "Kasa",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/kasa/",
+    "level": "main",
+    "parent": "Bilgisayar Parçaları"
+  },
+  {
+    "name": "Ekran Kartı",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/ekran-karti/",
+    "level": "main",
+    "parent": "Bilgisayar Parçaları"
+  },
+  {
+    "name": "SSD",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/ssd/",
+    "level": "main",
+    "parent": "Bilgisayar Parçaları"
+  },
+  {
+    "name": "Güç Kaynağı - PSU",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/guc-kaynagi---psu/",
+    "level": "sub",
+    "parent": "Bilgisayar Parçaları"
+  },
+  {
+    "name": "Soğutma Sistemleri",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/sogutma-sistemleri/",
+    "level": "main",
+    "parent": "Bilgisayar Parçaları"
+  },
+  {
+    "name": "Monitör",
+    "url": "https://www.gamegaraj.com/monitor/",
+    "level": "main",
+    "parent": null
+  },
+  {
+    "name": "OEM Paketler",
+    "url": "https://www.gamegaraj.com/oem-paketler/",
+    "level": "main",
+    "parent": null
+  },
+  {
+    "name": "Laptop",
+    "url": "https://www.gamegaraj.com/laptop/",
+    "level": "main",
+    "parent": null
+  },
+  {
+    "name": "Çevre Birimleri",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/",
+    "level": "main",
+    "parent": null
+  },
+  {
+    "name": "Bilgisayar Parçaları",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/",
+    "level": "main",
+    "parent": null
+  },
+  {
+    "name": "Game Garaj Slayer5 9XL-5070Ti Intel Ultra 9 275HX RTX5070Ti 17\" QHD+ FreeDos 240Hz Oyuncu Laptop",
+    "url": "https://www.gamegaraj.com/laptop/game-garaj-slayer-5-9xl-5070ti-intel-ultra-9-275hx",
+    "level": "main",
+    "parent": "Laptop"
+  },
+  {
+    "name": "PerfEdge 5A",
+    "url": "https://www.gamegaraj.com/oem-paketler/perfedge-5a",
+    "level": "main",
+    "parent": "OEM Paketler"
+  },
+  {
+    "name": "NovaBox 5A",
+    "url": "https://www.gamegaraj.com/oem-paketler/novabox-5a",
+    "level": "main",
+    "parent": "OEM Paketler"
+  },
+  {
+    "name": "LANDER 7A - RTX5060",
+    "url": "https://www.gamegaraj.com/oem-paketler/lander-7a-rtx5060",
+    "level": "main",
+    "parent": "OEM Paketler"
+  },
+  {
+    "name": "Blade 5T D5 – RTX5060Ti",
+    "url": "https://www.gamegaraj.com/oem-paketler/blade-5t-d5-rtx5060ti",
+    "level": "main",
+    "parent": "OEM Paketler"
+  },
+  {
+    "name": "Sergeant 7A – RTX5060Ti",
+    "url": "https://www.gamegaraj.com/oem-paketler/sergeant-7a-rtx5060ti",
+    "level": "main",
+    "parent": "OEM Paketler"
+  },
+  {
+    "name": "Blade 5A – RTX5060Ti",
+    "url": "https://www.gamegaraj.com/oem-paketler/blade-5a-rtx5060ti",
+    "level": "main",
+    "parent": "OEM Paketler"
+  },
+  {
+    "name": "GameRock 7A-RTX 5090",
+    "url": "https://www.gamegaraj.com/oem-paketler/gamerock-7a-rtx-5090",
+    "level": "main",
+    "parent": "OEM Paketler"
+  },
+  {
+    "name": "İncele",
+    "url": "https://www.gamegaraj.com/laptop/?brand=gamegaraj",
+    "level": "main",
+    "parent": "Laptop"
+  },
+  {
+    "name": "Game Garaj Slayer SR7T-5060 AMD Ryzen 7 255 RTX5060 15.3\" 300Hz QHD+ FreeDos Oyuncu Laptop",
+    "url": "https://www.gamegaraj.com/laptop/game-garaj-slayer-sr7t-5060-amd-ryzen-7-255-rtx5060/",
+    "level": "main",
+    "parent": "Laptop"
+  },
+  {
+    "name": "Game Garaj Slayer R9M3D XL-5070 AMD Ryzen 9 9955HX3D RTX5070 17\" QHD+ 240Hz FreeDos Oyuncu Laptop",
+    "url": "https://www.gamegaraj.com/laptop/game-garaj-slayer-r9mxl-3d-5070-amd-ryzen-9-9955hx3d/",
+    "level": "main",
+    "parent": "Laptop"
+  },
+  {
+    "name": "Game Garaj Slayer R9MXL-5060 AMD Ryzen 9 8940HX RTX5060 17\" QHD+ 240Hz FreeDos Oyuncu Laptop",
+    "url": "https://www.gamegaraj.com/laptop/game-garaj-slayer-r9m-xl-5060-amd-ryzen-9-8940hx-rt/",
+    "level": "main",
+    "parent": "Laptop"
+  },
+  {
+    "name": "PerfGate",
+    "url": "https://www.gamegaraj.com/oem-paketler/perfgate/",
+    "level": "main",
+    "parent": "OEM Paketler"
+  },
+  {
+    "name": "Game Garaj Slayer5 7XL-5060 Intel Ultra 7 255HX RTX5060 17\" QHD+ 240Hz FreeDos Oyuncu Laptop",
+    "url": "https://www.gamegaraj.com/laptop/game-garaj-slayer5-7xl-5060-intel-ultra-7-255hx-rt5060/",
+    "level": "main",
+    "parent": "Laptop"
+  },
+  {
+    "name": "Game Garaj Slayer5 7-5060 Intel Ultra 7 255HX RTX5060 16\" QHD+ 240Hz FreeDos Oyuncu Laptop",
+    "url": "https://www.gamegaraj.com/laptop/game-garaj-slayer5-7-5060-intel-ultra-7-255hx-rtx5060/",
+    "level": "main",
+    "parent": "Laptop"
+  },
+  {
+    "name": "ERAZER Scout 17 E1 MD600006 Intel Ultra 5 210H 16GB RAM 1TB SSD RTX5050 17\" FHD FreeDOS Oyuncu Laptop",
+    "url": "https://www.gamegaraj.com/laptop/erazer-scout-17-e1-md600006-intel-ultra-5-210h-16g/",
+    "level": "main",
+    "parent": "Laptop"
+  },
+  {
+    "name": "Game Garaj Slayer5 9XL-5090 Intel Ultra 9 275HX RTX5090 17\" QHD+ FreeDos 240Hz Oyuncu Laptop",
+    "url": "https://www.gamegaraj.com/laptop/game-garaj-slayer-5-9xl-5090-intel-ultra-9-275hx-r/",
+    "level": "main",
+    "parent": "Laptop"
+  },
+  {
+    "name": "PerfEdge 5A",
+    "url": "https://www.gamegaraj.com/oem-paketler/perfedge-5a/",
+    "level": "main",
+    "parent": "OEM Paketler"
+  },
+  {
+    "name": "Game Garaj Slayer R9T-5060 AMD Ryzen 9 8945HX RTX5060 16\" 300Hz QHD FreeDos Oyuncu Laptop",
+    "url": "https://www.gamegaraj.com/laptop/game-garaj-slayer-r9t-5060-amd-ryzen-9-8945hx-rtx5/",
+    "level": "main",
+    "parent": "Laptop"
+  },
+  {
+    "name": "Game Garaj Slayer R9T-5070 AMD Ryzen 9 8945HX RTX5070 16\" 300Hz QHD FreeDos Oyuncu Laptop",
+    "url": "https://www.gamegaraj.com/laptop/game-garaj-slayer-r9t-5070-amd-ryzen-9-8945hx-rtx5/",
+    "level": "main",
+    "parent": "Laptop"
+  },
+  {
+    "name": "LANDER 7A - RTX5060",
+    "url": "https://www.gamegaraj.com/oem-paketler/lander-7a-rtx5060/",
+    "level": "main",
+    "parent": "OEM Paketler"
+  },
+  {
+    "name": "Game Garaj Slayer R9T3D-5070Ti AMD Ryzen 9 9955HX3D RTX5070Ti 16\" QHD+ FreeDos 300Hz Oyuncu Laptop",
+    "url": "https://www.gamegaraj.com/laptop/game-garaj-slayer-r9t3d-5070ti-amd-ryzen-r9-9955hx/",
+    "level": "main",
+    "parent": "Laptop"
+  },
+  {
+    "name": "Game Garaj Slayer R9T-5070Ti AMD Ryzen 9 9955HX RTX5070Ti 16\" QHD+ FreeDos 300Hz Oyuncu Laptop",
+    "url": "https://www.gamegaraj.com/laptop/game-garaj-slayer-r9t-5070ti-amd-ryzen-r9-9955hx/",
+    "level": "main",
+    "parent": "Laptop"
+  },
+  {
+    "name": "ERAZER Beast 16 X1 MD62732 Intel Ultra 9 275HX 32GB RAM 2TB SSD RTX5090 16\" 300Hz QHD+ W11H Oyuncu Laptop",
+    "url": "https://www.gamegaraj.com/laptop/erazer-beast-16-x1-md62732-intel-ultra-9-275hx-32g/",
+    "level": "main",
+    "parent": "Laptop"
+  },
+  {
+    "name": "Fuze 7A-RTX 5070",
+    "url": "https://www.gamegaraj.com/oem-paketler/fuze-7a-rtx-5070/",
+    "level": "main",
+    "parent": "OEM Paketler"
+  },
+  {
+    "name": "ERAZER Deputy P60i MD62747 Intel Core i5-13420H 16GB RAM 512GB SSD RTX4060 15.6\" Full HD 144Hz FreeDos Oyuncu Laptop",
+    "url": "https://www.gamegaraj.com/laptop/erazer-deputy-p60i-md62747-intel-core-i5-13420h-16/",
+    "level": "main",
+    "parent": "Laptop"
+  },
+  {
+    "name": "OEM Paketler",
+    "url": "https://www.gamegaraj.com/oem-paketler/tum-oem-paketler/",
+    "level": "main",
+    "parent": null
+  },
+  {
+    "name": "Laptop",
+    "url": "https://www.gamegaraj.com/laptop/gaming-laptop/",
+    "level": "main",
+    "parent": null
+  },
+  {
+    "name": "Çevre Birimleri",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/",
+    "level": "main",
+    "parent": null
+  },
+  {
+    "name": "Gaming Laptop",
+    "url": "https://www.gamegaraj.com/laptop/gaming-laptop/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Creator Laptop",
+    "url": "https://www.gamegaraj.com/laptop/creator-laptop/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Monitör",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/monitor/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Mouse",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/mouse/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Klavye",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/klavye/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Kulaklık",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/kulaklik/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Yazılım",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/yazilim/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Ağ Ürünleri",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/ag-urunleri/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Laptop Çantaları",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/laptop-cantalari/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Mouse Pad",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/mouse-pad/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Gamepad",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/gamepad-45/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Laptop Soğutucu",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/laptop-sogutucu/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Oyuncu Koltukları",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/oyuncu-koltuklari/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "İşlemci",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/islemci/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Anakart",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/anakart/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Ram Bellek",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/ram-bellek/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Kasa",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/kasa/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Ekran Kartı",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/ekran-karti/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "SSD",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/ssd/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Güç Kaynağı - PSU",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/guc-kaynagi---psu/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Soğutma Sistemleri",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/sogutma-sistemleri/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Laptop",
+    "url": "https://www.gamegaraj.com/laptop/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Gaming Laptop\n                                            Gaming Laptop için tıklayınız.",
+    "url": "https://www.gamegaraj.com/laptop/gaming-laptop/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Creator Laptop\n                                            Creator Laptop için tıklayınız.",
+    "url": "https://www.gamegaraj.com/laptop/creator-laptop/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Monitör\n\nMonitör için tıklayınız.",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/monitor/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Mouse\n\nMouse için tıklayınız.",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/mouse/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Klavye\n\nKlavye için tıklayınız.",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/klavye/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Kulaklık\n\nKulaklık için tıklayınız.",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/kulaklik/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Yazılım\n\nYazılım için tıklayınız.",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/yazilim/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Ağ Ürünleri\n\nAğ Ürünleri için tıklayınız.",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/ag-urunleri/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Laptop Çantaları\n\nLaptop Çantaları için tıklayınız.",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/laptop-cantalari/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Mouse Pad\n\nMouse Pad için tıklayınız.",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/mouse-pad/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Gamepad\n\nGamepad için tıklayınız.",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/gamepad-45/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Laptop Soğutucu\n\nLaptop Soğutucu için tıklayınız.",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/laptop-sogutucu/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Oyuncu Koltukları\n\nOyuncu Koltukları için tıklayınız.",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/oyuncu-koltuklari/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Bilgisayar Parçaları",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "İşlemci\n                                            İşlemci için tıklayınız.",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/islemci/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Anakart\n                                            Anakart için tıklayınız.",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/anakart/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Ram Bellek\n                                            Ram Bellek için tıklayınız.",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/ram-bellek/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Kasa\n                                            Kasa için tıklayınız.",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/kasa/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Ekran Kartı\n                                            Ekran Kartı için tıklayınız.",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/ekran-karti/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "SSD\n                                            SSD için tıklayınız.",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/ssd/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Güç Kaynağı - PSU\n                                            Güç Kaynağı - PSU için tıklayınız.",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/guc-kaynagi---psu/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Soğutma Sistemleri\n                                            Soğutma Sistemleri için tıklayınız.",
+    "url": "https://www.gamegaraj.com/bilgisayar-parcalari/sogutma-sistemleri/",
+    "level": "sub",
+    "parent": "Çevre Birimleri"
+  },
+  {
+    "name": "Monitör",
+    "url": "https://www.gamegaraj.com/cevre-birimleri/monitor/",
+    "level": "main",
+    "parent": null
+  }
+]
